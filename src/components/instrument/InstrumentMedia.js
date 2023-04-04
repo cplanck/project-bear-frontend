@@ -1,3 +1,5 @@
+import { Grid } from "@mui/material"
+
 export default function InstrumentMedia(props){
 
     let instrumentMedia = []

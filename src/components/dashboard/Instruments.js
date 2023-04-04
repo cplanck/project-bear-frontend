@@ -74,7 +74,7 @@ export default function Instruments(props){
         props.instruments.sort((a, b) => (a.starred_date > b.starred_date) ? -1 : 1)
     }
 
-    let instrumentArray = props.instruments.map((instrument)=><Instrument instrument={instrument}/>)
+    let instrumentArray = props.instruments.map((instrument, i)=><Instrument key={i} instrument={instrument}/>)
 
     return(
         isEdting?<InstrumentsAddPanel setIsEditing={setIsEditing}/>:

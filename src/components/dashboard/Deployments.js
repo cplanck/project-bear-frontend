@@ -18,7 +18,7 @@ function CollaboratorAvatar(props){
 }
 
 function CollaboratorsList(props){
-    let collaboratorsList = props.instrument.collaborators.map((collaborator)=><CollaboratorAvatar user={collaborator}/>)
+    let collaboratorsList = props.instrument.collaborators.map((collaborator)=><CollaboratorAvatar key={collaborator} user={collaborator}/>)
     return(<div className={dbstyles.collaboratorsList}>{collaboratorsList}</div>)
 }
 
@@ -77,7 +77,7 @@ export default function Deployments(props){
         )
     }
 
-    let deploymentArray = deployments.map((deployment)=><Deployment deployment={deployment}/>)
+    let deploymentArray = deployments.map((deployment, index)=><Deployment key={index} deployment={deployment}/>)
 
     return(
         <div style={{border: '0px solid blue', maxWidth: '1200px'}}>

@@ -48,9 +48,9 @@ export default function Overview(){
         )
     }
 
-    let deploymentArray = deployments.map((deployment)=><Deployment deployment={deployment}/>)
+    let deploymentArray = deployments.map((deployment, i)=><Deployment key={i} deployment={deployment}/>)
 
-    let projectArray = projects.map((project)=><ProjectPanel project={project}/>)
+    let projectArray = projects.map((project, i)=><ProjectPanel key={i} project={project}/>)
 
     return(
         <div>

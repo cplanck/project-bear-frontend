@@ -21,7 +21,10 @@ export default function CSVFileUpload(props) {
         handleChange={(file)=>props.fileUpload(file)}
         name="file"
         types={fileTypes}
-        children={<FileDropBoxArea text={props.fileName? `${props.fileName}` : '+ Auto configure from datasheet'}/>}
-      />
+        // children={}
+        >
+        <FileDropBoxArea text={props.fileName? `${props.fileName}` : '+ Auto configure from datasheet' }/>
+        </FileUploader>
+      
   );
 }

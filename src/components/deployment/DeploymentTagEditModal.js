@@ -62,8 +62,8 @@ export default function DeploymentTagsEditModal(props) {
 
     },[])
 
-    let selectedTags = selectedTagsList.map((tag) => <Tag swapTag={swapTag} selected={true} name={tag['name']} color={tag['color']}/>)
-    let availableTags = availableTagList.map((tag) => <Tag swapTag={swapTag} selected={false} key={tag['name']} name={tag['name']} color={tag['color']}/>)
+    let selectedTags = selectedTagsList.map((tag, i) => <Tag swapTag={swapTag} selected={true} key={tag['name']} name={tag['name']} color={tag['color']}/>)
+    let availableTags = availableTagList.map((tag, i) => <Tag swapTag={swapTag} selected={false} key={tag['name']} name={tag['name']} color={tag['color']}/>)
     let filteredavailableTags = filteredAvailableTagList.map((tag) => <Tag swapTag={swapTag} selected={false} key={tag['name']} name={tag['name']} color={tag['color']}/>)
 
 

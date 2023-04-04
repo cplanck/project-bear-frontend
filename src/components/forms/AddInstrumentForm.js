@@ -98,9 +98,9 @@ export default function AddInstrumentForm(props){
       formik.errors?handleAlerts('alert', 'error', 'You have form errors!'):''
     }
 
-    let userDataModels = props.userDataModels.map(model=><option value={model.id}>{model.name}</option>)
+    let userDataModels = props.userDataModels.map(model=><option key={model.id} value={model.id}>{model.name}</option>)
 
-    let filteredTemplateInstrumentsOptions = structuredClone(props.instruments).filter(object => object.template !== false).map(instrument=><option value={instrument.id}>{instrument.name}</option>)
+    let filteredTemplateInstrumentsOptions = structuredClone(props.instruments).filter(object => object.template !== false).map((instrument, i)=><option key={i} value={instrument.id}>{instrument.name}</option>)
     filteredTemplateInstrumentsOptions.unshift(<option disabled selected value>Selct a template</option>)
 
     return(

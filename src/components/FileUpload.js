@@ -72,9 +72,11 @@ export default function FileUpload(props) {
         onSizeError={() => renderAlert('snackbar', 'error', 'Please upload a .sbd file between 0 and 340 bytes!')}
         handleChange={handleChange}
         name="file"
-        types={fileTypes}
-        children={<FileDropBoxArea text={props.fileName? `${props.fileName}` : '+ Add an SBD file to get started'}/>}
-      />
+        types={fileTypes}/>
+
+        <FileDropBoxArea text={props.fileName? `${props.fileName}` : '+ Add an SBD file to get started'}/>
+      <FileUploader/>
+      
     </div>
   );
 }
