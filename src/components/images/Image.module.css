@@ -1,0 +1,24 @@
+.settingsButton{
+    color: var(--dark-theme-grey-4);
+    background: none;
+    border: none;
+    transition: all .2s ease-in-out; 
+    opacity: 0;
+}
+
+.settingsButton:hover{
+    transform: scale(1.1); 
+}
+
+
+.imageButtonGroup{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+}
+
+.image:hover .settingsButton{
+    opacity: 1;
+}
+

@@ -1,0 +1,41 @@
+.instrumentNameAndAvatar{
+    display: flex;
+    align-items: center;
+}
+
+.instrumentTopDiv{
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.instrumentAvatar{
+    width: 32px;
+    height: 32px;
+    background-size:80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    border: 2px solid var(--dark-theme-grey-3);
+    margin-right: 8px;
+}
+
+.iconPadding{
+    margin-right: 8px;
+}
+
+.modifyButtonMenu{
+    font-weight: 800;
+    font-size: small;
+}
+
+.modifyButtonMenu:hover{
+    background-color: var(--dark-theme-grey-4);
+}
+
+.modifyButtonPaper{
+    background-color: var(--dark-theme-grey-button);
+    font-weight: 800;
+}

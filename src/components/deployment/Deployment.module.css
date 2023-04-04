@@ -1,0 +1,116 @@
+.deploymentDetailsTableWrapper {
+    border: 1px solid var(--dark-theme-grey-4);
+    border-radius: 6px;
+    background-color: var(--main-bg-color);
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.deploymentDetailsTableRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--dark-theme-grey-4);
+    padding: 8px 15px 8px 15px;
+    font-size: 0.9em;
+}
+
+.deploymentDetailsTableRow:nth-last-child(1) {
+    border-bottom: 0px solid var(--dark-theme-grey-4);
+}
+
+.deploymentNotesWrapper {
+    border: 1px solid var(--dark-theme-grey-4);
+    border-radius: 6px;
+    background-color: var(--main-bg-color);
+    padding: 8px 15px 8px 15px;
+    color: var(--dark-theme-grey-3);
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 0.85em;
+    min-height: 100px;
+}
+
+.deploymentDescriptionWrapper {
+    border: 1px solid var(--dark-theme-grey-4);
+    border-radius: 6px;
+    background-color: var(--main-bg-color);
+    padding: 8px 15px 8px 15px;
+    color: var(--dark-theme-grey-3);
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 0.85em;
+}
+
+.deploymentTagsWrapper {
+    border: 1px solid var(--dark-theme-grey-4);
+    border-radius: 6px;
+    background-color: var(--main-bg-color);
+    padding: 8px 15px 8px 15px;
+    color: var(--dark-theme-grey-3);
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.deploymentDetailsWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.deploymentInstrumentAvatar {
+    border: 2px solid red;
+}
+
+.instrumentTitle {
+    border: 0px solid red;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.instrumentTitleWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: auto;
+    width: 100%;
+}
+
+.ellipsesOverflow {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.modalButtonGroup {
+    display: flex;
+    justify-content: flex-end;
+    height: 35px;
+    cursor: pointer;
+}
+
+.datePicker {
+    width: 100%;
+}
+
+@media screen and (max-width: 991px) {
+    .instrumentHeadingWrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .instrumentTitleWrapper {
+        flex-direction: column;
+        justify-content: start;
+        width: 100%;
+        padding-top: 10px;
+        border: 2px solid purple;
+    }
+
+    .modifyButton {
+        width: 100%;
+        margin-top: 10px;
+        height: 35px;
+    }
+}
