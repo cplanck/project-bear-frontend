@@ -100,7 +100,7 @@ export default function Dashboard(props) {
     let smallProfilePanel = 
       <div className='profilePictureWrapperSmall'>
           <div className='profilePictureWrapperSmall2'>
-            <Image src={profilePic} className={'userProfilePictureSmall'} alt="User profile picture" />
+            <Image priority={true} src={profilePic} className={'userProfilePictureSmall'} alt="User profile picture" />
             {profilePanelState != 'edit-profile'?
               <div className='profilePictureWrapperSmall3'>
                 <h2>{props.userProfileDetails.name}</h2>
@@ -123,6 +123,7 @@ export default function Dashboard(props) {
               src={profilePic}
               className={'userProfilePicture'}
               alt="User profile picture"
+              priority={true}
             />
             {profilePanelState != 'edit-profile'?
               <div className='profilePictureWrapper3'>
