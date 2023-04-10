@@ -29,11 +29,11 @@ export default function DataModelTable(props){
         }
     }
 
-    const handleDelete = (e, method, rowID) =>{
+    const handleRowDelete = (e, method, rowID) =>{
         e.preventDefault()
         console.log('delete clicked!')
         console.log(rowID)
-        let temp = editedDataModel.filter((dmrow)=>dmrow['id']!=rowID)
+        let temp = editedDataModel.filter(dmrow=>dmrow['id']!=rowID)
         setEditedDataModel(temp)
     }
 
@@ -44,8 +44,8 @@ export default function DataModelTable(props){
         props.handleAlerts('snackbar', 'success', 'Changes saved!')
     }
 
-    let currentFieldNameErrors = props.dataModel.map((dataModelRow, index)=>validateInput(props.dataModel, dataModelRow.fieldName))
-    let editedFieldNameErrors = editedDataModel.map((dataModelRow, index)=>validateInput(editedDataModel, dataModelRow.fieldName))
+    let currentFieldNameErrors = props.dataModel.map((dataModelRow, index)=>validateInput(props.dataModel, dataModelRow.fieldName, 1))
+    let editedFieldNameErrors = editedDataModel.map((dataModelRow, index)=>validateInput(editedDataModel, dataModelRow.fieldName, 1))
 
     useEffect(()=>{
         let errorNum = 0
@@ -64,7 +64,7 @@ export default function DataModelTable(props){
             isEditing={props.isEditing} 
             setIsEditing={props.setIsEditing} 
             handleEditChanges={handleEditChanges} 
-            handleDelete={handleDelete} 
+            handleRowDelete={handleRowDelete} 
             dataModelFieldTypes={props.dataModelFieldTypes} 
             editedDataModel={editedDataModel} 
             setEditedDataModel={setEditedDataModel} 
@@ -86,7 +86,7 @@ export default function DataModelTable(props){
             isEditing={props.isEditing} 
             setIsEditing={props.setIsEditing} 
             handleEditChanges={handleEditChanges} 
-            handleDelete={handleDelete} 
+            handleRowDelete={handleRowDelete} 
             dataModelFieldTypes={props.dataModelFieldTypes} 
             editedDataModel={editedDataModel} 
             setEditedDataModel={setEditedDataModel} 

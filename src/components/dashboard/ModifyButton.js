@@ -6,12 +6,13 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import Link from 'next/link';
 import Stack from '@mui/material/Stack';
 import dbstyles from './Dashboard.module.css'
 import styles from './Instruments.module.css'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
-export default function ModifyButton() {
+export default function ModifyButton(props) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -86,7 +87,7 @@ export default function ModifyButton() {
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Star</MenuItem>
-                    <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Edit</MenuItem>
+                    <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><Link href={'/instrument/edit/' + props.instrument.id}>Edit</Link></MenuItem>
                     <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Deploy</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

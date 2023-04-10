@@ -85,11 +85,6 @@ export default function DropDown() {
             </Link>
         </MenuItem>
         <MenuItem className={styles.menuItem} onClick={handleClose}>
-            <Link href='/data-model/add' className={styles.link}>
-                New Data Model
-            </Link>
-        </MenuItem>
-        <MenuItem className={styles.menuItem} onClick={handleClose}>
             <Link href='/binary-map' className={styles.link}>
                 New Binary Map
             </Link>

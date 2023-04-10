@@ -5,6 +5,7 @@ const getOccurrence = (array, value) => {
 }
 
 const checkDuplicateFieldNames = (fieldList, fieldName, occuranceNum) => {
+    console.log('is this running?!')
     let existingFieldNames = fieldList.map(row=>row.fieldName)
     if(getOccurrence(existingFieldNames,fieldName) > occuranceNum){return true}
     else{return false}
@@ -19,9 +20,9 @@ const sanitizeUserInput = (userInput) => {
     return(true)
 }
 
-export default function validateInput(dataModel, userInput){
+export default function validateInput(dataModel, userInput, itemNum){
 
-    if(checkDuplicateFieldNames(dataModel, userInput, 1)){
+    if(checkDuplicateFieldNames(dataModel, userInput, itemNum)){
         return('This field name already exists')
     }
     else if(!sanitizeUserInput(userInput)){

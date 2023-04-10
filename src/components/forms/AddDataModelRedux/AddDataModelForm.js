@@ -3,8 +3,6 @@ import { Grid } from "@mui/material";
 import styles from '@/components/instrument/Instrument.module.css'
 import Checkbox from '@mui/material/Checkbox';
 import React, { useEffect, useState } from "react";
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CSVtoDataModel from "./CSVtoDataModel";
@@ -13,29 +11,7 @@ import { useContext } from 'react';
 import { AppContext } from '@/components/Context'
 import structuredClone from "@ungap/structured-clone";
 import DataModelTable from "./DataModelTable";
-import { DataArray } from "@mui/icons-material";
-
-const getOccurrence = (array, value) => {
-    var count = 0;
-    array.forEach((v) => (v === value && count++));
-    return count;
-}
-
-const checkDuplicateFieldNames = (fieldList, fieldName, occuranceNum) => {
-    let existingFieldNames = fieldList.map(row=>row.fieldName)
-    if(getOccurrence(existingFieldNames,fieldName) > occuranceNum){return true}
-    else{return false}
-}
-
-const sanitizeUserInput = (userInput) => {
-        if(userInput.length > 0){
-        const regex = /^[0-9a-z_]+$/
-        const isSanitized = regex.exec(userInput)
-        return(isSanitized?true:false)
-    }
-    return(true)
-}
-
+import validateInput from "./validateUserInput";
 
 export default function AddDataModelForm(props){
 
@@ -80,31 +56,13 @@ export default function AddDataModelForm(props){
     
     const dataModelFieldTypes = fieldTypes.map((type, index)=><option key={index} id={type}>{type}</option>)
 
-    const validateInput = (dataModel, userInput) =>{
-
-        if(checkDuplicateFieldNames(dataModel, userInput, 0)){
-            setFieldNameError('This field name already exists')
-        }
-        else if(!sanitizeUserInput(userInput)){
-            setFieldNameError('Field names can only contain a-z letters, 0-9 numbers, and hyphens and underscores')
-        }
-        else if(userInput.length < 2){
-            setFieldNameError('Field names must be greater than 2 characters')
-        }
-        else if(userInput.length > 50){
-            setFieldNameError('Field names must be less than 50 characters')
-        }
-        else{
-            setFieldNameError('')
-        }
-    }
-
     function handleUserInput(event, id){
         let temp = structuredClone(currentField)
         if(id == 'fieldName'){
             let val = event.target.value
             setFieldName(val)
-            validateInput(dataModel, val)
+            console.log(val)
+            setFieldNameError(validateInput(dataModel, val, 0))
             temp[id] = val
 
             uniqueChecked.defaultChecked=='defaultChecked'?temp['unique'] = true:temp['unique'] = false
@@ -203,8 +161,8 @@ export default function AddDataModelForm(props){
             dataModelFieldTypes={dataModelFieldTypes} 
             handleAlerts={handleAlerts} 
             csvFileName={csvFileName}
-            checkDuplicateFieldNames={checkDuplicateFieldNames}
-            sanitizeUserInput={sanitizeUserInput}
+            // checkDuplicateFieldNames={checkDuplicateFieldNames}
+            // sanitizeUserInput={sanitizeUserInput}
             setOkayToSave={props.setOkayToSave}
             />
         

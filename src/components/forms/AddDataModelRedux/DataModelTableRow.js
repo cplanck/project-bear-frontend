@@ -55,7 +55,7 @@ export default function DataModelTableRow(props){
                 :
                 <Checkbox className='darkThemeBlueText' onChange={e=>handleRowEdit(e, 'unique', props.dm.id)}/>}
             </Grid>
-            <Grid item xs={1} className='greyText2 smallText'><button className="iconButton"  onClick={(e)=>{props.handleDelete(e, 'delete', props.dm.id)}}><DeleteForeverOutlinedIcon  className="iconButton" /></button></Grid>
+            <Grid item xs={1} className='greyText2 smallText'><button className="iconButton"  onClick={(e)=>{props.handleRowDelete(e, 'delete', props.dm.id)}}><DeleteForeverOutlinedIcon  className="iconButton" />{props.dm.id}</button></Grid>
             <Grid container>
             <Grid item xs={1}></Grid>
             <Grid item xs={11}> <span className="inputErrorMessage dataModel">{props.editedFieldNameErrors}</span></Grid>

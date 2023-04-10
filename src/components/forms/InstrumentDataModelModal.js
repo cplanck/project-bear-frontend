@@ -3,12 +3,8 @@ import dbstyles from '../dashboard/Dashboard.module.css'
 import styles from '../instrument/Instrument.module.css'
 import { Container } from '@mui/system';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-// import AddDataModelForm from '../forms/AddDataModelForm';
-// import AddDataModelForm from '../forms/AddDataModel/AddDataModelForm';
 import AddDataModelForm from '../forms/AddDataModelRedux/AddDataModelForm';
 import { useState } from 'react';
-
-
 
 export default function InstrumentDataModelModal(props){
 
@@ -16,7 +12,11 @@ export default function InstrumentDataModelModal(props){
     const [isEditing, setIsEditing] = useState(false)
 
     const handleSubmission = ()=>{
-
+        console.log('DATA MODEL CONFIRMED')
+        let temp = structuredClone(props.instrumentDetails)
+        temp.data_model.configured = true
+        props.setInstrumentDetails(temp)
+        props.setDataModelModalOpen(false)
     }
 
     return(

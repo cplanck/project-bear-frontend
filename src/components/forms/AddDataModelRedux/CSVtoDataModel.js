@@ -30,10 +30,11 @@ export default function CSVtoDataModel(props){
             let data = csvdata.split('\n')[1].split('\r')[0].split(',')
 
             let fieldDict = props.dataModel
-            let starting_index = Math.max(...props.dataModel.map(dm=>dm.id)) + 1
+            let starting_index
+            fieldDict.length==0?starting_index=0:starting_index = Math.max(...props.dataModel.map(dm=>dm.id)) + 1
 
             for(let i = 0; i<csvLength; i++){
-                fieldDict.push({fieldName: fieldName(headers[i]), type: fieldType(data[i]), 'required': false, 'unique': false, id:i + starting_index})
+                fieldDict.push({fieldName: fieldName(headers[i]),rawFieldName: fieldName(headers[i]),type: fieldType(data[i]), 'required': false, 'unique': false, id:i + starting_index})
             }
             props.setDataModel(fieldDict)
             }

@@ -18,14 +18,15 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import structuredClone from "@ungap/structured-clone";
 import fr from './FormRestrictions'; 
-import InstrumentDataModelModal from '../instrument/InstrumentDataModelModal';
+import InstrumentDataModelModal from './InstrumentDataModelModal';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import DoNotDisturbOutlinedIcon from '@mui/icons-material/DoNotDisturbOutlined';
+import Link from 'next/link';
 
 export default function AddInstrumentForm(props){
 
-    const [instrumentDetails, setInstrumentDetails] = useState({})
-    const [databaseConfigured, setDatabaseConfigured] = useState(false)
+    const [instrumentDetails, setInstrumentDetails] = useState({data_model:{configured: false, field_num: 0, entries: 0}})
+    // const [databaseConfigured, setDatabaseConfigured] = useState(false)
     const [avatarUploadOpen, setAvatarUploadOpen] = useState(false)
     const [imageBlob, setImageBlob] = useState('')
     const [context, setContext] = useContext(AppContext)
@@ -166,11 +167,11 @@ export default function AddInstrumentForm(props){
                  
                   <Grid xs={12} xl={12} item>
                    <span className='inputSelectLabel'>Cloud Database</span>
-                    {databaseConfigured?
+                    {instrumentDetails?.data_model?.configured?
                      <div className={deploymentStyles.deploymentDetailsTableWrapper}>
                      <div className={deploymentStyles.deploymentDetailsTableRow} style={{backgroundColor: 'var(--dark-theme-header)', borderTopLeftRadius: '6px', borderTopRightRadius: '6px'}}>
-                         <span className='boldText greenText flexCenterSpaceBetween'>Configured<CheckCircleOutlinedIcon className='ms-2' fontSize='small'/></span>
-                         <button className='textButton darkThemeBlueText' onClick={(e)=>{setDataModelModalOpen(true); e.preventDefault()}}>Edit</button>
+                          <span className='boldText greenText flexCenterSpaceBetween'>Configured<CheckCircleOutlinedIcon className='ms-2' fontSize='small'/></span>
+                          <button className='textButton darkThemeBlueText' onClick={(e)=>{setDataModelModalOpen(true); e.preventDefault()}}>Edit</button>
                      </div>
                     </div>
                     :
@@ -181,7 +182,11 @@ export default function AddInstrumentForm(props){
                       </div>
                      </div>
                     }
+                    {instrumentDetails?.data_model?.configured?
+                    <span className='smallText'>Your instruments database is successfully configured. To add data, save this instrument and add a deployment</span>
+                    :
                     <span className='smallText'>Once you configure your Cloud Database, you can create a deployment and and start adding data.</span>
+                    }
                   </Grid>
                   <Grid xs={12} xl={12} item>
                       <div className='inputSelectLabel'>Description<span className='greyText3 smallText ms-2'>(optional)</span></div>
@@ -229,11 +234,18 @@ export default function AddInstrumentForm(props){
               </Grid>
               {avatarUploadOpen?<AvatarImageSelector setAvatarUploadOpen={setAvatarUploadOpen} setImageBlob={setImageBlob}/>:''}
               <div className={'rightButtonGroup'}>
-                <button className='textButton me-3'>Cancel</button>
+                <Link className='textButton me-3' href={'/'}>Cancel</Link>
                 <button type="submit" className='greenButton'>Save Instrument</button>
               </div>
             </form>
-            {dataModelModalOpen?<InstrumentDataModelModal setDataModelModalOpen={setDataModelModalOpen} templateInstrument={templateInstrument}/>:''}
+            {dataModelModalOpen?
+            <InstrumentDataModelModal 
+              setDataModelModalOpen={setDataModelModalOpen} 
+              templateInstrument={templateInstrument} 
+              instrumentDetails={instrumentDetails}
+              setInstrumentDetails={setInstrumentDetails}
+              />:
+              ''}
         </Container>
     )
 }

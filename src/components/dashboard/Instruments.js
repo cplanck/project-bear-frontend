@@ -35,7 +35,7 @@ export default function Instruments(props){
                             </Link>
                             {props.instrument.starred?<StarBorderOutlinedIcon className={dbstyles.starred}/>:''}
                         </div>
-                        <ModifyButton/>
+                        <ModifyButton instrument={props.instrument}/>
                      </div>
                      <p className={dbstyles.description}>{props.instrument.description}</p>
                      <div className={dbstyles.bottomDetailsWrapper}>
