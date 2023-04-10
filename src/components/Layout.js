@@ -102,19 +102,19 @@ function UserAlerts(){
                             </Snackbar>
         }else if(context.snackbar.type == 'error'){
             activeAlert = <Snackbar open={open} autoHideDuration={6000} onClose={() => closeAlert('snackbar')}>
-                                <Alert variant="filled" onClose={() => closeAlert('snackbar')} severity="error" sx={{ width: '100%' }}>
+                                <Alert variant="filled highZIndex" onClose={() => closeAlert('snackbar')} severity="error" sx={{ width: '100%' }}>
                                 {context.snackbar.message}
                                 </Alert>
                             </Snackbar>
         }else if(context.snackbar.type == 'warning'){
             activeAlert = <Snackbar open={open} autoHideDuration={6000} onClose={() => closeAlert('snackbar')}>
-                                <Alert variant="filled" onClose={() => closeAlert('snackbar')} severity="warning" sx={{ width: '100%' }}>
+                                <Alert variant="filled highZIndex" onClose={() => closeAlert('snackbar')} severity="warning" sx={{ width: '100%' }}>
                                 {context.snackbar.message}
                                 </Alert>
                             </Snackbar>
         }else if(context.snackbar.type == 'info'){
             activeAlert = <Snackbar open={open} autoHideDuration={6000} onClose={() => closeAlert('snackbar')}>
-                                <Alert variant="filled" onClose={() => closeAlert('snackbar')} severity="info" sx={{ width: '100%' }}>
+                                <Alert variant="filled highZIndex" onClose={() => closeAlert('snackbar')} severity="info" sx={{ width: '100%' }}>
                                 {context.snackbar.message}
                                 </Alert>
                             </Snackbar>

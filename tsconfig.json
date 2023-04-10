@@ -19,6 +19,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index.js", "src/pages/_document.js", "src/pages/_app.js", "src/components/widgets/AvatarImageSelector/ReactCropImage.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/oldindex.js", "src/pages/_document.js", "src/pages/_app.js", "src/components/widgets/AvatarImageSelector/ReactCropImage.js"],
   "exclude": ["node_modules"]
 }

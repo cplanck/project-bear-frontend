@@ -1,4 +1,4 @@
-import CSVFileUpload from "../forms/CSVFileUpload"
+import FileUploadWidget from "./FileUploadWidget"
 
 export default function CSVtoDataModel(props){
 
@@ -35,12 +35,13 @@ export default function CSVtoDataModel(props){
                 fieldDict.push({fieldName: fieldName(headers[i]), type: fieldType(data[i]), 'required': false, 'unique': false, id:i})
             }
             props.setDataModel(fieldDict)
+            props.setIsEditing(true)
             }
     }
 
     return(
         <form id='csv-upload-form'>
-            <CSVFileUpload fileUpload={fileUpload} fileName={props.csvFileName}/>
+            <FileUploadWidget fileUpload={fileUpload} fileName={props.csvFileName}/>
         </form>
         )
 }

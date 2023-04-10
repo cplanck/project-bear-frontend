@@ -1,17 +1,17 @@
-import AlertContext from '../../components/Context'
+import AlertContext from '@/components/Context'
 import { useContext, useEffect } from 'react'
-import { AppContext } from '../../components/Context'
+import { AppContext } from '@/components/Context'
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import React, { useState } from "react";
-import DashboardTabs from '../../components/dashboard/DashboardTabs';
+import DashboardTabs from '@/components/dashboard/DashboardTabs';
 import { useRouter } from 'next/router'
-import Instruments from '../../components/dashboard/Instruments'
-import Deployments from '../../components/dashboard/Deployments';
-import Overview from '../../components/dashboard/Overview';
+import Instruments from '@/components/dashboard/Instruments'
+import Deployments from '@/components/dashboard/Deployments';
+import Overview from '@/components/dashboard/Overview';
 import Image from 'next/image'
-import profilePic from '../../images/cam.jpeg'
+import profilePic from '@/images/cam.jpeg'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';

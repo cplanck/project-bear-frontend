@@ -121,7 +121,6 @@ export default function Dashboard() {
 
   return (
     <div className={styles.instrumentContainer}>
-      <SideNav/>
     </div>
   )
 }

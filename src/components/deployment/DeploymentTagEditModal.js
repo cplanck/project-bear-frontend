@@ -1,10 +1,10 @@
-import styles from '../instrument/Instrument.module.css'
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Container } from '@mui/system';
 import { useState } from 'react';
 import dbstyles from '../dashboard/Dashboard.module.css'
+import styles from '../instrument/Instrument.module.css'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { object, string, number, date, InferType } from 'yup';

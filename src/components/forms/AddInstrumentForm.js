@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
 import styles from '@/components/instrument/Instrument.module.css'
+import deploymentStyles from '@/components/deployment/Deployment.module.css'
 import AvatarImageSelector from '@/components/widgets/AvatarImageSelector/AvatarImageSelector';
 import WifiTetheringOutlinedIcon from '@mui/icons-material/WifiTetheringOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
@@ -17,13 +18,20 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import structuredClone from "@ungap/structured-clone";
 import fr from './FormRestrictions'; 
+import InstrumentDataModelModal from '../instrument/InstrumentDataModelModal';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import DoNotDisturbOutlinedIcon from '@mui/icons-material/DoNotDisturbOutlined';
 
 export default function AddInstrumentForm(props){
 
     const [instrumentDetails, setInstrumentDetails] = useState({})
+    const [databaseConfigured, setDatabaseConfigured] = useState(false)
     const [avatarUploadOpen, setAvatarUploadOpen] = useState(false)
     const [imageBlob, setImageBlob] = useState('')
     const [context, setContext] = useContext(AppContext)
+    const [fromTemplate, setFromTemplate] = useState(false)
+    const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
+    const [templateInstrument, setTemplateInstrument] = useState()
 
     const router = useRouter()
 
@@ -54,8 +62,10 @@ export default function AddInstrumentForm(props){
   function initializeFromTemplate(event){
       let templateInstrument=props.instruments.filter(instrument=>instrument.id==event.target.value)[0]
       templateInstrument.description?formik.values.description = templateInstrument.description:'' // needed to update formik
+      setTemplateInstrument(templateInstrument)
       setInstrumentDetails(templateInstrument)
       setImageBlob({'href': templateInstrument?.avatar})
+      setFromTemplate(true)
   }
 
     function updateInstrumentContext(){
@@ -101,7 +111,7 @@ export default function AddInstrumentForm(props){
     let userDataModels = props.userDataModels.map(model=><option key={model.id} value={model.id}>{model.name}</option>)
 
     let filteredTemplateInstrumentsOptions = structuredClone(props.instruments).filter(object => object.template !== false).map((instrument, i)=><option key={i} value={instrument.id}>{instrument.name}</option>)
-    filteredTemplateInstrumentsOptions.unshift(<option disabled selected value>Selct a template</option>)
+    filteredTemplateInstrumentsOptions.unshift(<option disabled selected value>Select a template</option>)
 
     return(
         <Container maxWidth={false} style={{ maxWidth: '900px', paddingTop: '50px' }}>
@@ -117,7 +127,7 @@ export default function AddInstrumentForm(props){
               <p className='smallText greyText1 boldText'>Select an existing instrument to autofill the details below</p>
               <hr className='hr my-4'/>
               <Grid container spacing={3}>
-                  <Grid xs={12} xl={12} item>
+                  <Grid xs={12} md={6} item>
                       <span className='inputSelectLabel'>Instrument Name<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
                       <input 
                       id='name' 
@@ -131,14 +141,7 @@ export default function AddInstrumentForm(props){
                       <span className='smallText redText boldText' id='nameError'>{formik.errors.name}</span>
                       ) :<span className='smallText'>Good instrument names are short and descriptive</span>}
                   </Grid>
-                  <Grid xs={12} xl={12} item >
-                    <span className='inputSelectLabel'>Avatar</span>
-                      <div style={{display: 'flex', alignItems: 'center'}}>
-                        {!imageBlob?<WifiTetheringOutlinedIcon fontSize='large'/>:<InstrumentAvatar url={imageBlob.href}/>}
-                        <button onClick={(e)=>{triggerAvatarModal(e)}} className={'textButton mx-3'} >{!imageBlob?<span>Upload Avatar</span>:<span>Change Avatar</span>}</button>
-                      </div>
-                  </Grid>
-                  <Grid xs={12} xl={12} item>
+                  <Grid xs={12} md={6} item>
                       <span className='inputSelectLabel'>Serial Number<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
                       <input 
                       id='serialNumber'
@@ -153,12 +156,32 @@ export default function AddInstrumentForm(props){
                       <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.serialNumber}</span>
                       ) :<span className='smallText'>This is typically an IMEI</span>}
                   </Grid>
-                  <Grid xs={12} xl={6} item>
-                      <span className='inputSelectLabel'>Data Model</span>
-                      <select className={'styledSelect fullWidth'}>
-                          {userDataModels}
-                      </select>
-                      <span className='smallText'>You can choose a data model now or specify one later</span>
+                  <Grid xs={12} xl={12} item >
+                    <span className='inputSelectLabel'>Avatar</span>
+                      <div style={{display: 'flex', alignItems: 'center'}}>
+                        {!imageBlob?<WifiTetheringOutlinedIcon fontSize='large'/>:<InstrumentAvatar url={imageBlob.href}/>}
+                        <button onClick={(e)=>{triggerAvatarModal(e)}} className={'textButton mx-3'} >{!imageBlob?<span>Upload Avatar</span>:<span>Change Avatar</span>}</button>
+                      </div>
+                  </Grid>
+                 
+                  <Grid xs={12} xl={12} item>
+                   <span className='inputSelectLabel'>Cloud Database</span>
+                    {databaseConfigured?
+                     <div className={deploymentStyles.deploymentDetailsTableWrapper}>
+                     <div className={deploymentStyles.deploymentDetailsTableRow} style={{backgroundColor: 'var(--dark-theme-header)', borderTopLeftRadius: '6px', borderTopRightRadius: '6px'}}>
+                         <span className='boldText greenText flexCenterSpaceBetween'>Configured<CheckCircleOutlinedIcon className='ms-2' fontSize='small'/></span>
+                         <button className='textButton darkThemeBlueText' onClick={(e)=>{setDataModelModalOpen(true); e.preventDefault()}}>Edit</button>
+                     </div>
+                    </div>
+                    :
+                    <div className={deploymentStyles.deploymentDetailsTableWrapper}>
+                      <div className={deploymentStyles.deploymentDetailsTableRow} style={{backgroundColor: 'var(--dark-theme-header)', borderTopLeftRadius: '6px', borderTopRightRadius: '6px'}}>
+                        <span className='boldText redText flexCenterSpaceBetween'>Not Configured<DoNotDisturbOutlinedIcon className='ms-2' fontSize='small'/></span>
+                          <button className='textButton darkThemeBlueText' onClick={(e)=>{setDataModelModalOpen(true); e.preventDefault()}}>Configure</button>
+                      </div>
+                     </div>
+                    }
+                    <span className='smallText'>Once you configure your Cloud Database, you can create a deployment and and start adding data.</span>
                   </Grid>
                   <Grid xs={12} xl={12} item>
                       <div className='inputSelectLabel'>Description<span className='greyText3 smallText ms-2'>(optional)</span></div>
@@ -204,13 +227,13 @@ export default function AddInstrumentForm(props){
                     </div>
                   </Grid>
               </Grid>
-              
               {avatarUploadOpen?<AvatarImageSelector setAvatarUploadOpen={setAvatarUploadOpen} setImageBlob={setImageBlob}/>:''}
               <div className={'rightButtonGroup'}>
                 <button className='textButton me-3'>Cancel</button>
                 <button type="submit" className='greenButton'>Save Instrument</button>
               </div>
             </form>
+            {dataModelModalOpen?<InstrumentDataModelModal setDataModelModalOpen={setDataModelModalOpen} templateInstrument={templateInstrument}/>:''}
         </Container>
     )
 }

@@ -154,6 +154,11 @@ td {
   outline: none;
 }
 
+.highZIndex {
+  /* border: 10px solid pink; */
+  z-index: 100;
+}
+
 .styledSelect.fullWidth {
   width: 100%;
 }
@@ -253,6 +258,14 @@ input:-webkit-autofill {
   align-items: center;
   text-transform: capitalize;
   cursor: pointer;
+}
+
+.smallDot {
+  height: 10px;
+  width: 10px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background-color: var(--dark-theme-red-text);
 }
 
 
@@ -446,8 +459,33 @@ input:-webkit-autofill {
   justify-content: space-between;
 }
 
+.flexCenterSpaceBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flexCenterFlexStart {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.flexStartFlexStartColumn {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
 .inputErrorMessage {
   font-size: 0.9em;
+}
+
+.inputErrorMessage.dataModel {
+  font-size: 0.9em;
+  font-weight: 800;
+  color: var(--dark-theme-red-text);
 }
 
 .finishedBanner {
@@ -474,7 +512,7 @@ input:-webkit-autofill {
 }
 
 .darkThemeBlueText {
-  color: var(--dark-theme-blue)
+  color: var(--dark-theme-blue) !important
 }
 
 .darkThemeDarkText {
@@ -678,12 +716,20 @@ a:hover {
   justify-content: space-between;
 }
 
+.flexCenterAndCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .greenButton:hover {
   background-color: var(--highlight-green-pressed);
+
 }
 
 .greenButton:disabled {
   background-color: var(--highlight-green-disabled);
+  cursor: unset;
   /* color: var(--dark-theme-grey-1); */
 }
 
@@ -786,6 +832,10 @@ a:hover {
 
 .redText {
   color: var(--dark-theme-red-text)
+}
+
+.greenText {
+  color: var(--highlight-green)
 }
 
 .smallText {
