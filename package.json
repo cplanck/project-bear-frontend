@@ -14,7 +14,6 @@
     "@codemirror/lang-python": "^6.1.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.15",
     "@mui/x-date-pickers": "^6.0.3",
