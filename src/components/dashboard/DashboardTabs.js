@@ -13,7 +13,7 @@ function Tab(props){
             <button id={props.name + 'Button'} className={styles.tabCell} onClick={()=>{props.updatePage(props.id)}}>
                     <props.Icon fontSize={'small'} style={{marginRight: '5px'}}/> 
                     {props.name}
-                    {props.number? <span className={styles.tabNumber}>{props.number}</span>:''}
+                    {props.number? <span className={styles.tabNumber}>{props.number}</span>:""}
             </button>
             {props.id == props.page?<div className={styles.tabUnderline}></div>:''}
         </div>
