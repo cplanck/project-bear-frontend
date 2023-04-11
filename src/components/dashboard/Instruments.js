@@ -40,8 +40,8 @@ export default function Instruments(props){
                      <p className={dbstyles.description}>{props.instrument.description}</p>
                      <div className={dbstyles.bottomDetailsWrapper}>
                         <div className={dbstyles.instrumentType}>
-                            <div className='instrumentColor' style={{backgroundColor: props.instrument['instrument_color']}}></div>
-                            {props.instrument['data-model']}
+                            {/* <div className='instrumentColor' style={{backgroundColor: props.instrument['instrument_color']}}></div> */}
+                            {/* {props.instrument['data-model']} */}
                         </div>
                         <span className={dbstyles.instrumentId}>{dayjs(props.instrument['purchase_date']).toNow(true)} ago</span>
                     </div>

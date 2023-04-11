@@ -21,11 +21,12 @@ import fr from './FormRestrictions';
 import InstrumentDataModelModal from './InstrumentDataModelModal';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import DoNotDisturbOutlinedIcon from '@mui/icons-material/DoNotDisturbOutlined';
+import { blankInstrumentObject } from '../Context';
 import Link from 'next/link';
 
 export default function AddInstrumentForm(props){
 
-    const [instrumentDetails, setInstrumentDetails] = useState({data_model:{configured: false, field_num: 0, entries: 0}})
+    const [instrumentDetails, setInstrumentDetails] = useState(blankInstrumentObject)
     const [avatarUploadOpen, setAvatarUploadOpen] = useState(false)
     const [imageBlob, setImageBlob] = useState('')
     const [context, setContext] = useContext(AppContext)
@@ -97,6 +98,7 @@ export default function AddInstrumentForm(props){
         }),
 
       onSubmit: values => {
+        console.log(instrumentDetails)
         updateInstrumentContext()
         handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
       },
@@ -180,7 +182,7 @@ export default function AddInstrumentForm(props){
                      </div>
                     }
                     {instrumentDetails?.data_model?.configured?
-                    <span className='smallText'>Your instruments database is successfully configured. To add data, save this instrument and add a deployment</span>
+                    <span className='smallText'>Your instruments database is successfully configured. Once you save this instrument, you can create a deployment and start adding data.</span>
                     :
                     <span className='smallText'>Once you configure your Cloud Database, you can create a deployment and and start adding data.</span>
                     }
