@@ -239,6 +239,22 @@
     border-top-right-radius: 8px;
 }
 
+.modifyButtonPaper {
+    z-index: 1;
+    border: 1px solid var(--dark-theme-grey-4);
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.modifyButtonMenu {
+    color: var(--dark-theme-text-main);
+    text-decoration: none;
+}
+
+.modifyButtonMenu:hover {
+    background-color: var(--dark-theme-grey-5);
+}
+
 .editModalBody {
     background-color: var(--main-bg-color);
     padding: 15px 15px 15px 15px;

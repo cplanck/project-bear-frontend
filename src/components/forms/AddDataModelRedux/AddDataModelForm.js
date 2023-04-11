@@ -31,14 +31,6 @@ export default function AddDataModelForm(props){
         }
         else{
             setDataModel([
-            // {fieldName:'time_stamp', type: 'number', required: true, unique: true, id: 0},
-            // {fieldName:'longitude', type: 'number', required: false, unique: false, id: 1},
-            // {fieldName:'latitude', type: 'number', required: false, unique: false, id: 2},
-            // {fieldName:'water_temp', type: 'number', required: false, unique: false, id: 3},
-            // {fieldName:'counter', type: 'number', required: false, unique: false, id: 4},
-            // {fieldName:'version', type: 'number', required: false, unique: false, id: 5},
-            // {fieldName:'latitude', type: 'number', required: false, unique: false, id: 6},
-
         ])
     }
     },[]) 
@@ -161,8 +153,6 @@ export default function AddDataModelForm(props){
             dataModelFieldTypes={dataModelFieldTypes} 
             handleAlerts={handleAlerts} 
             csvFileName={csvFileName}
-            // checkDuplicateFieldNames={checkDuplicateFieldNames}
-            // sanitizeUserInput={sanitizeUserInput}
             setOkayToSave={props.setOkayToSave}
             />
         

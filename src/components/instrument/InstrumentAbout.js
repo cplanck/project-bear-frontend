@@ -8,15 +8,19 @@ import QrCodeOutlinedIcon from '@mui/icons-material/QrCodeOutlined';
 import ImagePanel from '../general/ImagePanel';
 import InstrumentEditModal from '../../components/instrument/InstrumentEditModal';
 import { Grid } from '@mui/material';
+import Link from 'next/link';
 
 
 export default function InstrumentAbout(props){
+
+    console.log(props.instrument)
 
     return(
         <div className={[styles.instrumentAboutWrapper, 'hideOnMedium'].join(' ')}>
             <div className={styles.aboutHeader}>
                 <h2 className='removeHeaderMargin'>About</h2>
-                <InstrumentEditModal setInstruments={props.setInstruments} instrument={props.instrument} button={<SettingsIcon className='iconButton'/>} />
+                <Link href={'/instrument/edit/'+props.instrument.id}><SettingsIcon className='iconButton'/></Link>
+                {/* <InstrumentEditModal setInstruments={props.setInstruments} instrument={props.instrument} button={<SettingsIcon className='iconButton'/>} /> */}
             </div>
             <div className='greyText2 smallText'>
                 <p>{props.instrument.description}</p>

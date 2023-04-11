@@ -27,9 +27,9 @@ export default function DashboardTabs(props){
             <Container maxWidth={'none'} className={styles.tabContainer}>
                 <div className={styles.tabWrapper} id='tabWrapper'>
                     <Tab id={'overview'} updatePage={props.updatePage} name='Overview' page={props.page} Icon={DvrOutlinedIcon}/>
-                    <Tab id={'deployments'} updatePage={props.updatePage} name='Deployments' page={props.page} Icon={FlightTakeoffOutlinedIcon} number={props.userOverview.deployments}/>
                     <Tab id={'instruments'} updatePage={props.updatePage} name='Instruments'  page={props.page}  Icon={PodcastsIcon} number={props.userOverview.instruments}/>
-                    <Tab id={'data-models'} updatePage={props.updatePage} name='Data Models'  page={props.page}  Icon={AccountTreeIcon} number={props.userOverview.data_models}/>
+                    <Tab id={'deployments'} updatePage={props.updatePage} name='Deployments' page={props.page} Icon={FlightTakeoffOutlinedIcon} number={props.userOverview.deployments}/>
+                    {/* <Tab id={'data-models'} updatePage={props.updatePage} name='Data Models'  page={props.page}  Icon={AccountTreeIcon} number={props.userOverview.data_models}/> */}
                     <Tab id={'projects'} updatePage={props.updatePage} name='Projects'  page={props.page}  Icon={FolderSharedIcon} number={props.userOverview.projects}/>
                 </div>
             </Container>

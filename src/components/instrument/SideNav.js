@@ -52,7 +52,9 @@ export default function SideNav(){
         <div className={styles.sideNavWrapper}>
             <div className={styles.sideNavTitleWrapper}>
                 <h3>Your Instruments</h3>
-                <Link className='greenButton' href='/instrument/add'>New</Link>
+                <Link  href='/instrument/add'>
+                    <button className='greyButton'>New</button>
+                </Link>
             </div>
             <SearchInput placeholder={'Search Instruments'}/>
             <div className={styles.sideNavlistItemsContainer}>

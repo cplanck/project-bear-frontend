@@ -9,7 +9,7 @@ import MenuList from '@mui/material/MenuList';
 import Link from 'next/link';
 import Stack from '@mui/material/Stack';
 import dbstyles from './Dashboard.module.css'
-import styles from './Instruments.module.css'
+import styles from '@/components/instrument/Instrument.module.css'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
 export default function ModifyButton(props) {
@@ -69,6 +69,7 @@ export default function ModifyButton(props) {
           placement="bottom-start"
           transition
           disablePortal
+          className={styles.modifyButtonPaper}
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -78,7 +79,7 @@ export default function ModifyButton(props) {
                   placement === 'bottom-start' ? 'left top' : 'left bottom',
               }}
             >
-              <Paper className={styles.modifyButtonPaper}>
+              <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
                     autoFocusItem={open}
@@ -87,7 +88,7 @@ export default function ModifyButton(props) {
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Star</MenuItem>
-                    <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><Link href={'/instrument/edit/' + props.instrument.id}>Edit</Link></MenuItem>
+                    <Link href={'/instrument/edit/' + props.instrument.id} className='removeLinkFormatting'><MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Edit</MenuItem></Link>
                     <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Deploy</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
