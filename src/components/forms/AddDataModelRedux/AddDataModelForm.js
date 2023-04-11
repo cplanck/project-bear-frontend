@@ -33,7 +33,7 @@ export default function AddDataModelForm(props){
             setDataModel([
         ])
     }
-    },[]) 
+    },[props.templateInstrument]) 
 
     function handleAlerts(alertType, alertSeverity, alertMessage){
         setContext(structuredClone(context.alert.status=false))
@@ -98,9 +98,9 @@ export default function AddDataModelForm(props){
         <Container maxWidth={false} style={{ maxHeight: '700px', paddingTop: '0px', overflow: 'auto'}}>
             <div>
                 {props.templateInstrument?
-                <span className=''>You configured this instrument from a template, so we've prepopulated your database fields for you. You can still add or subtract fields, or reconfigure it completely from a spreadsheet below.</span>
+                <span>You configured this instrument from a template, so we have prepopulated your database fields for you. You can still add or subtract fields, or reconfigure it completely from a spreadsheet below.</span>
                 :
-                <span className=''>Already have a CSV datasheet? Drop it below and we'll autoconfigure you're database.</span>  
+                <span>Already have a CSV datasheet? Drop it below and we will autoconfigure your database.</span>  
                 }
                 <CSVtoDataModel dataModel={dataModel} setDataModel={setDataModel} setCsvFileName={setCsvFileName} csvFileName={csvFileName} setIsEditing={props.setIsEditing}/>
                 <span className='smallText greyText3'>Note: The first row in your CSV should be the headers of your spreadsheet. Your headers should only include a-z letters, 0-9 numbers, or hyphens (-) and underscores (_). <a className="darkThemeBlueText">Click here</a> to download an example. </span>

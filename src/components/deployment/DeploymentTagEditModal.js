@@ -59,7 +59,6 @@ export default function DeploymentTagsEditModal(props) {
         
         let uniqueAvailableList = removeItemsFromList(availableTagList, selectedTagsList)
         setAvailableTagList(uniqueAvailableList)
-
     },[])
 
     let selectedTags = selectedTagsList.map((tag, i) => <Tag swapTag={swapTag} selected={true} key={tag['name']} name={tag['name']} color={tag['color']}/>)

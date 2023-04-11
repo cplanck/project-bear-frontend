@@ -132,7 +132,7 @@ export default function EditInstrumentForm(props){
                       />
                       {formik.touched.serialNumber && formik.errors.serialNumber ? (
                       <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.serialNumber}</span>
-                      ) :<span className='smallText'>The instrument serial number can't be modified.</span>}
+                      ) :<span className='smallText'>The instrument serial number cannot be modified.</span>}
                   </Grid>
                   <Grid xs={12} xl={12} item >
                     <span className='inputSelectLabel'>Avatar</span>
