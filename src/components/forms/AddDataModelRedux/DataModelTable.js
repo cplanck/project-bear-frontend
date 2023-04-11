@@ -4,7 +4,7 @@ import DataModelTableRow from './DataModelTableRow'
 import { useState, useEffect } from 'react'
 import DataModelTableHeader from './DataModelTableHeader'
 import { Grid } from '@mui/material'
-import validateInput from './ValidateUserInput'
+import validateInput from './validateUserInput'
 
 export default function DataModelTable(props){
 
