@@ -80,7 +80,7 @@ export default function Deployments(props){
     let deploymentArray = deployments.map((deployment, index)=><Deployment key={index} deployment={deployment}/>)
 
     return(
-        <div style={{border: '0px solid blue', maxWidth: '1200px'}}>
+        <div style={{border: '0px solid blue', maxWidth: '1800px'}}>
             {props.searchBar?<SearchDeployments/>:''}
             <h3 className='removeHeaderMargin'>Deployments</h3>
                 <Grid container spacing={0}>

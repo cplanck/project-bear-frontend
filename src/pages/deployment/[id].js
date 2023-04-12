@@ -31,8 +31,8 @@ function InstrumentHeading(props){
         <span className={'greenIndicatorOutline showOnSmall my-3'}>{instrumentState}</span>
         <div className={styles.deployButtonGroup}>
           <button className={'greenButton expandOnMedium'}>Deploy</button>
-          <button className={'textButton expandOnMedium hideOnMedium'}>Copy</button>
-          <button className={'greyButton expandOnMedium showOnMedium'}>Copy</button>
+          {/* <button className={'textButton expandOnMedium hideOnMedium'}>Copy</button>
+          <button className={'greyButton expandOnMedium showOnMedium'}>Copy</button> */}
         </div>
       </div>
     )

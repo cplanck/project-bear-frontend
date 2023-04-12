@@ -133,6 +133,13 @@ td {
   align-items: center;
 }
 
+.inputHelpText {
+  /* font-weight: 800; */
+  font-size: 0.85em;
+  padding-top: 5px;
+  color: var(--dark-theme-grey-1)
+}
+
 .toolTip {
   margin-left: 5px;
   padding: 3px 3px 3px 3px;
@@ -161,6 +168,11 @@ td {
 
 .styledSelect.fullWidth {
   width: 100%;
+}
+
+.styledSelect.status {
+  width: 100%;
+  max-width: 200px;
 }
 
 .styledInput {
@@ -193,6 +205,23 @@ td {
 
 .styledInput.small:focus {
   border: 2px solid var(--dark-theme-blue)
+}
+
+.styledInput.small.name {
+  width: 100%;
+  max-width: 450px;
+}
+
+.styledInput.small.location {
+  width: 100%;
+  max-width: 350px;
+}
+
+.styledInput.small.instrumentDeployed {
+  width: 100%;
+  width: 300px;
+  max-width: 550px;
+  border: 2px solid red !important;
 }
 
 .styledTextArea {
@@ -475,6 +504,12 @@ input:-webkit-autofill {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  flex-direction: column;
+}
+
+.flexColumn {
+  display: flex;
+  align-items: flex-start;
   flex-direction: column;
 }
 
@@ -929,7 +964,6 @@ input[type="file"] {
   .styledSelect {
     height: 40px;
   }
-
 
 }
 

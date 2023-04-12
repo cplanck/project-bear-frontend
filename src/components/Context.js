@@ -11,7 +11,10 @@ export const InstrumentContext = createContext();
 export const DeploymentContext = createContext();
 export const DataAvailableContext = createContext();
 
-export const blankInstrumentObject = {name: '',id: '', serial_number:'' ,description: '',notes: '' ,instrument_color: '#4287f5', avatar: '', status: '', starred: false, starred_date: '', purchase_date: '', date_added: '', last_modified: '', template: false, data_model: {configured: false, field_num: 0, entries: 0}}
+export const blankInstrumentObject = {name: '',id: '', serial_number:'', description: '',notes: '' ,instrument_color: '', avatar: '', status: '', starred: false, starred_date: '', purchase_date: '', date_added: '', last_modified: '', template: false, data_model: {configured: false, field_num: 0, entries: 0}}
+export const blankDeploymentObject = {name: '', instrument_id: '', id: '', location: '' , description: '', instrument_color: '', status: '', privacy: '', tags: [], collaborators: [], date_added: '', last_modified: ''}
+export const blankTagObject = {name: '', color: ''}
+export const blankCollaboratorObject = {name:'', avatar: ''}
 
 let instrumentList = [
   {name: 'SIMB3 2022 #1',id: '1', serial_number:'30043406123456789' ,description: 'Standard SIMB3 with Bruncin Temperature String', shortname: 'SIMB3', instrument_color: '#4287f5',avatar: 'https://nyc3.digitaloceanspaces.com/ci-webapp-space/static/simb3/img/simb3.png', status: 'deployed',starred: false, starred_date: '', purchase_date: '2023-03-03 17:11:43.776674', date_added: '2023-03-03 17:11:43.776674', last_modified: '2022-04-11 17:11:43.776674', template: true, data_model: {configured: false, field_num: 0, entries: 0}},

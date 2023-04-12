@@ -80,7 +80,7 @@ export default function DropDown() {
             </Link>
         </MenuItem>
         <MenuItem className={styles.menuItem} onClick={handleClose}>
-            <Link href='/deployment' className={styles.link}>
+            <Link href='/deployment/add' className={styles.link}>
                 New Deployment
             </Link>
         </MenuItem>

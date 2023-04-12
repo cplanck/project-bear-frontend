@@ -56,7 +56,7 @@ export default function Dashboard(props) {
       <SideNav/>
       <div className={styles.mainPanel} style={{border: '0px solid blue', width: '100%'}}>
         <DashboardTabs page={page} updatePage={updatePage} userOverview={userOverview} className={'hideOnSmall'}/>
-        <Container className={styles.mainPageContainer} maxWidth={false} style={{maxWidth: '1200px'}}>
+        <Container className={styles.mainPageContainer} maxWidth={false} style={{maxWidth: '1800px'}}>
             {activePage}
         </Container>
       </div>

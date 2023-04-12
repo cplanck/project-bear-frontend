@@ -370,7 +370,7 @@
 
 .instrumentNotesPlaceholder {
     border: 1px dashed var(--dark-theme-grey-4);
-    border-radius: 10px;
+    border-radius: 8px;
     height: 100px;
     width: 100%;
     display: flex;

@@ -11,16 +11,6 @@ export default function InstrumentDetails(props){
 
     const [context, setContext] = useContext(AppContext)
 
-    function handleAlerts(alertType, alertSeverity, alertMessage){
-        let newContext = context
-        newContext[alertType].status = true
-        newContext[alertType].type = alertSeverity
-        newContext[alertType].message = alertMessage
-        setContext( JSON.parse(JSON.stringify(newContext)))
-      }
-     {/* <button onClick={() => handleAlerts('alert', 'error', 'There was a problem creating your account')}>Error alert</button>
-                <button onClick={() => handleAlerts('snackbar', 'warning', 'Profile updated!')}>Success snackbar</button> */}
-
     return(
     <div className={[styles.panelWrapper]}>
         <Grid container spacing={4} >

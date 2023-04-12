@@ -20,10 +20,12 @@ import InstrumentDataModelModal from './InstrumentDataModelModal';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import DoNotDisturbOutlinedIcon from '@mui/icons-material/DoNotDisturbOutlined';
 import Link from 'next/link';
+import { DatePicker } from '@mui/x-date-pickers';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 
 export default function EditInstrumentForm(props){
 
-    const [instrumentDetails, setInstrumentDetails] = useState()
+    const [instrumentDetails, setInstrumentDetails] = useState({purchase_date: dayjs().format()})
     const [avatarUploadOpen, setAvatarUploadOpen] = useState(false)
     const [imageBlob, setImageBlob] = useState('')
     const [context, setContext] = useContext(AppContext)
@@ -54,7 +56,8 @@ export default function EditInstrumentForm(props){
 
     function handleDateChange(newDate, id){
       let temp = structuredClone(instrumentDetails);
-      temp[id] = String(newDate.format())
+      temp[id] = String(dayjs(newDate).format())
+      console.log(temp)
       setInstrumentDetails(temp)
   }
 
@@ -112,9 +115,12 @@ export default function EditInstrumentForm(props){
       formik.initialValues.description = props.instrumentToEdit?.description
     },[props.instrumentToEdit])
 
+
     const lastModified = dayjs(instrumentDetails?.last_modified); 
     const isToday = lastModified.isSame(dayjs(), 'day');
     const lastModifiedDate = isToday ? 'Today' : lastModified.format('MMMM Do, YYYY');
+
+    // console.log(dayjs(instrumentDetails?.purchase_date)) 2023-03-03 17:11:43.776674
 
     return(
         <Container maxWidth={false} style={{ maxWidth: '900px', paddingTop: '50px' }}>
@@ -218,15 +224,13 @@ export default function EditInstrumentForm(props){
                   </Grid>
                   <Grid xs={12} sm={6} xl={12} item >
                       <span className='inputSelectLabel'>Purchase Date</span>
-                      {/* <DatePicker components={{OpenPickerIcon: CalendarMonthOutlinedIcon}}
-                          className={styles.datePicker} defaultValue={dayjs()} onChange={(newDate) => handleDateChange(newDate, 'purchase_date')}
-                      /> */}
-                  </Grid>
-                  <Grid xs={12} item >
-                    <div className={styles.templateBooleanWrapper}>
-                      <Checkbox style={{paddingLeft: '0px'}} defaultChecked onChange={(e)=>{handleUserInput(e, 'template')}}/>
-                      <span className='inputSelectLabel'>Make this instrument a template</span>
-                    </div>
+                      <DatePicker 
+                        components={{OpenPickerIcon: CalendarMonthOutlinedIcon}}
+                        className={styles.datePicker} 
+                        defaultValue={dayjs(instrumentDetails?.purchase_date)} 
+                        value={dayjs(instrumentDetails?.purchase_date)}
+                        onChange={(newDate) => handleDateChange(newDate, 'purchase_date')}
+                      />
                   </Grid>
               </Grid>
               {avatarUploadOpen?<AvatarImageSelector setAvatarUploadOpen={setAvatarUploadOpen} setImageBlob={setImageBlob}/>:''}

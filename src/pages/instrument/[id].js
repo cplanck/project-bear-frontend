@@ -30,17 +30,11 @@ function InstrumentHeading(props){
       <span className={'greenIndicatorOutline showOnSmall my-3'}>{instrumentState}</span>
       <div className={styles.deployButtonGroup}>
         <button className={'greenButton expandOnMedium'}>Deploy</button>
-        <button className={'textButton expandOnMedium hideOnMedium'}>Copy</button>
-        <button className={'greyButton expandOnMedium showOnMedium'}>Copy</button>
       </div>
     </div>
   )
 }
 
-function updatePage(page_id){
-  setPage(page_id)
-  router.push('/instrument/' + page_id)
-}
 
 export default function Dashboard() {
                                                 
@@ -49,7 +43,6 @@ export default function Dashboard() {
   const [dataAvailable, setDataAvailable] = useContext(DataAvailableContext)
 
   const router = useRouter()
-  // const instrumentId = router.asPath.split('/')[2]
   let pageId = router.query.id
 
 
@@ -59,7 +52,6 @@ export default function Dashboard() {
     };
 }, [router.isReady]);
 
-  // const deployment = dataAvailable?deploymentList.filter((deployment)=>deployment['id'] == pageId)[0]:''
   const instrument = dataAvailable?instrumentList.filter((instrument)=>instrument['id'] == pageId)[0]:''
 
 

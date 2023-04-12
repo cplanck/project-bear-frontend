@@ -126,13 +126,7 @@ export default function AddInstrumentForm(props){
               <h2 className='removeHeaderMargin'>Add an Instrument</h2>
               <span className='greyText3 smallText'>Create an instrument to add data, link deployments, add create a public webpage.</span>
               <hr className='hr my-4'/>
-              <h4 className='my-3'>Initialize from Template</h4>
-              <select className={'styledSelect'} onChange={(event)=>initializeFromTemplate(event)}>
-                {/* {templateInstruments?.map(instrument=><option value={instrument.id}>{instrument.name}</option>)} */}
-                {filteredTemplateInstrumentsOptions}
-              </select>
-              <p className='smallText greyText1 boldText'>Select an existing instrument to autofill the details below</p>
-              <hr className='hr my-4'/>
+             
               <Grid container spacing={3}>
                   <Grid xs={12} md={6} item>
                       <span className='inputSelectLabel'>Instrument Name<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
@@ -149,6 +143,7 @@ export default function AddInstrumentForm(props){
                       <span className='smallText redText boldText' id='nameError'>{formik.errors.name}</span>
                       ) :<span className='smallText'>Good instrument names are short and descriptive</span>}
                   </Grid>
+                 
                   <Grid xs={12} md={6} item>
                       <span className='inputSelectLabel'>Serial Number<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
                       <input 
@@ -163,6 +158,15 @@ export default function AddInstrumentForm(props){
                       {formik.touched.serialNumber && formik.errors.serialNumber ? (
                       <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.serialNumber}</span>
                       ) :<span className='smallText'>This is typically an IMEI</span>}
+                  </Grid>
+                  <Grid xs={12} md={12} item>
+                    <hr className='hr my-4'/>
+                      <h4 className='my-3'>Initialize from Template</h4>
+                        <select className={'styledSelect'} onChange={(event)=>initializeFromTemplate(event)}>
+                          {filteredTemplateInstrumentsOptions}
+                        </select>
+                        <p className='smallText greyText1 boldText'>Select an existing instrument to autofill the details below</p>
+                        <hr className='hr my-4'/>
                   </Grid>
                   <Grid xs={12} xl={12} item >
                     <span className='inputSelectLabel'>Avatar</span>

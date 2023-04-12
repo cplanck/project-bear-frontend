@@ -1,12 +1,11 @@
 import Grid from '@mui/material/Grid';
 import Link from 'next/link'
+import { useContext } from 'react';
+import { DeploymentContext, InstrumentContext, DataAvailableContext } from '../../components/Context'
 
 export default function Overview(){
 
-    let deployments = [{'name': 'CIS 2021 #3000000000', 'id': '1', 'description': 'Located in Nain, NF, this SIMB3 was deployed on Sept 29 2022 in shallow water.Located in Nain, NF, this SIMB3 was deployed on Sept 29 2022 in shallow water. Expected operational lifespan of 200 days.', 'type': 'SIMB3','instrument_color':'#1e20b0', 'status': 'active', 'purchase_date': '2023-03-03 17:11:43.776674', 'privacy': 'public'},
-    {'name': 'CIS UpTempO 2021 #5', 'id': '2', 'description': 'Located in Nain, NF, this SIMB3 was deployed on Sept 29 2022 in shallow water. Expected operational lifespan of 200 days.', 'type': 'UpTempO','instrument_color':'#ffea00', 'status': 'inactive', 'purchase_date': '2023-03-03 17:11:43.776674', 'privacy': 'private'},
-    {'name': 'Dartmouth 2021 #2', 'id': '3', 'description': 'Located in Nain, NF, this SIMB3 was deployed on Sept 29 2022 in shallow water. Expected operational lifespan of 200 days.', 'type': 'SIMB3','instrument_color':'#1e20b0', 'status': 'inactive', 'purchase_date': '2023-03-03 17:11:43.776674', 'privacy': 'private'},
-    {'name': 'Dartmouth 2019 #6', 'id': '4', 'description': 'Located in Nain, NF, this SIMB3 was deployed on Sept 29 2022 in shallow water. Expected operational lifespan of 200 days.', 'type': 'SIMB3','instrument_color':'#1e20b0', 'status': 'active', 'purchase_date': '2023-03-03 17:11:43.776674', 'privacy': 'public'}]
+    const [deployments, setdDeployments] = useContext(DeploymentContext)
 
     let instruments = [{'name': 'CIS 2021 #3', 'description': 'Located in Nain, NF, this SIMB3 was deployed on Sept 29 2022 in shallow water. Expected operational lifespan of 200 days.', 'type': 'SIMB3', 'status': 'active', 'purchase_date': '2023-03-03 17:11:43.776674'},
     {'name': 'CIS UpTempO 2021 #5', 'description': 'Located in Nain, NF, this SIMB3 was deployed on Sept 29 2022 in shallow water. Expected operational lifespan of 200 days.', 'type': 'UpTempO', 'status': 'inactive', 'purchase_date': '2023-03-03 17:11:43.776674'},

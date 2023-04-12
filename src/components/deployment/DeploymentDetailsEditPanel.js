@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import { useState, useContext } from 'react'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import { DeploymentContext, InstrumentContext, DataAvailableContext } from '../../components/Context'
+import { DeploymentContext, InstrumentContext, DataAvailableContext } from '@/components/Context'
 import ColorPicker from '../general/ColorPicker';
 import DeploymentTagsEditPanel from './DeploymentTagsEditPanel';
 import DeploymentTagsEditModal from "./DeploymentTagEditModal";

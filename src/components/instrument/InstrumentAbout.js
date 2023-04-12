@@ -21,6 +21,9 @@ export default function InstrumentAbout(props){
     const isToday = lastModified.isSame(dayjs(), 'day');
     const lastModifiedDate = isToday ? 'Today at ' + lastModified.format('h:mma') : lastModified.format('MMMM Do, YYYY');
 
+    const dateAdded = dayjs(props.instrument?.date_added); 
+    const dateAddedDate = isToday ? 'Today at ' + dateAdded.format('h:mma') : dateAdded.format('MMMM Do, YYYY');
+
     return(
         <div className={[styles.instrumentAboutWrapper, 'hideOnMedium'].join(' ')}>
             <div className={styles.aboutHeader}>
@@ -51,6 +54,7 @@ export default function InstrumentAbout(props){
              </div>
             }
             <p className={[styles.instrumentDetails, 'extraSmallText'].join(' ')}> Last Modified {lastModifiedDate}</p>
+            <p className={[styles.instrumentDetails, 'extraSmallText'].join(' ')}> Added {dateAddedDate}</p>
         </div>
     )
 }
