@@ -16,9 +16,6 @@ export default function EditInstrument(){
     useEffect(()=>{
         // fetch instrument details from API
         // for now, fetch from context
-        console.log('DID THIS RUN?')
-        console.log(router.query.id)
-        console.log(instruments.filter(item=>item.id==router.query.id))
         setInstrumentToEdit(instruments.filter(item=>item.id==router.query.id)[0])
 
       },[router.query.id])

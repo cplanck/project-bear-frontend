@@ -11,8 +11,17 @@ import Stack from '@mui/material/Stack';
 import dbstyles from './Dashboard.module.css'
 import styles from '@/components/instrument/Instrument.module.css'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
+import { useContext } from 'react';
+import { InstrumentContext, DeploymentContext, DataAvailableContext } from '@/components/Context'
+import StarHalfOutlinedIcon from '@mui/icons-material/StarHalfOutlined';
+import dayjs from 'dayjs';
+
 
 export default function ModifyButton(props) {
+  let [instruments, setInstruments] = useContext(InstrumentContext);
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -21,10 +30,15 @@ export default function ModifyButton(props) {
   };
 
   const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
+    if(event.target.id=='star'){
+      const tempInstrumentArray = instruments.filter(instrument=>instrument.id!=props.instrument.id)
+      const isStarred = props.instrument.starred
+      const tempInstrument = structuredClone(props.instrument)
+      tempInstrument.starred = !isStarred
+      !isStarred?tempInstrument.starred_date = dayjs().format():tempInstrument.starred_date=''
+      tempInstrumentArray.push(tempInstrument)
+      setInstruments(tempInstrumentArray)
     }
-
     setOpen(false);
   };
 
@@ -37,7 +51,6 @@ export default function ModifyButton(props) {
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -87,9 +100,13 @@ export default function ModifyButton(props) {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Star</MenuItem>
-                    <Link href={'/instrument/edit/' + props.instrument.id} className='removeLinkFormatting'><MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Edit</MenuItem></Link>
-                    <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}>Deploy</MenuItem>
+                  <MenuItem id='star' className={styles.modifyButtonMenu} onClick={handleClose}>
+                    <StarHalfOutlinedIcon fontSize={'small'} className={'me-3'}/>{props.instrument.starred?'Unstar':'Star'}
+                  </MenuItem>
+                    <Link href={'/instrument/edit/' + props.instrument.id} className='removeLinkFormatting'>
+                      <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><EditOutlinedIcon fontSize={'small'} className={'me-3'}/>Edit</MenuItem>
+                    </Link>
+                    <MenuItem id='deploy' className={styles.modifyButtonMenu} onClick={handleClose}><ArrowForwardOutlinedIcon fontSize={'small'} className={'me-3'}/>Deploy</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

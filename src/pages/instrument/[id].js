@@ -43,9 +43,7 @@ function updatePage(page_id){
 }
 
 export default function Dashboard() {
-                                              
-  // let [instrument, setInstrument] = useState({'name': 'SIMB3 2019 #1','id': '1112131415', 'data-model': 'Standard UpTempO', 'description': 'Standard UpTempo Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.', 'notes': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' ,'shortname': 'UpTempO', 'color': '#b80606','avatar': 'https://nyc3.digitaloceanspaces.com/ci-webapp-space/static/simb3/img/simb3.png', 'status': 'deployed','starred': true, 'starred_date': '2023-03-03 17:11:43.776674', 'purchase_date': '2023-05-03 17:11:43.776674', 'deployment_num': '2'})
-  
+                                                
   const [deploymentList, setDeploymentList] = useContext(DeploymentContext)
   const [instrumentList, setInstrumentList] = useContext(InstrumentContext)
   const [dataAvailable, setDataAvailable] = useContext(DataAvailableContext)

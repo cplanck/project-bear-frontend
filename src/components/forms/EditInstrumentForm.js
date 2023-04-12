@@ -31,6 +31,9 @@ export default function EditInstrumentForm(props){
     const [context, setContext] = useContext(AppContext)
     const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
 
+    var advancedFormat = require('dayjs/plugin/advancedFormat')
+    dayjs.extend(advancedFormat)
+
     const router = useRouter()
 
     function handleAlerts(alertType, alertSeverity, alertMessage){
@@ -55,12 +58,19 @@ export default function EditInstrumentForm(props){
       setInstrumentDetails(temp)
   }
 
+  const handleCancel = (e)=>{
+    e.preventDefault()
+    router.query.from == 'instrument'?router.push('/instrument/'+router.query.id):router.push('/dashboard/instruments')
+  }
+
     function updateInstrumentContext(){
       const temp = props.instruments.filter(instrument=>instrument.id!=instrumentDetails.id)
-      temp.push(instrumentDetails)
+      const newTemp = structuredClone(instrumentDetails)
+      newTemp.last_modified = dayjs().format()
+      setInstrumentDetails(newTemp)
+      temp.push(newTemp)
       props.setInstruments(temp)
-      router.push('/dashboard/instruments')
-
+      router.query.from == 'instrument'?router.push('/instrument/'+router.query.id):router.push('/dashboard/instruments')
     }
 
     function triggerAvatarModal(e){
@@ -84,13 +94,14 @@ export default function EditInstrumentForm(props){
 
       onSubmit: values => {
         updateInstrumentContext()
-        handleAlerts('snackbar', 'success', 'Instrument updated!')
+        handleAlerts('snackbar', 'success', instrumentDetails.name + ' successfully edited!')
       },
     });
 
     function onSubmit(e){
       e.preventDefault()
       formik.handleSubmit()
+      formik.errors?handleAlerts('snackbar', 'error', 'Please fix form errors!'):''
     }
 
     useEffect(()=>{
@@ -98,7 +109,11 @@ export default function EditInstrumentForm(props){
       formik.initialValues.name = props.instrumentToEdit?.name
       formik.initialValues.description = props.instrumentToEdit?.description
     },[props.instrumentToEdit])
-   
+
+    const lastModified = dayjs(instrumentDetails?.last_modified); 
+    const isToday = lastModified.isSame(dayjs(), 'day');
+    const lastModifiedDate = isToday ? 'Today' : lastModified.format('MMMM Do, YYYY');
+
     return(
         <Container maxWidth={false} style={{ maxWidth: '900px', paddingTop: '50px' }}>
             <form onSubmit={(e)=>{onSubmit(e)}}>
@@ -214,7 +229,7 @@ export default function EditInstrumentForm(props){
               </Grid>
               {avatarUploadOpen?<AvatarImageSelector setAvatarUploadOpen={setAvatarUploadOpen} setImageBlob={setImageBlob}/>:''}
               <div className={'rightButtonGroup'}>
-                <Link className='textButton me-3' href={'/'}>Cancel</Link>
+                <button className='textButton me-3' onClick={(e)=>handleCancel(e)}>Cancel</button>
                 <button type="submit" className='greenButton'>Save Instrument</button>
               </div>
             </form>
@@ -226,6 +241,15 @@ export default function EditInstrumentForm(props){
               setInstrumentDetails={setInstrumentDetails}
               />:
               ''}
+          <Grid container spacing={'md'}>
+            <Grid item xs={12}>
+              <span className='greyText3 smallText'>Last modified {lastModifiedDate} at {dayjs(instrumentDetails?.last_modified).format('h:mma')}</span>
+              {/* <span className='greyText3 smallText'>Originally added {dayjs(instrumentDetails?.last_modified).format()}</span> */}
+            </Grid>
+            <Grid item xs={12}>
+             <span className='greyText3 smallText'>Originally added {dayjs(instrumentDetails?.date_added).format('MMMM Do, YYYY')}</span>
+            </Grid>
+          </Grid>
         </Container>
     )
 }

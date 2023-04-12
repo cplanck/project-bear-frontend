@@ -1,11 +1,7 @@
-import AlertContext from '@/components/Context'
 import { useEffect } from 'react'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import React, { useState } from "react";
-// import InstrumentDetails from '../../components/instrument/InstrumentDetails';
-import DeploymentDetails from '@/components/deployment/DeploymentDetails';
-import SideNav from '@/components/instrument/SideNav';
 import Overview from '@/components/dashboard/Overview';
 import Deployments from '@/components/dashboard/Deployments';
 import Instruments from '@/components/dashboard/Instruments';

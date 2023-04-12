@@ -19,7 +19,9 @@ export default function InstrumentAbout(props){
         <div className={[styles.instrumentAboutWrapper, 'hideOnMedium'].join(' ')}>
             <div className={styles.aboutHeader}>
                 <h2 className='removeHeaderMargin'>About</h2>
-                <Link href={'/instrument/edit/'+props.instrument.id}><SettingsIcon className='iconButton'/></Link>
+                {/* href={{ pathname: '/instrument/edit/'  +props.instrument.id, query: { from: '/instrument' } }} */}
+                <Link href={{ pathname: '/instrument/edit/'  +props.instrument.id, query: { from: 'instrument' } }}><SettingsIcon className='iconButton'/></Link>
+                {/* <Link href={'/instrument/edit/'+props.instrument.id}><SettingsIcon className='iconButton'/></Link> */}
                 {/* <InstrumentEditModal setInstruments={props.setInstruments} instrument={props.instrument} button={<SettingsIcon className='iconButton'/>} /> */}
             </div>
             <div className='greyText2 smallText'>

@@ -3,21 +3,17 @@ import styles from './Instruments.module.css'
 import dbstyles from './Dashboard.module.css'
 import Grid from '@mui/material/Grid';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import WifiTetheringOutlinedIcon from '@mui/icons-material/WifiTetheringOutlined';
 import ModifyButton from './ModifyButton'
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InstrumentsAddPanel from "./InstrumentsAddPanel";
 import SortButton from './SortButton';
 import Link from 'next/link';
-import { height, width } from "@mui/system";
 import InstrumentAvatar from "../instrument/InstrumentAvatar";
-import NewspaperOutlinedIcon from '@mui/icons-material/NewspaperOutlined';
-import { Container } from "@mui/system";
 import * as dayjs from 'dayjs'
 
 export default function Instruments(props){
 
-    const [sortBy, setSortBy] = useState('purchaseDate')
+    const [sortBy, setSortBy] = useState('last_modified')
     const [isEdting, setIsEditing] = useState(false)
 
     var relativeTime = require('dayjs/plugin/relativeTime')
@@ -43,7 +39,7 @@ export default function Instruments(props){
                             {/* <div className='instrumentColor' style={{backgroundColor: props.instrument['instrument_color']}}></div> */}
                             {/* {props.instrument['data-model']} */}
                         </div>
-                        <span className={dbstyles.instrumentId}>{dayjs(props.instrument['purchase_date']).toNow(true)} ago</span>
+                        <span className={dbstyles.instrumentId}>{dayjs(props.instrument['last_modified']).toNow(true)} ago</span>
                     </div>
                     <div className={dbstyles.bottomDetailsWrapper}>
                     </div>
@@ -61,14 +57,18 @@ export default function Instruments(props){
                 <input className={[dbstyles.search, 'styledInput small'].join(" ")} placeholder={'Search Instruments'}></input>
             </Grid>
             <Grid item xs={12} md={5} lg={4} xl={3}>
-                <Link href='/instrument/add' className={[dbstyles.addButton, 'greenButton'].join(" ")}><AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument</Link>
+                <Link href='/instrument/add' >
+                    <button  className={[dbstyles.addButton, 'greenButton'].join(" ")}>
+                        <AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument
+                    </button>
+                </Link>
             </Grid>
         </Grid>
         )
     }
 
-    if(sortBy == 'purchaseDate'){
-        props.instruments.sort((a, b) => (a.purchase_date > b.purchase_date) ? -1 : 1)
+    if(sortBy == 'last_modified'){
+        props.instruments.sort((a, b) => (a.last_modified > b.last_modified) ? -1 : 1)
     }
     else{
         props.instruments.sort((a, b) => (a.starred_date > b.starred_date) ? -1 : 1)
@@ -78,7 +78,6 @@ export default function Instruments(props){
 
     return(
         isEdting?<InstrumentsAddPanel setIsEditing={setIsEditing}/>:
-        // <Container maxWidth={false} style={{border: '2px solid red'}}>
         <>
                 <SearchInstruments/>
                 <div className={dbstyles.sortHeader}>

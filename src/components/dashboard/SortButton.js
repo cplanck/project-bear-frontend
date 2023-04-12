@@ -13,7 +13,7 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 
 export default function SortButton(props) {
   const [open, setOpen] = React.useState(false);
-  const [selection, setSelection] = React.useState('purchaseDate')
+  const [selection, setSelection] = React.useState('last_modified')
   const anchorRef = React.useRef(null);
 
   const handleToggle = () => {
@@ -58,7 +58,7 @@ export default function SortButton(props) {
           onClick={handleToggle}
           className={['textButton', dbstyles.modifyButton].join(" ")}
         >
-          {selection == 'purchaseDate'?'Date Purchased': 'Starred'}
+          {selection == 'last_modified'?'Last Modified': 'Starred'}
           <KeyboardArrowDownOutlinedIcon fontSize='small'/>
         </Button>
         <Popper
@@ -86,7 +86,7 @@ export default function SortButton(props) {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem className={styles.modifyButtonMenu} id='purchaseDate' onClick={handleClose}>Date Purchased</MenuItem>
+                    <MenuItem className={styles.modifyButtonMenu} id='last_modified' onClick={handleClose}>Last Modified</MenuItem>
                     <MenuItem className={styles.modifyButtonMenu} id='starred' onClick={handleClose}>Starred</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
