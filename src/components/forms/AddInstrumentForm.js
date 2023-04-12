@@ -72,6 +72,7 @@ export default function AddInstrumentForm(props){
 
     function updateInstrumentContext(){
       instrumentDetails['date_added']=dayjs().format()
+      instrumentDetails['last_modified']=dayjs().format()
       instrumentDetails['purchased_date']?instrumentDetails:setInstrumentDetails(structuredClone(instrumentDetails['purchase_date']=dayjs().format()))
       setInstrumentDetails(structuredClone(instrumentDetails['id']=24))
       const temp = props.instruments

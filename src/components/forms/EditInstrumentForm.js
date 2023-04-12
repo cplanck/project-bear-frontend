@@ -95,6 +95,7 @@ export default function EditInstrumentForm(props){
       onSubmit: values => {
         updateInstrumentContext()
         handleAlerts('snackbar', 'success', instrumentDetails.name + ' successfully edited!')
+
       },
     });
 

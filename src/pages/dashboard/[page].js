@@ -11,6 +11,7 @@ import styles from '@/components/instrument/Instrument.module.css'
 import { useContext } from 'react';
 import { InstrumentContext, DeploymentContext, DataAvailableContext } from '@/components/Context'
 import { maxWidth } from '@mui/system';
+import SideNav from '@/components/instrument/SideNav';
 
 
 export default function Dashboard(props) {
@@ -52,7 +53,7 @@ export default function Dashboard(props) {
 
   return (
     <div className={styles.instrumentContainer}>
-      {/* <SideNav/> */}
+      <SideNav/>
       <div className={styles.mainPanel} style={{border: '0px solid blue', width: '100%'}}>
         <DashboardTabs page={page} updatePage={updatePage} userOverview={userOverview} className={'hideOnSmall'}/>
         <Container className={styles.mainPageContainer} maxWidth={false} style={{maxWidth: '1200px'}}>
