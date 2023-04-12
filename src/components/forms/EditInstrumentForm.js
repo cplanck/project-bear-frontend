@@ -1,15 +1,13 @@
 // import AlertContext from '../../components/Context'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router'
 import styles from '@/components/instrument/Instrument.module.css'
 import deploymentStyles from '@/components/deployment/Deployment.module.css'
 import AvatarImageSelector from '@/components/widgets/AvatarImageSelector/AvatarImageSelector';
 import WifiTetheringOutlinedIcon from '@mui/icons-material/WifiTetheringOutlined';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import Checkbox from '@mui/material/Checkbox';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import * as dayjs from 'dayjs'
 import { useContext } from 'react';
 import { AppContext } from '@/components/Context'
@@ -30,6 +28,7 @@ export default function EditInstrumentForm(props){
     const [imageBlob, setImageBlob] = useState('')
     const [context, setContext] = useContext(AppContext)
     const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
+    const inputRef = useRef(null);
 
     var advancedFormat = require('dayjs/plugin/advancedFormat')
     dayjs.extend(advancedFormat)
@@ -46,10 +45,11 @@ export default function EditInstrumentForm(props){
     }
 
     function handleUserInput(event, id){
-        formik.handleChange(event)
-        let temp = structuredClone(instrumentDetails)
-        id == 'template'?temp[id] = event.target.checked:temp[id] = event.target.value
-        setInstrumentDetails(temp)
+      console.log(instrumentDetails)
+      formik.handleChange(event)
+      let temp = structuredClone(instrumentDetails)
+      id == 'template'?temp[id] = event.target.checked:temp[id] = event.target.value
+      setInstrumentDetails(temp)
     }
 
     function handleDateChange(newDate, id){
@@ -105,6 +105,7 @@ export default function EditInstrumentForm(props){
     }
 
     useEffect(()=>{
+      inputRef.current.focus();
       setInstrumentDetails(structuredClone(props.instrumentToEdit))
       formik.initialValues.name = props.instrumentToEdit?.name
       formik.initialValues.description = props.instrumentToEdit?.description
@@ -126,9 +127,10 @@ export default function EditInstrumentForm(props){
                         name='name'
                         className='styledInput small' 
                         placeholder="Ex. Met Station #2 2023" 
-                        onChange={(e)=>{handleUserInput(e, 'name')}}
+                        onInput={(e)=>{handleUserInput(e, 'name')}}
                         onBlur={formik.handleBlur}
                         value={instrumentDetails?.name??''}
+                        ref={inputRef}
                       />
                       {formik.touched.name && formik.errors.name? (
                       <span className='smallText redText boldText' id='nameError'>{formik.errors.name}</span>
@@ -187,7 +189,7 @@ export default function EditInstrumentForm(props){
                       className='styledTextArea small single' 
                       placeholder='What kind of instrument is this?' 
                       defaultValue={instrumentDetails?.description??''} 
-                      onChange={(e)=>{handleUserInput(e, 'description')}}
+                      onInput={(e)=>{handleUserInput(e, 'description')}}
                       onBlur={formik.handleBlur}
                       />
                       {formik.touched.description && formik.errors.description ? (
@@ -202,8 +204,7 @@ export default function EditInstrumentForm(props){
                       className='styledTextArea small' 
                       placeholder='Notes, things to remember, etc...' 
                       defaultValue={instrumentDetails?.notes??''} 
-                      onChange={(e)=>{handleUserInput(e, 'notes')}}
-                      // onChange={formik.handleChange}
+                      onInput={(e)=>{handleUserInput(e, 'notes')}}
                       onBlur={formik.handleBlur}
                       />
                       {formik.touched.notes && formik.errors.notes ? (
@@ -243,11 +244,11 @@ export default function EditInstrumentForm(props){
               ''}
           <Grid container spacing={'md'}>
             <Grid item xs={12}>
-              <span className='greyText3 smallText'>Last modified {lastModifiedDate} at {dayjs(instrumentDetails?.last_modified).format('h:mma')}</span>
+              <span className='greyText3 extraSmallText'>Last modified {lastModifiedDate} at {dayjs(instrumentDetails?.last_modified).format('h:mma')}</span>
               {/* <span className='greyText3 smallText'>Originally added {dayjs(instrumentDetails?.last_modified).format()}</span> */}
             </Grid>
             <Grid item xs={12}>
-             <span className='greyText3 smallText'>Originally added {dayjs(instrumentDetails?.date_added).format('MMMM Do, YYYY')}</span>
+             <span className='greyText3 extraSmallText'>Originally added {dayjs(instrumentDetails?.date_added).format('MMMM Do, YYYY')}</span>
             </Grid>
           </Grid>
         </Container>

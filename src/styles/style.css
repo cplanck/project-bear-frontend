@@ -842,6 +842,10 @@ a:hover {
   font-size: 0.85em;
 }
 
+.extraSmallText {
+  font-size: 0.75em;
+}
+
 .boldText {
   font-weight: 800;
 }

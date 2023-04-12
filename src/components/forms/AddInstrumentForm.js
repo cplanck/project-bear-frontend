@@ -1,7 +1,7 @@
 // import AlertContext from '../../components/Context'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router'
 import styles from '@/components/instrument/Instrument.module.css'
 import deploymentStyles from '@/components/deployment/Deployment.module.css'
@@ -33,6 +33,7 @@ export default function AddInstrumentForm(props){
     const [fromTemplate, setFromTemplate] = useState(false)
     const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
     const [templateInstrument, setTemplateInstrument] = useState()
+    const inputRef = useRef(null);
 
     const router = useRouter()
 
@@ -111,6 +112,10 @@ export default function AddInstrumentForm(props){
       formik.errors?handleAlerts('alert', 'error', 'You have form errors!'):''
     }
 
+    useEffect(()=>{
+      inputRef.current.focus();
+    },[])
+
     let filteredTemplateInstrumentsOptions = structuredClone(props.instruments).filter(object => object.template !== false).map((instrument, i)=><option key={i} value={instrument.id}>{instrument.name}</option>)
     filteredTemplateInstrumentsOptions.unshift(<option disabled selected value>Select a template</option>)
 
@@ -137,6 +142,7 @@ export default function AddInstrumentForm(props){
                       placeholder="Ex. Met Station #2 2023" 
                       onChange={(e)=>{handleUserInput(e, 'name')}}
                       onBlur={formik.handleBlur}
+                      ref={inputRef}
                       />
                       {formik.touched.name && formik.errors.name ? (
                       <span className='smallText redText boldText' id='nameError'>{formik.errors.name}</span>
