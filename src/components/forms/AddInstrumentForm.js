@@ -64,8 +64,12 @@ export default function AddInstrumentForm(props){
   function initializeFromTemplate(event){
       let templateInstrument=props.instruments.filter(instrument=>instrument.id==event.target.value)[0]
       templateInstrument.description?formik.values.description = templateInstrument.description:'' // needed to update formik
-      setTemplateInstrument(templateInstrument)
-      setInstrumentDetails(templateInstrument)
+      
+      const temp = structuredClone(templateInstrument)
+      temp.name = instrumentDetails.name // prevent template from overwriting the name
+      temp.serial_number = instrumentDetails.serial_number // prevent template from overwriting the serial_number
+      setTemplateInstrument(temp)
+      setInstrumentDetails(temp)
       setImageBlob({'href': templateInstrument?.avatar})
       setFromTemplate(true)
   }
