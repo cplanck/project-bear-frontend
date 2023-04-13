@@ -63,7 +63,7 @@ export default function ModifyButton(props) {
   return (
     <Stack direction="row" spacing={2}>
       <div>
-        <Button
+        <button
           ref={anchorRef}
           id="composition-button"
           aria-controls={open ? 'composition-menu' : undefined}
@@ -74,7 +74,7 @@ export default function ModifyButton(props) {
         >
           Modify
           <KeyboardArrowDownOutlinedIcon fontSize='small'/>
-        </Button>
+        </button>
         <Popper
           open={open}
           anchorEl={anchorRef.current}
