@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './General.module.css'
-import logo from '../../images/bit-bear-logo-dark.png'
+import logo from '@/images/bit-bear-logo-dark.png'
 import { useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -105,7 +105,7 @@ export default function TopNav(props){
                     <Link href='/dashboard/overview'>
                         <Image src={logo} className={[styles.topNavLogo, 'hideOnSmall'].join(' ')} alt="User profile picture" />
                     </Link>
-                    <MenuIcon style={{color: 'var(--dark-theme-text-main)'}} className='showOnSmall' onClick={()=>{setSmallMenuOpen(!smallMenuOpen)}}/>
+                    {/* <MenuIcon style={{color: 'var(--dark-theme-text-main)'}} className='showOnSmall' onClick={()=>{setSmallMenuOpen(!smallMenuOpen)}}/> */}
                     <SearchBar displayClass={'hideOnSmall'} grow={true}/>
                     <SmallMenu smallMenuOpen={smallMenuOpen} setSmallMenuOpen={setSmallMenuOpen}/>
                 </div>
