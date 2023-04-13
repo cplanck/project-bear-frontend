@@ -94,6 +94,18 @@
     width: 100%;
 }
 
+.privacyWrapper {
+    /* border: 2px solid red; */
+    display: flex;
+    align-items: center;
+}
+
+.privacyWrapperText {
+    /* border: 2px solid pink; */
+    display: flex;
+    flex-direction: column;
+}
+
 @media screen and (max-width: 991px) {
     .instrumentHeadingWrapper {
         flex-direction: column;

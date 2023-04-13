@@ -12,7 +12,7 @@ export const DeploymentContext = createContext();
 export const DataAvailableContext = createContext();
 
 export const blankInstrumentObject = {name: '',id: '', serial_number:'', description: '',notes: '' ,instrument_color: '', avatar: '', status: '', starred: false, starred_date: '', purchase_date: '', date_added: '', last_modified: '', template: false, data_model: {configured: false, field_num: 0, entries: 0}}
-export const blankDeploymentObject = {name: '', instrument_id: '', id: '', location: '' , description: '', instrument_color: '', status: '', privacy: '', tags: [], collaborators: [], date_added: '', last_modified: ''}
+export const blankDeploymentObject = {name: '', instrument_id: '', id: '', location: '' , description: '', deployment_start_date: '', deployment_end_date: '', instrument_color: '', status: '', privacy: 'private', tags: [], collaborators: [], date_added: '', last_modified: ''}
 export const blankTagObject = {name: '', color: ''}
 export const blankCollaboratorObject = {name:'', avatar: ''}
 

@@ -1,5 +1,4 @@
 .card {
-    max-height: 250px;
     padding: 10px 0px 10px 0px;
     text-decoration: none;
     display: flex;
@@ -39,6 +38,7 @@
 }
 
 .description {
+    /* border: 2px solid red; */
     font-size: small;
     overflow: hidden;
     display: -webkit-box;

@@ -17,6 +17,7 @@ export default function InstrumentDetails(props){
             <Grid item sm={12} lg={8} xl={9}>
                 <InstrumentAboutSmall type={'instrument'}/>
                 <div style={{marginTop: '20px'}}><hr className='hr showOnMedium'></hr></div>
+                
                 <Deployments instrument={props.instrument}/>
             </Grid>
             <Grid item sm={12} lg={4} xl={3}>
