@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Link from 'next/link';
 import Stack from '@mui/material/Stack';
-import dbstyles from './Dashboard.module.css'
+import dbstyles from '@/components/dashboard/Dashboard.module.css'
 import styles from '@/components/instrument/Instrument.module.css'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';

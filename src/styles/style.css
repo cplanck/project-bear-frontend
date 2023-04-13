@@ -507,6 +507,14 @@ input:-webkit-autofill {
   flex-direction: column;
 }
 
+.flexCenterAlignCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 2px solid red; */
+  text-align: center;
+}
+
 .flexColumn {
   display: flex;
   align-items: flex-start;
@@ -579,6 +587,7 @@ input:-webkit-autofill {
 .overviewDeploymentCardWrapper {
   border: 0px solid purple;
   padding: 5px 5px 5px 5px;
+  width: 100%;
 }
 
 .overViewStatusStar {
@@ -943,6 +952,10 @@ input[type="file"] {
 
   .showOnSmall {
     display: block;
+  }
+
+  .showOnSmall.flex {
+    display: flex;
   }
 
   .hideOnSmall {
