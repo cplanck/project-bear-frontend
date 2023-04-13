@@ -105,7 +105,7 @@ export default function TopNav(props){
                     <Link href='/dashboard/overview'>
                         <Image src={logo} className={[styles.topNavLogo, 'hideOnSmall'].join(' ')} alt="User profile picture" />
                     </Link>
-                    <MenuIcon style={{color: 'var(--dark-theme-text-main)'}} className='showOnSmall' onClick={()=>{setSmallMenuOpen(!smallMenuOpen)}}/>
+                    <MenuIcon style={{color: 'var(--dark-theme-text-main)'}} className='hideOnSmall' onClick={()=>{setSmallMenuOpen(!smallMenuOpen)}}/>
                     <SearchBar displayClass={'hideOnSmall'} grow={true}/>
                     <SmallMenu smallMenuOpen={smallMenuOpen} setSmallMenuOpen={setSmallMenuOpen}/>
                 </div>
