@@ -49,7 +49,7 @@ export default function SortButton(props) {
   return (
     <Stack direction="row" spacing={2}>
       <div>
-        <Button
+        <button
           ref={anchorRef}
           id="composition-button"
           aria-controls={open ? 'composition-menu' : undefined}
@@ -60,7 +60,7 @@ export default function SortButton(props) {
         >
           {selection == 'last_modified'?'Last Modified': 'Starred'}
           <KeyboardArrowDownOutlinedIcon fontSize='small'/>
-        </Button>
+        </button>
         <Popper
           open={open}
           anchorEl={anchorRef.current}

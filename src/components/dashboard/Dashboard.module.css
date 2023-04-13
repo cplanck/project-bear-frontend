@@ -87,6 +87,8 @@
 
 .modifyButton {
     max-height: 28px;
+    display: flex;
+    align-items: center;
 }
 
 .starred {
