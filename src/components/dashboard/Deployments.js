@@ -56,7 +56,9 @@ export default function Deployments(props){
                         <div className={dbstyles.instrumentType}>
                             <div className='instrumentColor' style={{backgroundColor: props.deployment.instrument_color}}></div>
                             {props.deployment.instrument}
-                            
+                        </div>
+                        <div>
+                            {props.deployment.status}
                         </div>
                     </div>
                     {props.deployment.tags?<TagsList instrument={props.deployment}/>:''}

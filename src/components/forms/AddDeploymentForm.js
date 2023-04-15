@@ -23,16 +23,23 @@ import PublicIcon from '@mui/icons-material/Public';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Radio from '@mui/material/Radio';
 
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 export default function DeploymentDetailsEditPanel(props){
 
     let [updatedDeployment, setUpdatedDeployment] = useState(blankDeploymentObject)
     const [tagModalOpen, setTagModalOpen] = useState(false)
     const [deploymentList, setDeploymentList] = useContext(DeploymentContext)
+    const [deployedInstrument, setDeployedInstrument] = useState('')
     const [context, setContext] = useContext(AppContext)
     const [startDateError, setStartDateError] = useState('')
     const [startDateTouched, setStartDateTouched] = useState(false)
+    const [alertDialog, setAlertDialog] = useState({open: false, statusChange: false})
+    const [hasActiveDeployment, setHasActiveDeployment] = useState(false)
 
 
     const router = useRouter()
@@ -61,6 +68,28 @@ export default function DeploymentDetailsEditPanel(props){
       setUpdatedDeployment(temp)
     }
 
+    const handleStatusChange = (event)=>{
+      formik.handleChange(event)
+      const currentInstrumentId = updatedDeployment.instrument_id
+      console.log(updatedDeployment)
+      const activeDeployments = props.deployments.filter(deployment=>deployment.instrument_id == currentInstrumentId).filter(instrument=>instrument.status=='active')
+      console.log(props.deployments.filter(deployment=>deployment.instrument_id == currentInstrumentId))
+      console.log(props.deployments)
+      if(activeDeployments.length !=0 && event.target.value == 'active'){
+        const newAlertDialog = structuredClone(alertDialog)
+        newAlertDialog.open = true
+        setAlertDialog(newAlertDialog)
+        setHasActiveDeployment(true)
+      }
+      else{
+        setHasActiveDeployment(false)
+        let temp = structuredClone(updatedDeployment);
+        temp['status'] = event.target.value
+        setUpdatedDeployment(temp)
+      }
+      console.log(activeDeployments)
+    }
+
     function handleDateChange(newDate, id){
       setStartDateTouched(true)
       let temp = structuredClone(updatedDeployment);
@@ -71,10 +100,41 @@ export default function DeploymentDetailsEditPanel(props){
     }
 
     const handleInstrumentSelection = (e)=>{
+
+      // update the deployment
+      // check if instrument already has an active deployment
+      // if so, raise error
+      // if no, continue
+      formik.handleChange(e)
       const temp = updatedDeployment
       temp.instrument_id = e.target.options[e.target.selectedIndex].id
+      const currentInstrumentId = e.target.options[e.target.selectedIndex].id
       setUpdatedDeployment(temp)
+      setDeployedInstrument(e.target.value)
+
+      console.log(currentInstrumentId)
+      const activeDeployments = props.deployments.filter(deployment=>deployment.instrument_id == currentInstrumentId).filter(instrument=>instrument.status=='active')
+      if(activeDeployments.length && updatedDeployment.status != ''){
+        const newAlertDialog = structuredClone(alertDialog)
+        newAlertDialog.open = true
+        setAlertDialog(newAlertDialog)
+        setHasActiveDeployment(true)
+      }
+      else{
+        setHasActiveDeployment(false)
+       
+      }
+
+      // temp.instrument_id = e.target.options[e.target.selectedIndex].id
+      // setUpdatedDeployment(temp)
+      // setDeployedInstrument(e.target.value)
     }
+
+    const toggleAlertDialog = (value) => {
+      const temp = structuredClone(alertDialog)
+      temp.open = value
+      setAlertDialog(temp);
+    };
 
     useEffect(()=>{
       const deploymentIdArray = props.deployments.map(deployment=>deployment.id)
@@ -96,21 +156,30 @@ export default function DeploymentDetailsEditPanel(props){
       }
       else if(Object.keys(formik.errors).length === 0 && startDateTouched && !startDateError){
         setStartDateError('')
-        formik.handleSubmit(e)
+        if(!hasActiveDeployment){
+          formik.handleSubmit(e)
+        }else{
+          handleAlerts('alert', 'error', 'Whoops! You must deactivate the current deployment in order to continue')
+        }
       }
-      else{
-        handleAlerts('alert', 'error', 'Whoops! You still have some form errors to take care of.')
+      else if(startDateError != ''){
+        formik.validateForm
+        handleAlerts('alert', 'error', 'Whoops! Youre missing a deployment start date')
       }
     }
 
     const formik = useFormik({
       initialValues: {
+        instrument_to_deploy: '',
         name: '', 
         location: '',
+        status: ''
       },
       validationSchema: Yup.object({
+          instrument_to_deploy: Yup.string().required('You must specify an instrument to deploy'),
           name: Yup.string().min(fr.deploymentName.minLength.val, fr.deploymentName.minLength.error).max(fr.deploymentName.maxLength.val, fr.deploymentName.maxLength.error).required('You must specify a deployment name'),
           location: Yup.string().max(fr.deploymentLocation.maxLength.val, fr.deploymentLocation.maxLength.error).required('You must specify a deployment location'),
+          status: Yup.string().required('You must specify an instrument status')
         }),
 
       onSubmit: values => {
@@ -123,7 +192,7 @@ export default function DeploymentDetailsEditPanel(props){
     });
 
     const instruments = props.instruments.map(instrument=><option key={instrument.id} id={instrument.id}>{instrument.name}</option>)
-    instruments.unshift(<option disabled>Select instrument</option>)
+    instruments.unshift(<option disabled selected={true}>Select instrument</option>)
 
     const privateDiv = <div className={styles.privacyWrapper}>
                         <LockOutlinedIcon fontSize='medium' className='greyText3 me-3'/>
@@ -151,10 +220,13 @@ export default function DeploymentDetailsEditPanel(props){
                 <Grid xs={12} xl={12} item>
                     <span className='inputSelectLabel'>Instrument to deploy<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
                     <div className='flexColumn'>
-                      <select className={'styledSelect instrumentDeployed'} onChange={e=>handleInstrumentSelection(e)}>
+                      <select className={'styledSelect instrumentDeployed'} onChange={e=>handleInstrumentSelection(e)} name='instrument_to_deploy'>
                           {instruments}
                       </select>
-                      <span className='inputHelpText'>Select the instrument you want to deploy</span>
+                      {/* <span className='inputHelpText'>Select the instrument you want to deploy</span> */}
+                      {formik.touched.instrument_to_deploy && formik.errors.instrument_to_deploy ? (
+                      <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.instrument_to_deploy}</span>
+                      ) :<span className='inputHelpText'>Select the instrument you want to deploy</span>}
                     </div>
                 </Grid>
                 <Grid xs={12} xl={6} item>
@@ -177,10 +249,14 @@ export default function DeploymentDetailsEditPanel(props){
                 <Grid xs={12} xl={4} item>
                     <span className='inputSelectLabel'>Status<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
                     <div className='flexColumn'>
-                      <select className={'styledSelect status'} onChange={(e)=>{handleUserInput(e, 'status')}}>
-                          <option value={'active'} >Active</option>
-                          <option value={'inactive'} >Inactive</option>
+                      <select className={'styledSelect status'} onChange={(e)=>{handleStatusChange(e)}} name='status'>
+                        <option selected disabled default={true} value={'active'} >Select Status</option>
+                        <option value={'active'} >Active</option>
+                        <option value={'inactive'} >Inactive</option>
                       </select>
+                      {formik.touched.status && formik.errors.status ? (
+                      <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.status}</span>
+                      ) :<span></span>}
                     </div>
                 </Grid>
                 <Grid xs={12} xl={12} item>
@@ -203,6 +279,7 @@ export default function DeploymentDetailsEditPanel(props){
                       placeholder='Ex. Hanover, New Hampshire'
                       onChange={(e)=>{handleUserInput(e, 'location')}}
                       onBlur={formik.handleBlur}
+                      value={updatedDeployment.location}
                       />
                         {formik.touched.location && formik.errors.location ? (
                         <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.location}</span>
@@ -263,8 +340,39 @@ export default function DeploymentDetailsEditPanel(props){
                 <button type='submit' className='greenButton'>Save Changes</button>
             </div>
           </form>
+          <AlertDialog toggleAlertDialog={toggleAlertDialog} alertDialog={alertDialog} updatedDeployment={updatedDeployment} deployedInstrument={deployedInstrument}/>
         </Container>
     )
 }
 
+function AlertDialog(props){
 
+  return(
+    <div>
+    <button variant="outlined" onClick={()=>props.toggleAlertDialog(true)}>
+      Open alert dialog
+    </button>
+    <Dialog
+      open={props.alertDialog.open}
+      onClose={()=>props.toggleAlertDialog(false)}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {props.deployedInstrument + ' already has an active deployment'}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+         You must deactivate the currently active deployment before you can continue. 
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        {/* <button className='textButton' onClick={()=>props.toggleAlertDialog(false)}>Disagree</button> */}
+        <button className='textButton' onClick={()=>props.toggleAlertDialog(false)} autoFocus>
+          I Understand
+        </button>
+      </DialogActions>
+    </Dialog>
+  </div>
+  )
+}

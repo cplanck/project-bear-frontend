@@ -2,6 +2,7 @@ import styles from './Deployment.module.css'
 import * as dayjs from 'dayjs'
 
 export default function DeploymentDetailsTable(props){
+    console.log(props)
     return(
         <>
             <div className={styles.deploymentDetailsTableWrapper}>
@@ -19,15 +20,15 @@ export default function DeploymentDetailsTable(props){
                 </div>
                 <div className={styles.deploymentDetailsTableRow}>
                     <span className='boldText'>Status</span>
-                    <span className='greyText2'>Active</span>
+                    <span className='greyText2'>{props.deployment.status}</span>
                 </div>
                 <div className={styles.deploymentDetailsTableRow}>
                     <span className='boldText'>Deployment Start</span>
-                    <span className='greyText2'>{dayjs(props.deployment.deployment_start_date).format('MMMM DD, YYYY')}</span>
+                    <span className='greyText2'>{dayjs(props.deployment.deployment_start_date).isValid()?dayjs(props.deployment.deployment_start_date).format('MMMM DD, YYYY'):''}</span>
                 </div>
                 <div className={styles.deploymentDetailsTableRow}>
                     <span className='boldText'>Deployment End</span>
-                    <span className='greyText2'>{dayjs(props.deployment.deployment_end_date).format('MMMM DD, YYYY')}</span>
+                    <span className='greyText2'>{dayjs(props.deployment.deployment_end_date).isValid()?dayjs(props.deployment.deployment_end_date).format('MMMM DD, YYYY'):''}</span>
                 </div>
             </div>
         </>
