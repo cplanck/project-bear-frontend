@@ -14,7 +14,7 @@ function InstrumentHeading(props){
 
     let instrumentState
     console.log(props)
-    if(props.instrument.status == 'deployed'){
+    if(props.instrument.status == 'active'){
       instrumentState = <div>Deployed</div>
   }
     return(

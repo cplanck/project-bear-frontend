@@ -32,6 +32,10 @@ const FormRestrictions = {
         maxLength: {val: 2000, error: 'Instrument names must be less than 2000 characters'}, 
         minLength: {val: 0, error: ''}
     },
+    'deploymentStartDate': {
+        error: 'Please specify a deployment start date', 
+    },
+
 }
 
 export default FormRestrictions

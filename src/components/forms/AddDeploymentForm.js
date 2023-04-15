@@ -28,11 +28,12 @@ import Radio from '@mui/material/Radio';
 export default function DeploymentDetailsEditPanel(props){
 
     let [updatedDeployment, setUpdatedDeployment] = useState(blankDeploymentObject)
-    const [colorPickerOpen, setColorPickerOpen] = useState(false)
-    const [currentColor, setCurrentColor] = useState('#fff')
     const [tagModalOpen, setTagModalOpen] = useState(false)
     const [deploymentList, setDeploymentList] = useContext(DeploymentContext)
     const [context, setContext] = useContext(AppContext)
+    const [startDateError, setStartDateError] = useState('')
+    const [startDateTouched, setStartDateTouched] = useState(false)
+
 
     const router = useRouter()
 
@@ -61,7 +62,10 @@ export default function DeploymentDetailsEditPanel(props){
     }
 
     function handleDateChange(newDate, id){
+      setStartDateTouched(true)
       let temp = structuredClone(updatedDeployment);
+      dayjs(newDate).isValid()?setStartDateError(''):setStartDateError(fr.deploymentStartDate.error)
+      temp[id] = dayjs(temp[id])
       temp[id] = dayjs(newDate).format()
       setUpdatedDeployment(temp)
     }
@@ -80,32 +84,41 @@ export default function DeploymentDetailsEditPanel(props){
       setUpdatedDeployment(temp)
     },[])
 
-    const handleSubmission = ()=>{
-      const newDeploymentList = props.deployments
-      newDeploymentList.push(updatedDeployment)
-      props.setDeployments(newDeploymentList)
-      router.push('/dashboard/deployments')
-      handleAlerts('snackbar', 'success', updatedDeployment.name + ' added!')
+    const handleSubmission = (e)=>{
+      e.preventDefault()
+      if(startDateError == '' && !startDateTouched && !formik.touched.name && !formik.touched.location){
+        setStartDateError(fr.deploymentStartDate.error)
+        handleAlerts('alert', 'error', 'Whoops! You must fill out the form before submission!')
+        formik.handleSubmit(e)
+      }
+      else if(startDateError == '' && !startDateTouched){
+        setStartDateError(fr.deploymentStartDate.error)
+      }
+      else if(Object.keys(formik.errors).length === 0 && startDateTouched && !startDateError){
+        setStartDateError('')
+        formik.handleSubmit(e)
+      }
+      else{
+        handleAlerts('alert', 'error', 'Whoops! You still have some form errors to take care of.')
+      }
     }
 
     const formik = useFormik({
       initialValues: {
         name: '', 
         location: '',
-        description: '',
-        notes: ''
       },
       validationSchema: Yup.object({
           name: Yup.string().min(fr.deploymentName.minLength.val, fr.deploymentName.minLength.error).max(fr.deploymentName.maxLength.val, fr.deploymentName.maxLength.error).required('You must specify a deployment name'),
-          // location: Yup.string().max(fr.instrumentNotes.maxLength.val, fr.instrumentNotes.maxLength.error),
-          // description: Yup.string().max(fr.instrumentSerialNumber.maxLength.val, fr.instrumentSerialNumber.maxLength.error).min(fr.instrumentSerialNumber.minLength.val, fr.instrumentSerialNumber.minLength.error).required('You must specify an serial number for this instrument'),
-          // notes: Yup.string().max(fr.instrumentSerialNumber.maxLength.val, fr.instrumentSerialNumber.maxLength.error).min(fr.instrumentSerialNumber.minLength.val, fr.instrumentSerialNumber.minLength.error).required('You must specify an serial number for this instrument'),
+          location: Yup.string().max(fr.deploymentLocation.maxLength.val, fr.deploymentLocation.maxLength.error).required('You must specify a deployment location'),
         }),
 
       onSubmit: values => {
-        // console.log(instrumentDetails)
-        // updateInstrumentContext()
-        // handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
+        const newDeploymentList = props.deployments
+        newDeploymentList.push(updatedDeployment)
+        props.setDeployments(newDeploymentList)
+        router.push('/dashboard/deployments')
+        handleAlerts('snackbar', 'success', updatedDeployment.name + ' added!')
       },
     });
 
@@ -130,7 +143,7 @@ export default function DeploymentDetailsEditPanel(props){
 
     return(
       <Container maxWidth={false} style={{ maxWidth: '900px', paddingTop: '50px' }}>
-          <form>
+          <form onSubmit={(e)=>handleSubmission(e)}>
             <h2 className='removeHeaderMargin'>Add a Deployment</h2>
             <span className='greyText3 smallText'>Add a deployment to add data.</span>
               <hr className='hr my-4'/>
@@ -154,8 +167,8 @@ export default function DeploymentDetailsEditPanel(props){
                         placeholder='Ex. Storrs Pond 2022 #1'
                         onInput={(e)=>{handleUserInput(e, 'name')}}
                         onBlur={formik.handleBlur}
+                        value={updatedDeployment.name}
                         /> 
-                        
                         {formik.touched.name && formik.errors.name ? (
                       <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.name}</span>
                       ) :<span className='inputHelpText'>What do you want to call this deployment?</span>}
@@ -167,11 +180,8 @@ export default function DeploymentDetailsEditPanel(props){
                       <select className={'styledSelect status'} onChange={(e)=>{handleUserInput(e, 'status')}}>
                           <option value={'active'} >Active</option>
                           <option value={'inactive'} >Inactive</option>
-                          <option value={'retired'} >Retired</option>
-                          <option value={'stagin'} >Staging</option>
                       </select>
                     </div>
-                    
                 </Grid>
                 <Grid xs={12} xl={12} item>
                 <hr className='hr'></hr>
@@ -182,29 +192,46 @@ export default function DeploymentDetailsEditPanel(props){
                       <FormControlLabel control={<Radio checked={updatedDeployment.privacy=='public'?true:false} onChange={(e)=>handleUserInput(e, 'public')}/>} label={publicDiv}  />
                   </FormGroup>
                 </Grid>
-               
                 <Grid xs={12} xl={12} item>
                     <hr className='hr'></hr>
                     <span className='inputSelectLabel'>Location<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
-                    <input 
-                    id='description' 
-                    className='styledInput small location' 
-                    placeholder='Ex. Hanover, New Hampshire'
-                    onChange={(e)=>{handleUserInput(e, 'location')}}
-                    />
+                    <div className='flexColumn'>
+                      <input 
+                      id='location' 
+                      name='location'
+                      className='styledInput small location' 
+                      placeholder='Ex. Hanover, New Hampshire'
+                      onChange={(e)=>{handleUserInput(e, 'location')}}
+                      onBlur={formik.handleBlur}
+                      />
+                        {formik.touched.location && formik.errors.location ? (
+                        <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.location}</span>
+                      ) :''}
+                      </div>
                 </Grid>
-               
-                <Grid xs={12} sm={6} xl={4} item >
-                    <span className='inputSelectLabel'>Start Date<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
-                    <DatePicker components={{OpenPickerIcon: CalendarMonthOutlinedIcon}}
-                        className={styles.datePicker} onChange={newDate => handleDateChange(newDate, 'deployment_start_date')}
+                <Grid xs={12} sm={12} xl={12} item >
+                  <div className={'inputSelectWrapper'}>
+                    <span className='inputSelectLabel'>Start Date<span className='inputSelectRequiredStar'>*</span></span>
+                    <DatePicker 
+                    components={{OpenPickerIcon: CalendarMonthOutlinedIcon}}
+                    className={styles.datePicker} 
+                    onChange={newDate => handleDateChange(newDate, 'deployment_start_date')}
+                    name='deployment_start_date'
                     />
+                    <span className='smallText redText boldText'>{startDateError}</span>
+                    </div>
+                  {formik.errors.deployment_start_date}
                 </Grid>
-                <Grid xs={12} sm={6} xl={4} item >
-                    <span className='inputSelectLabel'>End Date<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
-                    <DatePicker components={{OpenPickerIcon: CalendarMonthOutlinedIcon}}
-                        className={styles.datePicker} onChange={newDate => handleDateChange(newDate, 'deployment_end_date')}
-                    />
+                <Grid xs={12} sm={12} xl={12} item >
+                    <div className={'inputSelectWrapper'}>
+                      <div className='inputSelectLabel'>
+                        End Date
+                      {updatedDeployment.status=='inactive'?<span className='inputSelectRequiredStar'>*</span>:''}
+                      </div>
+                      <DatePicker components={{OpenPickerIcon: CalendarMonthOutlinedIcon}}
+                          className={styles.datePicker} onChange={newDate => handleDateChange(newDate, 'deployment_end_date')}
+                      />
+                    </div>
                 </Grid>
                 {/* <Grid xs={12} xl={3} item >
                     <span className='inputSelectLabel'>Color</span>
@@ -233,7 +260,7 @@ export default function DeploymentDetailsEditPanel(props){
             </Grid>
             <div className={'rightButtonGroup'}>
                 <button className='textButton' onClick={()=>{props.setIsEditing(false)}}>Cancel</button>
-                <button className='greenButton' onClick={() => {handleSubmission()}}>Save Changes</button>
+                <button type='submit' className='greenButton'>Save Changes</button>
             </div>
           </form>
         </Container>

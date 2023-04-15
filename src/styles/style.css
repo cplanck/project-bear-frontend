@@ -121,9 +121,9 @@ td {
 .inputSelectWrapper {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
-  /* border: 2px solid red; */
   min-height: 75px;
+  justify-content: flex-end;
+  /* border: 2px solid red; */
 }
 
 .inputSelectLabel {
@@ -131,10 +131,17 @@ td {
   font-size: 0.9em;
   display: flex;
   align-items: center;
+  /* border: 2px solid green; */
+  min-height: 35px;
+}
+
+.inputSelectRequiredStar {
+  color: var(--dark-theme-red-text);
+  margin-left: 6px;
+  font-size: 1.5em;
 }
 
 .inputHelpText {
-  /* font-weight: 800; */
   font-size: 0.85em;
   padding-top: 5px;
   color: var(--dark-theme-grey-1)
