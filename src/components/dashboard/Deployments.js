@@ -22,7 +22,7 @@ function CollaboratorAvatar(props){
 }
 
 function CollaboratorsList(props){
-    let collaboratorsList = props.instrument.collaborators.map((collaborator)=><CollaboratorAvatar key={collaborator} user={collaborator}/>)
+    let collaboratorsList = props.instrument.collaborators.map((collaborator, index)=><CollaboratorAvatar key={index} user={collaborator}/>)
     return(<div className={dbstyles.collaboratorsList}>{collaboratorsList}</div>)
 }
 
@@ -56,10 +56,6 @@ export default function Deployments(props){
                     </div>
                      {props.deployment.description?<p className={dbstyles.description}>{props.deployment.description}</p>:''}
                      <div className={dbstyles.bottomDetailsWrapper}>
-                        {/* <div className={dbstyles.instrumentType}>
-                            <div className='instrumentColor' style={{backgroundColor: props.deployment.instrument_color}}></div>
-                            {props.deployment.instrument}
-                        </div> */}
                     </div>
                     {props.deployment.collaborators?<CollaboratorsList instrument={props.deployment}/>:''}
                     {props.deployment.tags?<TagsList instrument={props.deployment}/>:''}

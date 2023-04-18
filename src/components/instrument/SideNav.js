@@ -61,7 +61,7 @@ export default function SideNav(){
         }
       });
 
-    const listItems = sortedInstruments.map(instrument=><LinkItem instrument={instrument}/>)
+    const listItems = sortedInstruments.map(instrument=><LinkItem key={instrument.id} instrument={instrument}/>)
     
 
 
