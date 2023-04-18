@@ -24,15 +24,11 @@ function InstrumentHeading(props){
             <div className={styles.instrumentHeadingAvatarWrapper}>
             <div className={[styles.instrumentTitle, 'mx-3'].join(' ')}>
               <h2 className={'removeHeaderMargin'}>{props.instrument.name}</h2>
-              <span className={'greenIndicatorOutline ms-3 hideOnSmall'}>{instrumentState}</span>
             </div>
           </div>
         </div>
         <span className={'greenIndicatorOutline showOnSmall my-3'}>{instrumentState}</span>
         <div className={styles.deployButtonGroup}>
-          <button className={'greenButton expandOnMedium'}>Deploy</button>
-          {/* <button className={'textButton expandOnMedium hideOnMedium'}>Copy</button>
-          <button className={'greyButton expandOnMedium showOnMedium'}>Copy</button> */}
         </div>
       </div>
     )

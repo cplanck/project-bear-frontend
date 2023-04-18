@@ -18,6 +18,7 @@
   --highlight-green-disabled: #6bb350;
   --starred-yellow: #f5e642;
   --dark-theme-red-text: #b3041e;
+  --dark-theme-orange-text: #EAA400;
 
   --dark-theme-header: #161B22;
   --dark-theme-navbar-dropdown: #161B22;
@@ -499,6 +500,7 @@ input:-webkit-autofill {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .flexCenterFlexStart {
@@ -529,13 +531,22 @@ input:-webkit-autofill {
 }
 
 .inputErrorMessage {
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 .inputErrorMessage.dataModel {
   font-size: 0.9em;
   font-weight: 800;
   color: var(--dark-theme-red-text);
+}
+
+.inputErrorMessage.outsideGrid {
+  color: var(--dark-theme-orange-text);
+  font-weight: 800;
+  margin-left: 15px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .finishedBanner {
@@ -598,7 +609,7 @@ input:-webkit-autofill {
 }
 
 .overViewStatusStar {
-  border: 0px solid green;
+  /* border: 1px solid green; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -814,6 +825,10 @@ a:hover {
   margin-left: 4px;
 }
 
+.me-2 {
+  margin-right: 4px;
+}
+
 .my-3 {
   margin-top: 8px;
   margin-bottom: 8px;
@@ -879,6 +894,10 @@ a:hover {
 
 .greyText3 {
   color: var(--dark-theme-grey-3)
+}
+
+.orangeText {
+  color: var(--dark-theme-orange-text);
 }
 
 .redText {

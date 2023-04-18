@@ -27,12 +27,17 @@ function truncate( str, max, sep ) {
 
 function LinkItem(props){
     return(
-        <Link href={'/instrument/' + props.item['id']} className={[styles.sideNavListItem, 'tabCell'].join(' ')}>
+        <Link href={'/instrument/' + props.instrument['id']} className={[styles.sideNavListItem, 'tabCell'].join(' ')}>
             <div className={styles.sideNavListItemTextAndAvatar}>
-                <InstrumentAvatar size={'small'} url={props.item.avatar}/>
-                <span className={styles.sideNavItemText}>{truncate(props.item['name'], 20)}{props.isSelected}</span>
+                <InstrumentAvatar size={'small'} url={props.instrument.avatar}/>
+                <span className={styles.sideNavItemText}>{truncate(props.instrument.name, 20)}{props.isSelected}</span>
              </div>
+             {props.instrument.active_deployment.name?
              <span style={{width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'green'}}></span>
+             :
+            //  <span style={{width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'purple'}}></span>
+            ''
+             }
         </Link>
     )
 }
@@ -44,13 +49,20 @@ export default function SideNav(){
 
     const [instruments, setInstruments] = useContext(InstrumentContext);
 
-    function ListItems(props){
-        let listItems = []
-        for(let i = 0; i < props.items.length; i++){
-            listItems.push(<LinkItem item={props.items[i]}/>)
+    const sortedInstruments = instruments.sort((a, b) => a.last_modified.localeCompare(b.last_modified));
+
+    sortedInstruments.sort((a, b) => {
+        if (a.active_deployment.name.length !== 0 && b.active_deployment.name.length === 0) {
+          return -1; // a should be before b
+        } else if (a.active_deployment.name.length === 0 && b.active_deployment.name.length !== 0) {
+          return 1; // b should be before a
+        } else {
+          return 0; // keep the same order as before
         }
-        return(listItems)
-    }
+      });
+
+    const listItems = sortedInstruments.map(instrument=><LinkItem instrument={instrument}/>)
+    
 
 
     return(
@@ -63,7 +75,7 @@ export default function SideNav(){
             </div>
             <SearchInput placeholder={'Search Instruments'}/>
             <div className={styles.sideNavlistItemsContainer}>
-                <ListItems items={instruments}/>
+                {listItems}
             </div>
         </div>
     )

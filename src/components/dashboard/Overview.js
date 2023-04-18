@@ -20,7 +20,7 @@ export default function Overview(){
                 <div className={'overviewDeploymentCard darkThemeDarkText'}>
                     <div className='overViewStatusStar'>
                         <Link href={'/deployment' + '/' + props.deployment.id}><h4 className='darkThemeBlueText removeHeaderMargin overviewCardDeploymentTitle'>{props.deployment.name}</h4></Link>
-                        <span className='overviewDeploymentCardPrivacy'>{props.deployment.privacy.charAt(0).toUpperCase()+ props.deployment.privacy.slice(1)}</span>
+                        <span className='overviewDeploymentCardPrivacy'>{props.deployment.private?'Private':'Public'}</span>
                     </div>
                     <p className='overviewDeploymentDescription'>{props.deployment.description}</p>
                     <div className='deploymentInstrumentType'>

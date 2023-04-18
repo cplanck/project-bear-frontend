@@ -34,12 +34,8 @@ export default function Instruments(props){
                         <ModifyButton instrument={props.instrument}/>
                      </div>
                      <p className={dbstyles.description}>{props.instrument.description}</p>
-                     <div className={dbstyles.bottomDetailsWrapper}>
-                        <div className={dbstyles.instrumentType}>
-                            {/* <div className='instrumentColor' style={{backgroundColor: props.instrument['instrument_color']}}></div> */}
-                            {/* {props.instrument['data-model']} */}
-                        </div>
-                        <span className={dbstyles.instrumentId}>{dayjs(props.instrument['last_modified']).toNow(true)} ago</span>
+                     <div className={[dbstyles.bottomDetailsWrapper, 'extraSmallText'].join(' ')}>
+                        <span className='boldText'> Last updated </span>{dayjs(props.instrument.last_modified).format('MMMM D, YYYY')}
                     </div>
                     <div className={dbstyles.bottomDetailsWrapper}>
                     </div>

@@ -1,10 +1,11 @@
 .card {
-    padding: 10px 0px 10px 0px;
+    padding: 25px 0px 25px 0px;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    min-height: 150px;
 }
 
 .cardPrivacy {
@@ -17,7 +18,6 @@
 }
 
 .cardWrapper {
-    border: 0px solid purple;
     width: 100%;
 }
 
@@ -60,11 +60,11 @@
 }
 
 .bottomDetailsWrapper {
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* justify-content: space-between; */
     flex-direction: row;
     width: 100%;
-    font-size: small;
+    /* font-size: small; */
     flex-wrap: wrap;
 }
 
@@ -105,10 +105,14 @@
     color: var(--dark-theme-text-main);
     border-radius: 14px;
     padding: 1px 10px 1px 10px;
-    font-size: 0.75em;
+    font-size: 0.750em;
     margin-right: 10px;
     position: relative;
     z-index: 1;
+}
+
+.tag.link {
+    cursor: pointer;
 }
 
 .tagText {
@@ -135,16 +139,13 @@
 .collaboratorsList {
     display: flex;
     flex-wrap: none;
+    margin: 10px 10px 10px 10px;
 }
 
 .tabContainer {
     border: 0px solid red;
     display: flex;
     /* justify-content: flex-end; */
-}
-
-.tag {
-    cursor: pointer;
 }
 
 .tabWrapper::-webkit-scrollbar {

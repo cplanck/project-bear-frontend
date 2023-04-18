@@ -16,8 +16,12 @@ const MUITheme = createTheme({
                 backgroundColor: 'black',
                 border: '1px solid #343941',
                 borderRadius: '6px',
-                marginLeft: '0px'
-              }
+                marginLeft: '0px',
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: 'none',
+                }
+              },
+              
             }
           },
         MuiDatePicker: {

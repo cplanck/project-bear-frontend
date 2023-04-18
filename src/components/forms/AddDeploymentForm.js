@@ -1,6 +1,6 @@
 import styles from '@/components/deployment/Deployment.module.css'
 import { Grid } from '@mui/material';
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useRouter } from 'next/router'
 import { AppContext } from '@/components/Context'
@@ -22,7 +22,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import PublicIcon from '@mui/icons-material/Public';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Radio from '@mui/material/Radio';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -40,9 +39,12 @@ export default function DeploymentDetailsEditPanel(props){
     const [startDateTouched, setStartDateTouched] = useState(false)
     const [alertDialog, setAlertDialog] = useState({open: false, statusChange: false})
     const [hasActiveDeployment, setHasActiveDeployment] = useState(false)
+    const [hasInstrumentQueryParam, setHasInstrumentQueryParam] = useState(false)
+    const [formikInitialValues, setFormikInitialValues] = useState({ instrument_to_deploy: '', name: '', location: '', status: ''})
 
 
     const router = useRouter()
+    const inputRef = useRef(null);
 
     function handleAlerts(alertType, alertSeverity, alertMessage){
       setContext(structuredClone(context.alert.status=false))
@@ -71,10 +73,7 @@ export default function DeploymentDetailsEditPanel(props){
     const handleStatusChange = (event)=>{
       formik.handleChange(event)
       const currentInstrumentId = updatedDeployment.instrument_id
-      console.log(updatedDeployment)
       const activeDeployments = props.deployments.filter(deployment=>deployment.instrument_id == currentInstrumentId).filter(instrument=>instrument.status=='active')
-      console.log(props.deployments.filter(deployment=>deployment.instrument_id == currentInstrumentId))
-      console.log(props.deployments)
       if(activeDeployments.length !=0 && event.target.value == 'active'){
         const newAlertDialog = structuredClone(alertDialog)
         newAlertDialog.open = true
@@ -122,12 +121,7 @@ export default function DeploymentDetailsEditPanel(props){
       }
       else{
         setHasActiveDeployment(false)
-       
       }
-
-      // temp.instrument_id = e.target.options[e.target.selectedIndex].id
-      // setUpdatedDeployment(temp)
-      // setDeployedInstrument(e.target.value)
     }
 
     const toggleAlertDialog = (value) => {
@@ -142,10 +136,31 @@ export default function DeploymentDetailsEditPanel(props){
       const temp = structuredClone(updatedDeployment)
       temp.id = newId
       setUpdatedDeployment(temp)
-    },[])
+
+      if(router.isReady){
+        if(router.query.instrument){
+          const temp = structuredClone(updatedDeployment)
+          temp.instrument_id = router.query.instrument
+          setUpdatedDeployment(temp)
+          const instrumentName = props.instruments.filter(instrument=>instrument.id==router.query.instrument)[0]
+          setDeployedInstrument(instrumentName)
+          inputRef.current.focus();
+          setHasInstrumentQueryParam(true)
+          formik.setFieldTouched('instrument_to_deploy', true)
+          const updateIv = formikInitialValues
+          updateIv.instrument_to_deploy = router.query.instrument
+          setFormikInitialValues(updateIv)
+          console.log(instrumentName)
+        }
+      }
+
+    },[router])
+
+
 
     const handleSubmission = (e)=>{
       e.preventDefault()
+      console.log('YOU HERE?')
       if(startDateError == '' && !startDateTouched && !formik.touched.name && !formik.touched.location){
         setStartDateError(fr.deploymentStartDate.error)
         handleAlerts('alert', 'error', 'Whoops! You must fill out the form before submission!')
@@ -166,15 +181,23 @@ export default function DeploymentDetailsEditPanel(props){
         formik.validateForm
         handleAlerts('alert', 'error', 'Whoops! Youre missing a deployment start date')
       }
+      else{
+        console.log(updatedDeployment)
+        formik.validateForm().then(errors => {
+          formik.setErrors(errors);})
+      }
+      handleAlerts('alert', 'error', 'Hmmm. Looks like you still have some fields to fill out.')
     }
 
+
     const formik = useFormik({
-      initialValues: {
-        instrument_to_deploy: '',
-        name: '', 
-        location: '',
-        status: ''
-      },
+      initialValues: formikInitialValues,
+      // {
+      //   instrument_to_deploy: '',
+      //   name: '', 
+      //   location: '',
+      //   status: ''
+      // },
       validationSchema: Yup.object({
           instrument_to_deploy: Yup.string().required('You must specify an instrument to deploy'),
           name: Yup.string().min(fr.deploymentName.minLength.val, fr.deploymentName.minLength.error).max(fr.deploymentName.maxLength.val, fr.deploymentName.maxLength.error).required('You must specify a deployment name'),
@@ -183,6 +206,10 @@ export default function DeploymentDetailsEditPanel(props){
         }),
 
       onSubmit: values => {
+        const temp = structuredClone(updatedDeployment)
+        temp.date_added = dayjs().format()
+        temp.last_modified = dayjs().format()
+        setUpdatedDeployment(temp)
         const newDeploymentList = props.deployments
         newDeploymentList.push(updatedDeployment)
         props.setDeployments(newDeploymentList)
@@ -191,8 +218,8 @@ export default function DeploymentDetailsEditPanel(props){
       },
     });
 
-    const instruments = props.instruments.map(instrument=><option key={instrument.id} id={instrument.id}>{instrument.name}</option>)
-    instruments.unshift(<option disabled selected={true}>Select instrument</option>)
+    const instruments = props.instruments.map(instrument=><option selected={instrument.id==router.query.instrument?true:false} key={instrument.id} id={instrument.id}>{instrument.name}</option>)
+    instruments.unshift(<option disabled selected={router.query.instrument?false:true}>Select instrument</option>)
 
     const privateDiv = <div className={styles.privacyWrapper}>
                         <LockOutlinedIcon fontSize='medium' className='greyText3 me-3'/>
@@ -220,7 +247,12 @@ export default function DeploymentDetailsEditPanel(props){
                 <Grid xs={12} xl={12} item>
                     <span className='inputSelectLabel'>Instrument to deploy<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
                     <div className='flexColumn'>
-                      <select className={'styledSelect instrumentDeployed'} onChange={e=>handleInstrumentSelection(e)} name='instrument_to_deploy'>
+                      <select 
+                      className={'styledSelect instrumentDeployed'} 
+                      onChange={e=>handleInstrumentSelection(e)} 
+                      name='instrument_to_deploy' 
+                      // value={updatedDeployment.instrument_id}
+                      >
                           {instruments}
                       </select>
                       {/* <span className='inputHelpText'>Select the instrument you want to deploy</span> */}
@@ -240,6 +272,7 @@ export default function DeploymentDetailsEditPanel(props){
                         onInput={(e)=>{handleUserInput(e, 'name')}}
                         onBlur={formik.handleBlur}
                         value={updatedDeployment.name}
+                        ref={inputRef}
                         /> 
                         {formik.touched.name && formik.errors.name ? (
                       <span className='smallText redText boldText' id='serialNumberError'>{formik.errors.name}</span>
@@ -349,9 +382,6 @@ function AlertDialog(props){
 
   return(
     <div>
-    <button variant="outlined" onClick={()=>props.toggleAlertDialog(true)}>
-      Open alert dialog
-    </button>
     <Dialog
       open={props.alertDialog.open}
       onClose={()=>props.toggleAlertDialog(false)}
@@ -359,7 +389,7 @@ function AlertDialog(props){
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        {props.deployedInstrument + ' already has an active deployment'}
+        {props.deployedInstrument.name + ' already has an active deployment'}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
