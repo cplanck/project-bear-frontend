@@ -78,7 +78,7 @@ const Example = () => {
     [],
   );
 
-  return <MaterialReactTable columns={columns} data={data} muiTableHeadCellProps={{sx: {fontWeight: 'bold', fontSize: '14px'}}}/>;
+  return <MaterialReactTable columns={columns} data={data} muiTableHeadCellProps={{sx: {fontWeight: 'bold', fontSize: '14px', fill: '#fff'}}} muiToolbarProps={{fill: '#fff'}}/>;
 };
 
 export default Example;
