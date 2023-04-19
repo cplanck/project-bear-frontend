@@ -78,7 +78,7 @@ const MUITheme = createTheme({
       },
       text: {
         primary: '#E7E7E7',
-        secondary: 'rgba(220,220,220,0.7)',
+        secondary: '#E7E7E7',
         disabled: 'rgba(148,148,148,0.5)',
       },
     },
