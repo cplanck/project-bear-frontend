@@ -28,7 +28,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
-import { Formik, Form, Field, setFieldValue } from 'formik';
+import { Formik, Form, Field, setFieldValue, useFormikContext } from 'formik';
 
 
 export default function DeploymentDetailsEditPanel(props){
@@ -160,42 +160,8 @@ export default function DeploymentDetailsEditPanel(props){
           validationSchema={FormValidation}
           onSubmit={successfulSubmit}
           >
-            
-          {(formik) => {
-            const { errors, touched, values, handleBlur, handleChange, handleSubmit, setFieldValue, setFieldTouched, isSubmitting } = formik;
-
-            useEffect(()=>{
-                // On router ready, check query params and set the instrument_to_deploy and instrument_id
-                const selectedInstrumentList = props.instruments.map(instrument=><option selected={instrument.id==router.query.instrument?true:false} key={instrument.id} id={instrument.id}>{instrument.name}</option>)
-                selectedInstrumentList.unshift(<option disabled selected={router.query.instrument?false:true}>Select instrument</option>)    
-                const selectedInstrument = props.instruments.filter(instrument=>instrument.id==router.query.instrument?instrument:'')[0]
-                setInstruments(selectedInstrumentList)
-                selectedInstrument?setFieldValue('instrument_to_deploy', selectedInstrument.name):''
-                selectedInstrument?setFieldValue('instrument_id', selectedInstrument.id):''
-            }, [router])
-
-            useEffect(()=>{
-              // On status selection, check if instrument has any active deployments 
-              const currentInstrumentId = values.instrument_id
-              const activeDeployments = props.deployments.filter(deployment=>deployment.instrument_id == currentInstrumentId).filter(instrument=>instrument.status=='active')
-              if(activeDeployments.length !=0 && values.status == 'active'){
-                console.log('Has an active deployment...')
-                setHasActiveDeployment(activeDeployments)
-                console.log(activeDeployments)
-                setAlertOpen(true)
-              }else{
-                setHasActiveDeployment(false)
-              }
-            },[values.status, values.instrument_to_deploy])
-
-            const handleInstrumentSelection = (e) =>{
-              // On instrument selection, update instrument_to_deploy and instrument_id
-              setFieldValue('instrument_to_deploy', e.target.value)
-              setFieldValue('instrument_id', e.target.options[e.target.selectedIndex].id)
-            }
-
-          return(
           <Form onSubmit={handleSubmit}>
+            
             <h2 className='removeHeaderMargin'>Add a Deployment</h2>
             <span className='greyText3 smallText'>Add a deployment to add data.</span>
               <hr className='hr my-4'/>
@@ -349,7 +315,6 @@ export default function DeploymentDetailsEditPanel(props){
             {/* <AlertDialog alertOpen={alertOpen} setAlertOpen={setAlertOpen}/> */}
           </Form>
           )
-          }}
           </Formik>
         </Container>
     )

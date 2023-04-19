@@ -3,6 +3,7 @@ import styles from '@/components/instrument/Instrument.module.css'
 import { useContext } from 'react';
 import { InstrumentContext, DeploymentContext } from '@/components/Context'
 import AddDeploymentFormRedux from "@/components/forms/AddDeploymentFormRedux";
+import AddDeploymentForm from "@/components/forms/AddDeploymentFormReduxRedux";
 
 export default function AddDeploymentPanel() {
                                               
@@ -11,7 +12,7 @@ export default function AddDeploymentPanel() {
 
   return (
     <div className={styles.instrumentAddWrapper}>
-          <AddDeploymentFormRedux instruments={instruments} setInstruments={setInstruments} deployments={deployments} setDeployments={setDeployments}/>
+          <AddDeploymentForm instruments={instruments} setInstruments={setInstruments} deployments={deployments} setDeployments={setDeployments}/>
     </div>
   )
 }
