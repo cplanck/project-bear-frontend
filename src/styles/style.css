@@ -45,8 +45,8 @@
 }
 
 .MuiSvgIcon-root {
-  color: red;
-  fill: red
+  /* color: red; */
+  fill: var(--dark-theme-text-main);
 }
 
 .dropArea {
