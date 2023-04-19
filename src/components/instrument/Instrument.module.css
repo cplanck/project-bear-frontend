@@ -250,6 +250,13 @@
     color: var(--dark-theme-text-main);
 }
 
+.dataModalContainer {
+    max-width: 100%;
+    min-height: 400px;
+    border: 1px solid var(--dark-theme-grey-4);
+    border-radius: 8px;
+}
+
 /* .modifyButtonPaper {
     z-index: 1;
     border: 1px solid var(--dark-theme-grey-4);
