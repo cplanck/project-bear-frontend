@@ -70,7 +70,7 @@ export default function DeploymentTagsEditModal(props) {
   return (
     <div>
       <Modal open={props.tagModalOpen}  aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-        <Container className={styles.editModalWrapper} maxWidth={'md'}>
+        <div className={styles.editModalWrapper} maxWidth={'md'}>
             <div className={styles.editModalHeader}>
                 <span className='boldText'>Edit Tags</span>
                 <button className='iconButton' onClick={() => {props.setTagModalOpen(false)}}><CloseOutlinedIcon fontSize={'small'} className='iconButton'/></button>
@@ -91,7 +91,7 @@ export default function DeploymentTagsEditModal(props) {
                     <button className='greenButton' onClick={() => {handleSubmission()}}>Save Changes</button>
                 </div>
             </div>
-        </Container>
+        </div>
       </Modal>
     </div>
   );

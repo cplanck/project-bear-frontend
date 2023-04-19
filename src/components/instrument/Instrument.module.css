@@ -219,13 +219,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400;
+    width: 100%;
+    max-width: 900px;
     background-color: var(--main-bg-color);
     border: 1px solid var(--dark-theme-grey-4);
     box-shadow: 24;
     padding: 0px 0px 0px 0px;
     border-radius: 8px;
-    padding: 0 0 0 0;
     /* height: 100vh; */
 }
 
@@ -238,7 +238,7 @@
     background-color: var(--dark-theme-header);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     /* width: 100%; */
 }
 
@@ -289,7 +289,7 @@
     padding: 15px 15px 15px 15px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    border: 2px solid green;
+    /* border: 2px solid green; */
 }
 
 .editModalFooter {
