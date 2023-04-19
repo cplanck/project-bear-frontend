@@ -237,7 +237,8 @@
     background-color: var(--dark-theme-header);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    width: 100%;
+    border: 2px solid red;
+    /* width: 100%; */
 }
 
 .dataModalWrapper {
