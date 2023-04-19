@@ -44,6 +44,11 @@
   margin-top: var(--top-nav-height);
 }
 
+.MuiSvgIcon-root {
+  color: red;
+  fill: red
+}
+
 .dropArea {
   min-height: 300px;
   width: 100%;
