@@ -45,7 +45,7 @@
 }
 
 .MuiSvgIcon-root {
-  /* color: red; */
+  color: var(--dark-theme-text-main);
   fill: var(--dark-theme-text-main);
 }
 
