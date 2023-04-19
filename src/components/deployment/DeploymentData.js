@@ -22,22 +22,24 @@ export default function DeploymentData(props){
             <div className={depstyles.deploymentDetailsTableRow}>
                 <span className='boldText'>CSV</span>
                 <button className={['darkThemeBlueText', 'textButton'].join(" ")}><DownloadIcon className={['darkThemeBlueText'].join(' ')} style={{paddingRight: '5px'}} fontSize='small'/>Download</button>
-                <DataTable open={dataModalOpen} setDataModalOpen={setDataModalOpen}/>
             </div>
+            <DataTable open={dataModalOpen} setDataModalOpen={setDataModalOpen}/>
         </div>
     )
 }
 
 function DataTable(props){
     return(
-    <Modal open={props.open}  aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" maxWidth="100%" maxHeight="100vh">
-            <Container className={styles.editModalWrapper} maxWidth={'100%'}>
+    <Modal open={props.open}  aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+            {/* <Container className={styles.editModalWrapper} > */}
+            <div className={styles.dataModalWrapper}>
                 <div className={styles.editModalHeader}>
                     <span className='boldText'>Deployment Database</span>
                     <button className='iconButton' onClick={() => {props.setDataModalOpen(false)}}><CloseOutlinedIcon fontSize={'small'} className='iconButton'/></button>
                 </div>
                 <BasicDataTable/>
-            </Container>
+            </div>
+            {/* </Container> */}
     </Modal>
     )
 }

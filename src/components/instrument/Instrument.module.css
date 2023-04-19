@@ -225,7 +225,7 @@
     box-shadow: 24;
     padding: 0px 0px 0px 0px;
     border-radius: 8px;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 .editModalHeader {
@@ -237,6 +237,10 @@
     background-color: var(--dark-theme-header);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+}
+
+.dataModalWrapper {
+    border: 2px solid red;
 }
 
 /* .modifyButtonPaper {
