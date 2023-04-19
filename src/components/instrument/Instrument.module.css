@@ -237,10 +237,16 @@
     background-color: var(--dark-theme-header);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    width: 100%;
 }
 
 .dataModalWrapper {
-    border: 2px solid red;
+    /* border: 2px solid red; */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* .modifyButtonPaper {

@@ -30,16 +30,16 @@ export default function DeploymentData(props){
 
 function DataTable(props){
     return(
-    <Modal open={props.open}  aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-            {/* <Container className={styles.editModalWrapper} > */}
+    <Modal open={props.open}  aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" maxWidth={'100px'}>
             <div className={styles.dataModalWrapper}>
-                <div className={styles.editModalHeader}>
-                    <span className='boldText'>Deployment Database</span>
-                    <button className='iconButton' onClick={() => {props.setDataModalOpen(false)}}><CloseOutlinedIcon fontSize={'small'} className='iconButton'/></button>
+                <div style={{maxWidth: '100%', minHeight: '400px'}}>
+                    <div className={styles.editModalHeader}>
+                        <span className='boldText'>Deployment Database</span>
+                        <button className='iconButton' onClick={() => {props.setDataModalOpen(false)}}><CloseOutlinedIcon fontSize={'small'} className='iconButton'/></button>
+                    </div>
+                    <BasicDataTable/>
                 </div>
-                <BasicDataTable/>
             </div>
-            {/* </Container> */}
     </Modal>
     )
 }
