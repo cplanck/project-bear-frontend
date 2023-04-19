@@ -74,7 +74,7 @@ const MUITheme = createTheme({
       },
       background: {
         default: 'var(--main-bg-color)',
-        default: '#02040A',
+        default: '#0D1116',
         paper: '#161B22',
       },
       text: {
