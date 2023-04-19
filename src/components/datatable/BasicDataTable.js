@@ -78,7 +78,7 @@ const Example = () => {
     [],
   );
 
-  return <MaterialReactTable columns={columns} data={data} options={{toolbar: false}}/>;
+  return <MaterialReactTable columns={columns} data={data}/>;
 };
 
 export default Example;
