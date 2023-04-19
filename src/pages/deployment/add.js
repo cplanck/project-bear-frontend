@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from '@/components/instrument/Instrument.module.css'
 import { useContext } from 'react';
 import { InstrumentContext, DeploymentContext } from '@/components/Context'
-import AddDeploymentFormRedux from "@/components/forms/AddDeploymentFormRedux";
-import AddDeploymentForm from "@/components/forms/AddDeploymentFormReduxRedux";
+import AddDeploymentForm from "@/components/forms/AddDeploymentForm";
 
 export default function AddDeploymentPanel() {
                                               

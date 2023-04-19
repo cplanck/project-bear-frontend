@@ -7,8 +7,12 @@ export default function DeploymentDetailsTable(props){
         <>
             <div className={styles.deploymentDetailsTableWrapper}>
                 <div className={styles.deploymentDetailsTableRow} style={{backgroundColor: 'var(--dark-theme-header)', borderTopLeftRadius: '6px', borderTopRightRadius: '6px'}}>
-                    <span className='boldText'>{props.deployment.name}</span>
+                    <span className='boldText'>Deployment Details</span>
                     <button className='greyButton' onClick={()=>{props.setIsEditing(true)}}>Modify</button>
+                </div>
+                <div className={styles.deploymentDetailsTableRow}>
+                    <span className='boldText'>Name</span>
+                    <span className='greyText2 boldText'>{props.deployment.name}</span>
                 </div>
                 <div className={styles.deploymentDetailsTableRow}>
                     <span className='boldText'>Location</span>

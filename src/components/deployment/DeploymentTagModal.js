@@ -12,45 +12,13 @@ import tinycolor from "tinycolor2";
 import Fuse from 'fuse.js'
 import { useEffect } from 'react';
 
-let userSchema = object({
-    name: string().required(),
-    age: number().required().positive().integer(),
-    email: string().email(),
-    website: string().url().nullable(),
-    createdOn: date().default(() => new Date()),
-  });
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-function Tag(props){
-    return(
-        <button onClick={()=>{props.swapTag({'name': props.name, 'color': props.color}, props.selected) }} className={dbstyles.tag} style={{backgroundColor: `${props.color}` + '80', border: `2px solid ${props.color}` + '70', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: tinycolor(props.color).lighten(35).toString()}}>
-            {props.selected?<RemoveIcon style={{}} fontSize='small'/>:<AddIcon  fontSize='small'/>}
-            <span className={dbstyles.tagText} style={{color: tinycolor(props.color).lighten(35).toString(), paddingLeft: '5px'}}>
-                {props.name}
-            </span>
-        </button>
-    )
-}
-
 export default function DeploymentTagsEditModal(props) {
 
     const [availableTagList, setAvailableTagList] = useState([{'name': 'Spring Deployment', 'color': '#123455'},{'name': 'Chuchki Sea', 'color': '#428592'}])
     let [filteredAvailableTagList, setFilteredAvailableTagList] = useState([])
-    let [userTagFilterInut, setUserTagFilterInput] = useState('')
 
 
-    const [selectedTagsList, setSelectedTagsList] = useState(props.updatedDeployment.tags?structuredClone(props.updatedDeployment.tags):[])
+    const [selectedTagsList, setSelectedTagsList] = useState(props.deployment.tags?structuredClone(props.deployment.tags):[])
 
     useEffect(() =>{
         function removeItemsFromList(list, itemsToRemove) {
@@ -85,7 +53,6 @@ export default function DeploymentTagsEditModal(props) {
         }else{
             setAvailableTagList(removeClickedTag(availableTagList, tag['name']))
             setFilteredAvailableTagList(removeClickedTag(filteredAvailableTagList, tag['name']))
-            // setFilteredAvailableTagList(removeClickedTag(filteredAvailableTagList, tag['name']))
             let temp = selectedTagsList
             temp.push({'name': tag.name, 'color': tag.color})
             setSelectedTagsList(temp)
@@ -93,37 +60,18 @@ export default function DeploymentTagsEditModal(props) {
 
     }
 
-    function searchAvailableTags(searchText){
-        setUserTagFilterInput(searchText.length)
-        const fuzeOptions = {
-            // includeScore: true,
-            keys: ['name']
-        }
-
-        const fuse = new Fuse(availableTagList, fuzeOptions)
-        const result = fuse.search(searchText)
-        let filteredResults = result.map((item) => item.item)
-        // setFilteredAvailableTagList(filteredResults)
-        console.log(filteredResults)
-        console.log(availableTagList)
-        console.log(searchText.length)
-        setFilteredAvailableTagList(searchText==0?availableTagList:filteredResults)
-    }
-
-
-
     const handleClose = () => {props.setTagModalOpen(false)}
 
     function handleSubmission(){
-        let temp =  structuredClone(props.updatedDeployment);
+        let temp =  structuredClone(props.deployment);
         temp['tags']=selectedTagsList
-        props.setUpdatedDeployment(temp)
+        props.setDeployment(temp)
         props.setTagModalOpen(false)
     }
 
   return (
     <div>
-      <Modal open={open}  aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+      <Modal open={props.tagModalOpen}  aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Container className={styles.editModalWrapper} maxWidth={'md'}>
             <div className={styles.editModalHeader}>
                 <span className='boldText'>Edit Tags</span>
@@ -135,10 +83,8 @@ export default function DeploymentTagsEditModal(props) {
                     {selectedTags}
                 </div>
                 <h5>Available Tags</h5>
-                <input className='styledInput small' placeholder='Filter available tags' style={{marginBottom: '10px', maxWidth: '300px'}} onChange={(e)=>{searchAvailableTags(e.target.value)}}/>
                 <div className={[styles.tagsList, 'styledTextArea'].join(' ')} style={{display: 'flex', alignItems: 'flex-start'}}>
                     {filteredavailableTags.length!=0?filteredavailableTags:availableTags}
-                    {/* {availableTags} */}
                 </div>
             </div>
             <div className={styles.editModalFooter}>
@@ -151,4 +97,16 @@ export default function DeploymentTagsEditModal(props) {
       </Modal>
     </div>
   );
+}
+
+
+export function Tag(props){
+    return(
+        <button onClick={()=>{props.swapTag({'name': props.name, 'color': props.color}, props.selected) }} className={dbstyles.tag} style={{backgroundColor: `${props.color}` + '80', border: `2px solid ${props.color}` + '70', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: tinycolor(props.color).lighten(35).toString()}}>
+            {props.selected?<RemoveIcon style={{}} fontSize='small'/>:<AddIcon  fontSize='small'/>}
+            <span className={dbstyles.tagText} style={{color: tinycolor(props.color).lighten(35).toString(), paddingLeft: '5px'}}>
+                {props.name}
+            </span>
+        </button>
+    )
 }

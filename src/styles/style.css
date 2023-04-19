@@ -758,6 +758,54 @@ a:hover {
   cursor: pointer;
 }
 
+.splitButton {
+  color: var(--dark-theme-text-main);
+  display: flex;
+  position: relative;
+}
+
+.splitButtonRight {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border: 1px solid var(--dark-theme-grey-4);
+  background-color: var(--dark-theme-grey-button);
+  display: flex;
+  align-items: center;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 10px;
+  padding-left: 10px;
+  color: var(--dark-theme-text-main);
+  cursor: pointer;
+}
+
+.splitButtonLeft {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border: 1px solid var(--dark-theme-grey-4);
+  background-color: var(--dark-theme-grey-button);
+  display: flex;
+  align-items: center;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--dark-theme-text-main);
+  cursor: pointer;
+}
+
+.splitButtonLeft:hover {
+  background-color: var(--dark-theme-grey-4);
+  border: 1px solid var(--dark-theme-grey-3);
+}
+
+.splitButtonRight:hover {
+  background-color: var(--dark-theme-grey-4);
+  border: 1px solid var(--dark-theme-grey-3);
+}
+
 .rightButtonGroup {
   display: flex;
   align-items: center;

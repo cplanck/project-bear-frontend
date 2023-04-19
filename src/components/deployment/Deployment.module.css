@@ -40,6 +40,7 @@
     margin-top: 10px;
     margin-bottom: 20px;
     font-size: 0.85em;
+    min-height: 60px;
 }
 
 .deploymentTagsWrapper {
@@ -50,6 +51,7 @@
     color: var(--dark-theme-grey-3);
     margin-top: 10px;
     margin-bottom: 20px;
+    min-height: 60px;
 }
 
 .deploymentDetailsWrapper {

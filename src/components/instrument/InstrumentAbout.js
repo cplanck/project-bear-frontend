@@ -27,15 +27,13 @@ export default function InstrumentAbout(props){
     return(
         <div className={[styles.instrumentAboutWrapper, 'hideOnMedium'].join(' ')}>
             <div className={styles.aboutHeader}>
-                <h2 className='removeHeaderMargin'>About</h2>
+                <h3 className='removeHeaderMargin'>About</h3>
                 <Link href={{ pathname: '/instrument/edit/'  +props.instrument.id, query: { from: 'instrument' } }}><SettingsIcon className='iconButton'/></Link>
             </div>
             <div className='greyText2 smallText'>
                 <p>{props.instrument.description}</p>
                 <p className={styles.instrumentDetails}><QrCodeOutlinedIcon className={styles.instrumentDetailIcon} fontSize='small'/>{props.instrument['serial_number']}</p>
-                {/* <p className={styles.instrumentDetails}><AccountTreeIcon className={styles.instrumentDetailIcon} fontSize='small'/>{props.instrument['data-model']}</p> */}
                 <p className={styles.instrumentDetails}><FlightTakeoffIcon className={styles.instrumentDetailIcon} fontSize='small'/><span style={{fontWeight: '800', paddingRight: '5px'}}>{props.instrument['deployment_num']?props.instrument['deployment_num']:0}</span> Deployments</p>
-                {/* <p className={styles.instrumentDetails}><span style={{height: '20px', width: '20px',borderRadius: '50%', backgroundColor: props.instrument['instrument_color']}}></span></p> */}
             </div>
             {/* <hr className='hr'></hr> */}
             {/* <div>

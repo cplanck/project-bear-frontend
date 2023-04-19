@@ -3,8 +3,7 @@ import styles from './Instruments.module.css'
 import dbstyles from './Dashboard.module.css'
 import Grid from '@mui/material/Grid';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import ModifyButton from './ModifyButton'
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import ModifyButtonStar from './ModifyButtonStar'
 import InstrumentsAddPanel from "./InstrumentsAddPanel";
 import SortButton from './SortButton';
 import Link from 'next/link';
@@ -29,9 +28,9 @@ export default function Instruments(props){
                             <Link href={'/instrument/' + props.instrument.id }>
                                 <h4 className={[dbstyles.cardTitle, 'darkThemeBlueText', 'removeHeaderMargin'].join(" ")}>{props.instrument.name}</h4>
                             </Link>
-                            {props.instrument.starred?<StarBorderOutlinedIcon className={dbstyles.starred}/>:''}
+                            {/* {props.instrument.starred?<StarBorderOutlinedIcon className={dbstyles.starred}/>:''} */}
                         </div>
-                        <ModifyButton instrument={props.instrument}/>
+                        <ModifyButtonStar instrument={props.instrument}/>
                      </div>
                      <p className={dbstyles.description}>{props.instrument.description}</p>
                      <div className={[dbstyles.bottomDetailsWrapper, 'extraSmallText'].join(' ')}>

@@ -6,7 +6,8 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import { DeploymentContext, InstrumentContext, DataAvailableContext } from '@/components/Context'
 import ColorPicker from '../general/ColorPicker';
 import DeploymentTagsEditPanel from './DeploymentTagsEditPanel';
-import DeploymentTagsEditModal from "./DeploymentTagEditModal";
+import DeploymentTagsModal from "./DeploymentTagModal";
+import { AppContext } from '@/components/Context'
 import * as dayjs from 'dayjs'
 
 export default function DeploymentDetailsEditPanel(props){
@@ -16,6 +17,8 @@ export default function DeploymentDetailsEditPanel(props){
     const [colorPickerOpen, setColorPickerOpen] = useState(false)
     const [currentColor, setCurrentColor] = useState(props.deployment['instrument_color'])
     const [tagModalOpen, setTagModalOpen] = useState(false)
+    const [context, setContext] = useContext(AppContext)
+
 
     const [deploymentList, setDeploymentList] = useContext(DeploymentContext)
 
@@ -36,7 +39,17 @@ export default function DeploymentDetailsEditPanel(props){
         updatedDeploymentContext.push(updatedDeployment)
         setDeploymentList(updatedDeploymentContext)
         props.setIsEditing(false)
+        handleAlerts('snackbar', 'success', 'Deployment ' + updatedDeployment.name + ' edit successful!')
     }
+
+    function handleAlerts(alertType, alertSeverity, alertMessage){
+        setContext(structuredClone(context.alert.status=false))
+        let newContext = context
+        newContext[alertType].status = true
+        newContext[alertType].type = alertSeverity
+        newContext[alertType].message = alertMessage
+        setContext(structuredClone(newContext))
+      }
 
     return(
         <div>
@@ -87,7 +100,7 @@ export default function DeploymentDetailsEditPanel(props){
                     <span className='inputSelectLabel'>Tags</span>
                     <div id='tags' className='styledTextArea small' defaultValue={props.deployment.notes} onChange={(e)=>{handleUserInput(e, 'tags')}}>
                     <DeploymentTagsEditPanel setTagModalOpen={setTagModalOpen} updatedDeployment={updatedDeployment}/>
-                    {tagModalOpen?<DeploymentTagsEditModal updatedDeployment={updatedDeployment} setUpdatedDeployment={setUpdatedDeployment} setTagModalOpen={setTagModalOpen}/>:''}
+                    {tagModalOpen?<DeploymentTagsModal deployment={updatedDeployment} setDeployment={setUpdatedDeployment} setTagModalOpen={setTagModalOpen} tagModalOpen={tagModalOpen}/>:''}
                     </div>
                 </Grid>
             </Grid>
