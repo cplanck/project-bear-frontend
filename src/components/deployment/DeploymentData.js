@@ -31,7 +31,7 @@ export default function DeploymentData(props){
 function DataTable(props){
     return(
     <Modal open={props.open}  aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" maxWidth="100%" maxHeight="100vh">
-            <Container className={styles.editModalWrapper} maxWidth={'100%'} maxHeight="100vh">
+            <Container className={styles.editModalWrapper} maxWidth={'100%'}>
                 <div className={styles.editModalHeader}>
                     <span className='boldText'>Deployment Database</span>
                     <button className='iconButton' onClick={() => {props.setDataModalOpen(false)}}><CloseOutlinedIcon fontSize={'small'} className='iconButton'/></button>
