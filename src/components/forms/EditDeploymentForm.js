@@ -79,7 +79,6 @@ export default function EditDeploymentForm(props){
   });
 
   const successfulSubmit = (values, { setSubmitting }) => {
-    console.log('IS THIS WORKING?')
     const addedParams = {last_modified: dayjs().format(), id: props.deployment.id}
     const updatedDeployment = {...addedParams, ...values, ...tags}
     updatedDeployment.deployment_start_date = dayjs(values.deployment_start_date).format()
@@ -306,6 +305,7 @@ function EditForm(props){
               className='styledTextArea single small' 
               placeholder='Observations, notes, or anything you think is important for understanding this deployment'
               onChange={handleChange}
+              value={values.description}
               />
             </Grid>
             <Grid xs={12} item >
