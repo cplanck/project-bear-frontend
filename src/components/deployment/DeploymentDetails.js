@@ -5,17 +5,20 @@ import DeploymentNotes from './DeploymentNotes'
 import DeploymentDescription from './DeploymentDescription'
 import DeploymentDetailsTable from './DeploymentDetailsTable'
 import DeploymentDetailsEditPanel from './DeploymentDetailsEditPanel'
+import EditDeploymentForm from '@/components/forms/EditDeploymentForm';
 import DeploymentTags from './DeploymentTags'
 import DeploymentData from './DeploymentData'
 import PhotoGallery from '../images/PhotoGallery'
 import { Grid } from '@mui/material'
-import { useState } from 'react'
+import { InstrumentContext, DeploymentContext } from '@/components/Context'
+import { useState, useContext } from 'react'
 
 export default function DeploymentDetails(props){
 
     const [isEditing, setIsEditing] = useState(false)
+    const [instruments, setInstruments] = useContext(InstrumentContext);
+    const [deployments, setDeployments] = useContext(DeploymentContext);
 
-    console.log(props.deployment)
     return(
     <div className={[styles.panelWrapper]}>
         <Grid container spacing={4} >
@@ -37,7 +40,7 @@ export default function DeploymentDetails(props){
                         <PhotoGallery/>
                     </div>
               </div>:
-              <DeploymentDetailsEditPanel deployment={props.deployment} setIsEditing={setIsEditing} />
+                <EditDeploymentForm instruments={instruments} setInstruments={setInstruments} deployments={deployments} setDeployments={setDeployments} deployment={props.deployment} setIsEditing={setIsEditing}/>
               }
             </Grid>
             <Grid item xs={12} lg={4} xl={3}>

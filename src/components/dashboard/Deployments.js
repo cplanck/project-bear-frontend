@@ -28,7 +28,7 @@ function CollaboratorsList(props){
 
 function ActiveIcon(props){
     if(props.status == 'active'){
-        return(<span className='greenText extraSmallText boldText flexCenterSpaceBetween'><CheckCircleOutlinedIcon fontSize={'small'} className={'me-2'}/>{props.status.charAt(0).toUpperCase() + props.status.slice(1)}</span>)
+        return(<span className='greenText extraSmallText boldText flexCenterSpaceBetween'><CheckCircleOutlinedIcon fontSize={'small'} className={'me-2 greenText'}/>{props.status.charAt(0).toUpperCase() + props.status.slice(1)}</span>)
     }
     else if(props.status == 'inactive'){
         return(<span className='greyText2 extraSmallText boldText flexCenterSpaceBetween'><DoDisturbOnOutlinedIcon fontSize={'small'} className={'me-2'}/>{props.status.charAt(0).toUpperCase() + props.status.slice(1)}</span>)

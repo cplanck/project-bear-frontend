@@ -1,14 +1,3 @@
-import AlertContext from '@/components/Context'
-import { useContext, useEffect } from 'react'
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import React, { useState } from "react";
-import DeploymentDetails from '@/components/deployment/DeploymentDetails';
-import SideNav from '@/components/instrument/SideNav';
-import { useRouter } from 'next/router'
-import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
-import { DeploymentContext, InstrumentContext, DataAvailableContext } from '@/components/Context'
-import styles from '@/components/instrument/Instrument.module.css'
 import { CSVLink, CSVDownload } from "react-csv";
 
 

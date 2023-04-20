@@ -16,7 +16,8 @@ function InstrumentHeading(props){
     console.log(props)
     if(props.instrument.status == 'active'){
       instrumentState = <div>Deployed</div>
-  }
+    }
+
     return(
       <div className={styles.instrumentHeadingWrapper}>
         <div className={styles.instrumentAvatarGroup}>
@@ -49,6 +50,7 @@ useEffect(()=>{
     };
 }, [router.isReady]);
 
+console.log(deploymentList)
 const deployment = dataAvailable?deploymentList.filter((deployment)=>deployment['id'] == pageId)[0]:''
 const instrument = dataAvailable?instrumentList.filter((instrument)=>instrument['id'] == deployment['instrument_id'])[0]:''
 
