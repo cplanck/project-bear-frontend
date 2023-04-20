@@ -65,7 +65,7 @@ export default function DeploymentData(props){
             </div>
             <div className={depstyles.deploymentDetailsTableRow}>
                 <span className='boldText'>CSV</span>
-                <CSVLink filename={props.deployment.name + '.csv'} className={['darkThemeBlueText', 'textButton'].join(" ")} data={data}><DownloadIcon className={['darkThemeBlueText'].join(' ')} style={{paddingRight: '5px'}} fontSize='small'/>Download</CSVLink>
+                <CSVLink filename={props.deployment.name + '.csv'} target="_blank" className={['darkThemeBlueText', 'textButton'].join(" ")} data={data}><DownloadIcon className={['darkThemeBlueText'].join(' ')} style={{paddingRight: '5px'}} fontSize='small'/>Download</CSVLink>
             </div>
             <DataTable open={dataModalOpen} setDataModalOpen={setDataModalOpen}/>
         </div>
