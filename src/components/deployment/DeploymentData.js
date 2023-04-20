@@ -72,14 +72,6 @@ export default function DeploymentData(props){
                 <span className='boldText'>CSV</span>
                 <CSVLink filename={props.deployment.name + '.csv'} className={['darkThemeBlueText', 'textButton'].join(" ")} data={data}><DownloadIcon className={['darkThemeBlueText'].join(' ')} style={{paddingRight: '5px'}} fontSize='small'/>Download</CSVLink>
             </div>
-            <div className={depstyles.deploymentDetailsTableRow}>
-                <span className='boldText'>Sharable CSV Link</span>
-                <span>{'http://localhost:3000/deployment/download/' + props.deployment.id }</span>
-            </div>
-            <div className={depstyles.deploymentDetailsTableRow}>
-                <span className='boldText'>Sharable CSV Link</span>
-                <span>{'https://project-bear-frontent.vercel.app/deployment/download/' + props.deployment.id }</span>
-            </div>
             <DataTable open={dataModalOpen} setDataModalOpen={setDataModalOpen}/>
         </div>
     )
