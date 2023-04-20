@@ -561,6 +561,7 @@ input:-webkit-autofill {
 
 .inputErrorMessage.outsideGrid {
   color: var(--dark-theme-orange-text);
+  fill: var(--dark-theme-orange-text);
   font-weight: 800;
   margin-left: 15px;
   margin-top: 5px;

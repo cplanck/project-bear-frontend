@@ -18,11 +18,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import PublicIcon from '@mui/icons-material/Public';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Radio from '@mui/material/Radio';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import { Formik, Form, Field, setFieldValue, useFormikContext } from 'formik';
 
@@ -132,9 +127,8 @@ function AddForm(props){
       const [instruments, setInstruments] = useState([])
       const { errors, values, touched, handleChange, handleBlur, isSubmitting, setFieldValue } = useFormikContext();
       const [tagModalOpen, setTagModalOpen] = useState(false)
-  
-      const router = useRouter()
       const inputRef = useRef(null);
+      const router = useRouter()
   
       const handleDateChange = (name, value, setFieldValue) => {
         setFieldValue(name, value)
@@ -153,6 +147,7 @@ function AddForm(props){
         setInstruments(selectedInstrumentList)
         selectedInstrument?setFieldValue('instrument_to_deploy', selectedInstrument.name):''
         selectedInstrument?setFieldValue('instrument_id', selectedInstrument.id):''
+        
       }, [router])
 
       useEffect(()=>{
@@ -168,6 +163,10 @@ function AddForm(props){
           setHasActiveDeployment(false)
         }
       },[values.status, values.instrument_to_deploy])
+
+      useEffect(()=>{
+        inputRef.current.focus();
+       },[])
 
       const handleInstrumentSelection = (e) =>{
         // On instrument selection, update instrument_to_deploy and instrument_id
@@ -197,11 +196,11 @@ function AddForm(props){
         <span className='greyText3 smallText'>Add a deployment to add data.</span>
           <hr className='hr my-4'/>
         <Grid container spacing={2}>
-            <Grid xs={12} md={7} item>
+            <Grid xs={12} md={12} item>
                 <span className='inputSelectLabel'>Instrument to deploy<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
                 <div className='flexColumn'>
                   <select 
-                  className={'styledSelect fullWidth'} 
+                  className={'styledSelect'} 
                   onChange={e=>handleInstrumentSelection(e)} 
                   name='instrument_to_deploy' 
                   >
@@ -211,6 +210,25 @@ function AddForm(props){
                       <span className='smallText redText boldText'>{errors.instrument_to_deploy}</span>
                     ) : null}
                 </div>
+            </Grid>
+            <Grid xs={12} xl={6} item>
+                  <span className='inputSelectLabel'>Deployment name<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
+                  <div className='flexColumn'>
+                    <Field 
+                      id='name' 
+                      name='name'
+                      className='styledInput small name' 
+                      placeholder='Ex. Storrs Pond 2022 #1'
+                      onInput={handleChange}
+                      onBlur={handleBlur}
+                      value={values.name}
+                      innerRef={inputRef}
+                      
+                    /> 
+                  {errors.name && touched.name ? (
+                      <span className='smallText redText boldText'>{errors.name}</span>
+                    ) : null}
+                  </div>
             </Grid>
             <Grid xs={12} md={4} item>
                 <span className='inputSelectLabel'>Deployment Status<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
@@ -227,28 +245,9 @@ function AddForm(props){
                   
                 </div>
             </Grid>
-          
             {hasActiveDeployment ? (
-                      <div className='inputErrorMessage outsideGrid'><WarningAmberOutlinedIcon className='me-3' fontSize={'small'}/>This instrument already has an active deployment ({hasActiveDeployment[0].name}). You must deactivate that deployment to continue.</div>
+                      <div className='inputErrorMessage outsideGrid'><WarningAmberOutlinedIcon className='me-3 orangeText' fontSize={'small'}/>This instrument already has an active deployment ({hasActiveDeployment[0].name}). You must deactivate that deployment to continue.</div>
                     ) : null}
-            <Grid xs={12} xl={6} item>
-                  <span className='inputSelectLabel'>Deployment name<span className='redText boldText ms-2' style={{fontSize: '1.5em'}}>*</span></span>
-                  <div className='flexColumn'>
-                    <Field 
-                    id='name' 
-                    name='name'
-                    className='styledInput small name' 
-                    placeholder='Ex. Storrs Pond 2022 #1'
-                    onInput={handleChange}
-                    onBlur={handleBlur}
-                    value={values.name}
-                    ref={inputRef}
-                    /> 
-                  {errors.name && touched.name ? (
-                      <span className='smallText redText boldText'>{errors.name}</span>
-                    ) : null}
-                  </div>
-            </Grid>
             <Grid xs={12} xl={12} item>
             <hr className='hr'></hr>
               <FormGroup className={styles.radioButton}>
