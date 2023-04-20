@@ -63,10 +63,10 @@ const MUITheme = createTheme({
         disabled: 'darkgrey'
       },
       primary: {
-        main: '#58A6FF',
-        light: '#58A6FF',
+        main: '#013978',
+        light: '#013978',
         dark: '#452B75',
-        contrastText: '#fffff',
+        contrastText: '#000',
         success: 'green',
       },
       secondary: {

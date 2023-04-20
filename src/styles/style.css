@@ -1,7 +1,6 @@
 :root {
 
   --main-bg-color: #0D1116;
-  --dark-theme-bg-extra-dark: #02040A;
   --dark-theme-bg-extra-dark: #0C0D11;
   --dark-theme-text-main: #E7E7E7;
   --dark-theme-text-dark: #949494;
@@ -42,6 +41,11 @@
 
 .pageContent {
   margin-top: var(--top-nav-height);
+}
+
+.MuiSvgIcon-root {
+  color: var(--dark-theme-text-main);
+  fill: var(--dark-theme-text-main);
 }
 
 .MuiSvgIcon-root {
@@ -362,9 +366,18 @@ input:-webkit-autofill {
   cursor: pointer;
 }
 
+.MuiTableRow-selected {
+  border: 2px solid red !important;
+}
+
 .iconButton:hover {
   background-color: none;
-  color: var(--dark-theme-blue)
+  color: var(--dark-theme-blue);
+}
+
+.iconButton.innerIcon:hover {
+  color: var(--dark-theme-blue);
+  fill: var(--dark-theme-blue);
 }
 
 .darkTextButton {
