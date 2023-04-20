@@ -9,6 +9,7 @@ import Modal from '@mui/material/Modal';
 import { Container } from '@mui/system';
 import { useState } from 'react';
 import { CSVLink, CSVDownload } from "react-csv";
+import { useRouter } from 'next/router'
 
 
 export default function DeploymentData(props){
@@ -56,6 +57,10 @@ export default function DeploymentData(props){
         },
       ];
 
+    const router = useRouter()
+    let pageId = router.pathname
+    console.log(router)
+
     const [dataModalOpen, setDataModalOpen] = useState(false)
     return(
          <div className={depstyles.deploymentDetailsTableWrapper}>
@@ -66,6 +71,14 @@ export default function DeploymentData(props){
             <div className={depstyles.deploymentDetailsTableRow}>
                 <span className='boldText'>CSV</span>
                 <CSVLink filename={props.deployment.name + '.csv'} className={['darkThemeBlueText', 'textButton'].join(" ")} data={data}><DownloadIcon className={['darkThemeBlueText'].join(' ')} style={{paddingRight: '5px'}} fontSize='small'/>Download</CSVLink>
+            </div>
+            <div className={depstyles.deploymentDetailsTableRow}>
+                <span className='boldText'>Sharable CSV Link</span>
+                <span>{'http://localhost:3000/deployment/download/' + props.deployment.id }</span>
+            </div>
+            <div className={depstyles.deploymentDetailsTableRow}>
+                <span className='boldText'>Sharable CSV Link</span>
+                <span>{'https://project-bear-frontent.vercel.app/deployment/download/' + props.deployment.id }</span>
             </div>
             <DataTable open={dataModalOpen} setDataModalOpen={setDataModalOpen}/>
         </div>
