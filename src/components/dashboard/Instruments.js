@@ -46,18 +46,26 @@ export default function Instruments(props){
     function SearchInstruments(){
     
         return(
-        <Grid container spacing={0} className={dbstyles.searchWrapper}>
-            <Grid item xs={12} md={7} lg={8}  xl={9}>
-                <input className={[dbstyles.search, 'styledInput small'].join(" ")} placeholder={'Search Instruments'}></input>
-            </Grid>
-            <Grid item xs={12} md={5} lg={4} xl={3}>
-                <Link href='/instrument/add' >
-                    <button  className={[dbstyles.addButton, 'greenButton'].join(" ")}>
-                        <AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument
-                    </button>
-                </Link>
-            </Grid>
-        </Grid>
+        // <Grid container spacing={2} className={dbstyles.searchWrapper}>
+        //     <Grid item xs={12} md={7} lg={8} xl={10}>
+        //         <input className={[dbstyles.search, 'styledInput small'].join(" ")} placeholder={'Search Instruments'}></input>
+        //     </Grid>
+        //     <Grid item xs={12} md={5} lg={4} xl={2}>
+        //         <Link href='/instrument/add' >
+        //             <button  className={[dbstyles.addButton, 'greenButton'].join(" ")}>
+        //                 <AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument
+        //             </button>
+        //         </Link>
+        //     </Grid>
+        // </Grid>
+        <div className={dbstyles.searchWrapper}>
+            <input className={[dbstyles.search, 'styledInput small'].join(" ")} placeholder={'Search Instruments'}></input>
+            <Link href='/instrument/add' >
+                <button  className={[dbstyles.addButton, 'greenButton'].join(" ")}>
+                    <AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument
+                </button>
+            </Link>
+        </div>
         )
     }
 
@@ -73,14 +81,14 @@ export default function Instruments(props){
     return(
         isEdting?<InstrumentsAddPanel setIsEditing={setIsEditing}/>:
         <>
-                <SearchInstruments/>
-                <div className={dbstyles.sortHeader}>
-                    <h4 className='removeHeaderMargin'>Your Instruments</h4>
-                    <SortButton setSortBy={setSortBy}/>
-                </div>
-                <hr className='hr'></hr>
+            <div className={dbstyles.sortHeader}>
+                <h4 className='removeHeaderMargin'>Your Instruments</h4>
+                <SortButton setSortBy={setSortBy}/>
+            </div>
+            <hr className='hr'></hr>
+            <Grid container spacing={0}>
                 {instrumentArray}
+            </Grid>
         </>
-        // </Container>
     )
 }

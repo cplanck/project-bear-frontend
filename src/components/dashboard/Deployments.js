@@ -4,8 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { DeploymentContext } from '@/components/Context'
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 import InstrumentAvatar from "../instrument/InstrumentAvatar";
 import DeploymentTags from '@/components/deployment/DeploymentTags'
 import ModifyButtonStar from '@/components/dashboard/ModifyButtonStar'
@@ -32,6 +30,14 @@ export default function Deployments(props){
     dayjs.extend(advancedFormat)
 
     function Deployment(props){
+
+        let endDate
+        if(props.deployment.deployment_end_date){
+            endDate = dayjs(props.deployment.deployment_end_date).format('MMMM D, YYYY')
+        }else{
+            endDate = 'Present'
+        }
+
         return(       
             <Grid item sm={12}  className={dbstyles.cardWrapper}>
                 <div className={[dbstyles.card, 'darkThemeDarkText'].join(" ")}>
@@ -54,8 +60,8 @@ export default function Deployments(props){
                         {props.deployment.collaborators?<CollaboratorsList instrument={props.deployment}/>:''}
                     </div>
                     <span className='extraSmallText mt-3'>
-                        <span className='boldText'> Last updated </span> {dayjs(props.deployment.last_modified).format('MMMM D, YYYY')}
-                        </span>
+                        {/* <span className='boldText'> Last updated </span> {dayjs(props.deployment.last_modified).format('MMMM D, YYYY')}</span> */}
+                        <span className='boldText'> Active from </span> {dayjs(props.deployment.deployment_start_date).format('MMMM D, YYYY')} - {endDate}</span>
                 </div>
                 <hr className='hr'></hr>
             </Grid> 
@@ -66,7 +72,7 @@ export default function Deployments(props){
     
         return(
         <Grid container spacing={1} className={dbstyles.searchWrapper}>
-            <Grid item xs={12} >
+            <Grid item xs={5} >
                 <input className={[dbstyles.search, 'styledInput', 'small'].join(" ")} placeholder={'Search Deployments'}></input>
             </Grid>
         </Grid>
@@ -85,15 +91,15 @@ export default function Deployments(props){
 
     return(
         <div style={{border: '0px solid blue', maxWidth: '1800px'}}>
-            {props.searchBar?<SearchDeployments/>:''}
+            {/* {props.searchBar?<SearchDeployments/>:''} */}
             <div className={dbstyles.sortHeader}>
                     <h4 className='removeHeaderMargin'>Your Deployments</h4>
                     <SortButton setSortBy={setSortBy}/>
                 </div>
-            {/* <h3 className='removeHeaderMargin'>Deployments</h3> */}
-                <Grid container spacing={0}>
-                    {deploymentArray}
-                </Grid>
+            <hr className='hr'></hr>
+            <Grid container spacing={0}>
+                {deploymentArray}
+            </Grid>
         </div>
     )
 }

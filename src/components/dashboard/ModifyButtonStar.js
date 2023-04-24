@@ -130,10 +130,16 @@ export default function ModifyButtonStar(props) {
                     id="composition-menu"
                     aria-labelledby="composition-button"
                   >
-                    <Link href={'/instrument/edit/' + props.type.id} className='removeLinkFormatting'>
+                    {props.type == 'instrument'?
+                    <Link href={'/instrument/edit/' + props.item.id} className='removeLinkFormatting'>
                       <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><EditOutlinedIcon fontSize={'small'} className={'me-3'}/>Edit</MenuItem>
                     </Link>
-                    <Link href={{pathname: '/deployment/add', query: {instrument: props.instrument.id}}}>
+                    :
+                    <Link href={'/deployment/edit/' + props.item.id} className='removeLinkFormatting'>
+                      <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><EditOutlinedIcon fontSize={'small'} className={'me-3'}/>Edit</MenuItem>
+                     </Link>
+                    }
+                    <Link href={{pathname: '/deployment/add', query: {instrument: props.item.id}}}>
                       <MenuItem id='deploy' className={styles.modifyButtonMenu} onClick={handleClose}><ArrowForwardOutlinedIcon fontSize={'small'} className={'me-3'}/>Deploy</MenuItem>
                     </Link>
                   </MenuList>

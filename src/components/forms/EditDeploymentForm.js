@@ -18,11 +18,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import PublicIcon from '@mui/icons-material/Public';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Radio from '@mui/material/Radio';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import { Formik, Form, Field, setFieldValue, useFormikContext } from 'formik';
 
@@ -66,17 +61,18 @@ export default function EditDeploymentForm(props){
       }
       ),
       deployment_end_date: 
-      Yup.date().when('status', (status) => {
+      Yup.date()
+      .when('status', (status) => {
         if (status == 'inactive') {
           return Yup.date().typeError('Please enter a end valid date');
         }{
           return Yup.date().typeError('Please enter a end valid date').nullable();
         }
-      }
-      ).when('deployment_start_date', (deployment_start_date, schema)=>{
-        // if(props.deployment.deployment_end_date){
+      })
+      .when('deployment_start_date', (deployment_start_date, schema)=>{
+          if(deployment_start_date != 'Invalid Date'){
           return schema.min(deployment_start_date, 'Oops! Your deployment end date is before your start date')
-        // }
+        }
       })
   });
 
@@ -105,7 +101,7 @@ export default function EditDeploymentForm(props){
             notes: '',
             private: true,
             description: '',
-            deployment_start_date: dayjs().toDate(),
+            deployment_start_date: null,
             deployment_end_date: null,
           }}
           validationSchema={FormValidation}
@@ -119,9 +115,7 @@ export default function EditDeploymentForm(props){
 
 function EditForm(props){
 
-      const [alertOpen, setAlertOpen] = useState(false)
       const [hasActiveDeployment, setHasActiveDeployment] = useState(false)
-      const [instruments, setInstruments] = useState([])
       const { errors, values, touched, handleChange, handleBlur, isSubmitting, setFieldValue, setValues } = useFormikContext();
       const [tagModalOpen, setTagModalOpen] = useState(false)
   
@@ -138,9 +132,10 @@ function EditForm(props){
       }
 
       useEffect(()=>{
-          setValues({name: props.deployment.name, 
-                    deployment_start_date: props.deployment.deployment_start_date??null,
-                    deployment_end_date: props.deployment.deployment_end_date??null,
+          setValues({
+                    name: props.deployment.name, 
+                    deployment_start_date: props.deployment.deployment_start_date,
+                    deployment_end_date: props.deployment.deployment_end_date,
                     location: props.deployment.location,
                     description: props.deployment.description,
                     notes: props.deployment.notes,
@@ -150,20 +145,6 @@ function EditForm(props){
                   })
           props.setTags({tags: props.deployment.tags})
       }, [router])
-
-      // useEffect(()=>{
-      //   // On status selection, check if instrument has any active deployments 
-      //   const currentInstrumentId = values.instrument_id
-      //   const activeDeployments = props.deployments.filter(deployment=>deployment.instrument_id == currentInstrumentId).filter(instrument=>instrument.status=='active')
-      //   if(activeDeployments.length !=0 && values.status == 'active'){
-      //     console.log('Has an active deployment...')
-      //     setHasActiveDeployment(activeDeployments)
-      //     console.log(activeDeployments)
-      //     setAlertOpen(true)
-      //   }else{
-      //     setHasActiveDeployment(false)
-      //   }
-      // },[values.status])
   
       const privateDiv = <div className={styles.privacyWrapper}>
                           <LockOutlinedIcon fontSize='medium' className='greyText3 me-3'/>

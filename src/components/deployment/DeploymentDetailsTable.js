@@ -1,4 +1,5 @@
 import styles from './Deployment.module.css'
+import Link from 'next/link'
 import * as dayjs from 'dayjs'
 
 export default function DeploymentDetailsTable(props){
@@ -8,7 +9,7 @@ export default function DeploymentDetailsTable(props){
             <div className={styles.deploymentDetailsTableWrapper}>
                 <div className={styles.deploymentDetailsTableRow} style={{backgroundColor: 'var(--dark-theme-header)', borderTopLeftRadius: '6px', borderTopRightRadius: '6px'}}>
                     <span className='boldText'>Deployment Details</span>
-                    <button className='greyButton' onClick={()=>{props.setIsEditing(true)}}>Modify</button>
+                    <Link href={'/deployment/edit/' + props.deployment.id} className='greyButton'>Edit</Link>
                 </div>
                 <div className={styles.deploymentDetailsTableRow}>
                     <span className='boldText'>Name</span>
