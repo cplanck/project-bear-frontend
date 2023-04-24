@@ -3,7 +3,7 @@ import SortButton from '../dashboard/SortButton'
 import SearchInput from '../../components/general/SearchInput'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { InstrumentContext } from '../../components/Context'
 import InstrumentAvatar from './InstrumentAvatar'
 import { useRouter } from 'next/router'
@@ -26,16 +26,16 @@ function truncate( str, max, sep ) {
 }
 
 function LinkItem(props){
+
     return(
         <Link href={'/instrument/' + props.instrument['id']} className={[styles.sideNavListItem, 'tabCell'].join(' ')}>
             <div className={styles.sideNavListItemTextAndAvatar}>
                 <InstrumentAvatar size={'small'} url={props.instrument.avatar}/>
-                <span className={styles.sideNavItemText}>{truncate(props.instrument.name, 20)}{props.isSelected}</span>
+                <span className={styles.sideNavItemText}>{truncate(props.instrument.name, props.browserWidth<992?20:35)}{props.isSelected}</span>
              </div>
              {props.instrument.active_deployment.name?
              <span style={{width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'green'}}></span>
              :
-            //  <span style={{width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'purple'}}></span>
             ''
              }
         </Link>
@@ -48,8 +48,21 @@ function LinkItem(props){
 export default function SideNav(){
 
     const [instruments, setInstruments] = useContext(InstrumentContext);
-
     const sortedInstruments = instruments.sort((a, b) => a.last_modified.localeCompare(b.last_modified));
+    const [browserWidth, setBrowserWidth] = useState(1800)
+
+    // if(typeof window != undefined){
+        useEffect(() => {
+            function handleResize() {
+              console.log(window.innerWidth);
+              setBrowserWidth(window.innerWidth)
+            }
+            window.addEventListener('resize', handleResize);
+            return () => {
+              window.removeEventListener('resize', handleResize);
+            };
+          }, []);
+        // }
 
     sortedInstruments.sort((a, b) => {
         if (a.active_deployment.name.length !== 0 && b.active_deployment.name.length === 0) {
@@ -61,7 +74,7 @@ export default function SideNav(){
         }
       });
 
-    const listItems = sortedInstruments.map(instrument=><LinkItem key={instrument.id} instrument={instrument}/>)
+    const listItems = sortedInstruments.map(instrument=><LinkItem key={instrument.id} instrument={instrument} browserWidth={browserWidth}/>)
     
 
 

@@ -11,6 +11,11 @@
     width: 100%;
 }
 
+.serialNumberOverview {
+    /* border: 1px solid pink; */
+    margin-top: -3px;
+}
+
 .instrumentAvatar {
     width: 32px;
     height: 32px;

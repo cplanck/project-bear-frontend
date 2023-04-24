@@ -1,4 +1,4 @@
-import styles from '../../components/instrument/Instrument.module.css'
+import styles from '@/components/instrument/Instrument.module.css'
 import WifiTetheringOutlinedIcon from '@mui/icons-material/WifiTetheringOutlined';
 
 export default function InstrumentAvatar(props){

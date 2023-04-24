@@ -1,12 +1,7 @@
 import styles from './Instrument.module.css'
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import TableViewIcon from '@mui/icons-material/TableView';
-import DownloadIcon from '@mui/icons-material/Download';
 import SettingsIcon from '@mui/icons-material/Settings';
 import QrCodeOutlinedIcon from '@mui/icons-material/QrCodeOutlined';
-import ImagePanel from '../general/ImagePanel';
-import InstrumentEditModal from '../../components/instrument/InstrumentEditModal';
 import { Grid } from '@mui/material';
 import * as dayjs from 'dayjs'
 import Link from 'next/link';

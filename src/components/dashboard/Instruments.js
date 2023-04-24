@@ -28,9 +28,8 @@ export default function Instruments(props){
                             <Link href={'/instrument/' + props.instrument.id }>
                                 <h4 className={[dbstyles.cardTitle, 'darkThemeBlueText', 'removeHeaderMargin'].join(" ")}>{props.instrument.name}</h4>
                             </Link>
-                            {/* {props.instrument.starred?<StarBorderOutlinedIcon className={dbstyles.starred}/>:''} */}
                         </div>
-                        <ModifyButtonStar instrument={props.instrument}/>
+                        <ModifyButtonStar type={'instrument'} item={props.instrument}/>
                      </div>
                      <p className={dbstyles.description}>{props.instrument.description}</p>
                      <div className={[dbstyles.bottomDetailsWrapper, 'extraSmallText'].join(' ')}>

@@ -72,7 +72,9 @@ export default function AddDeploymentForm(props){
         }
       }
       ).when('deployment_start_date', (deployment_start_date, schema)=>{
-        return schema.min(deployment_start_date, 'Oops! Your deployment end date is before your start date')
+        if(deployment_start_date){
+          return schema.min(deployment_start_date, 'Oops! Your deployment end date is before your start date')
+        }
       })
   });
 

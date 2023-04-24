@@ -22,7 +22,8 @@ import dayjs from 'dayjs';
 
 
 export default function ModifyButtonStar(props) {
-  let [instruments, setInstruments] = useContext(InstrumentContext);
+  const [instruments, setInstruments] = useContext(InstrumentContext);
+  const [deployments, setDeployments] = useContext(DeploymentContext);
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -32,26 +33,49 @@ export default function ModifyButtonStar(props) {
 
   const handleClose = (event) => {
     if(event.target.id=='star'){
-      const tempInstrumentArray = instruments.filter(instrument=>instrument.id!=props.instrument.id)
-      const isStarred = props.instrument.starred
-      const tempInstrument = structuredClone(props.instrument)
-      tempInstrument.starred = !isStarred
-      !isStarred?tempInstrument.starred_date = dayjs().format():tempInstrument.starred_date=''
-      tempInstrumentArray.push(tempInstrument)
-      setInstruments(tempInstrumentArray)
+      if(props.type == 'instrument'){
+        const tempInstrumentArray = instruments.filter(instrument=>instrument.id!=props.item.id)
+        const isStarred = props.item.starred
+        const tempInstrument = structuredClone(props.item)
+        tempInstrument.starred = !isStarred
+        !isStarred?tempInstrument.starred_date = dayjs().format():tempInstrument.starred_date=''
+        tempInstrumentArray.push(tempInstrument)
+        setInstruments(tempInstrumentArray)
+      }
+      else if(type == 'deployment'){
+        const tempDeploymentArray = deployments.filter(deployment=>deployment.id!=props.item.id)
+        const isStarred = props.item.starred
+        const tempDeployment = structuredClone(props.item)
+        tempDeployment.starred = !isStarred
+        !isStarred?tempDeployment.starred_date = dayjs().format():tempDeployment.starred_date=''
+        tempDeploymentArray.push(tempDeployment)
+        setDeployments(tempDeploymentArray)
+      }
     }
     setOpen(false);
   };
 
-  const handleStarredClick = (event) =>{
-    const tempInstrumentArray = instruments.filter(instrument=>instrument.id!=props.instrument.id)
-      const isStarred = props.instrument.starred
-      const tempInstrument = structuredClone(props.instrument)
+  const handleStarredClick = () =>{
+    if(props.type == 'instrument'){
+      const tempInstrumentArray = instruments.filter(instrument=>instrument.id!=props.item.id)
+      const isStarred = props.item.starred
+      const tempInstrument = structuredClone(props.item)
       tempInstrument.starred = !isStarred
       !isStarred?tempInstrument.starred_date = dayjs().format():tempInstrument.starred_date=''
       tempInstrumentArray.push(tempInstrument)
       setInstruments(tempInstrumentArray)
       setOpen(false);
+    }
+    else if(props.type == 'deployment'){
+      const tempDeploymentArray = deployments.filter(deployment=>deployment.id!=props.item.id)
+      const isStarred = props.item.starred
+      const tempDeployment = structuredClone(props.item)
+      tempDeployment.starred = !isStarred
+      !isStarred?tempDeployment.starred_date = dayjs().format():tempDeployment.starred_date=''
+      tempDeploymentArray.push(tempDeployment)
+      setDeployments(tempDeploymentArray)
+      setOpen(false);
+    }
   }
 
   const prevOpen = React.useRef(open);
@@ -67,7 +91,7 @@ export default function ModifyButtonStar(props) {
     <Stack direction="row" spacing={2}>
       <div className={'splitButton'}>
         <button onClick={handleStarredClick} className={'splitButtonLeft'}>
-        {props.instrument.starred?
+        {props.item.starred?
           <><StarOutlinedIcon className='me-3 orangeText' fontSize='small'/>Starred</>:
           <><StarBorderOutlinedIcon className='me-3 greyText3' fontSize='small'/>Star</>}
         </button>
@@ -106,7 +130,7 @@ export default function ModifyButtonStar(props) {
                     id="composition-menu"
                     aria-labelledby="composition-button"
                   >
-                    <Link href={'/instrument/edit/' + props.instrument.id} className='removeLinkFormatting'>
+                    <Link href={'/instrument/edit/' + props.type.id} className='removeLinkFormatting'>
                       <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><EditOutlinedIcon fontSize={'small'} className={'me-3'}/>Edit</MenuItem>
                     </Link>
                     <Link href={{pathname: '/deployment/add', query: {instrument: props.instrument.id}}}>

@@ -74,7 +74,9 @@ export default function EditDeploymentForm(props){
         }
       }
       ).when('deployment_start_date', (deployment_start_date, schema)=>{
-        return schema.min(deployment_start_date, 'Oops! Your deployment end date is before your start date')
+        // if(props.deployment.deployment_end_date){
+          return schema.min(deployment_start_date, 'Oops! Your deployment end date is before your start date')
+        // }
       })
   });
 
@@ -88,17 +90,6 @@ export default function EditDeploymentForm(props){
     newDeploymentList.push(updatedDeployment)
     props.setDeployments(newDeploymentList)
 
-
-
-    // newDeploymentList.push(newDeploymentObject)
-    // props.setDeployments(newDeploymentList)
-
-    // const activeDeployment = {name: values.name, id: newId}
-    // const instrumentContext = props.instruments.filter(instrument=>instrument.id!=values.instrument_id)
-    // const instrument = props.instruments.filter(instrument=>instrument.id==values.instrument_id)[0]
-    // instrument.active_deployment = activeDeployment
-    // instrumentContext.push(instrument)
-    // props.setInstruments(instrumentContext)
     handleAlerts('snackbar', 'success', 'Deployment ' + values.name + ' added!')
     router.push('/dashboard/deployments')
     setSubmitting(false);
