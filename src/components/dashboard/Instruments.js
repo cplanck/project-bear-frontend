@@ -81,11 +81,13 @@ export default function Instruments(props){
     return(
         isEdting?<InstrumentsAddPanel setIsEditing={setIsEditing}/>:
         <>
-            <div className={dbstyles.sortHeader}>
-                <h4 className='removeHeaderMargin'>Your Instruments</h4>
-                <SortButton setSortBy={setSortBy}/>
+            <div className={dbstyles.sortHeaderWrapper}>
+                <div className={dbstyles.sortHeader}>
+                    <h4 className='removeHeaderMargin'>Your Instruments</h4>
+                    <SortButton setSortBy={setSortBy}/>
+                </div>
             </div>
-            <hr className='hr'></hr>
+            {/* <hr className='hr'></hr> */}
             <Grid container spacing={0}>
                 {instrumentArray}
             </Grid>

@@ -46,8 +46,8 @@ export default function InstrumentAbout(props){
                  Instrument notes will show up here.
              </div>
             }
-            <p className={[styles.instrumentDetails, 'extraSmallText'].join(' ')}> Last Modified {lastModifiedDate}</p>
-            <p className={[styles.instrumentDetails, 'extraSmallText'].join(' ')}> Added {dateAddedDate}</p>
+            <span className={[styles.instrumentDetails, 'extraSmallText', 'mt-3'].join(' ')}> Last Modified {lastModifiedDate}</span>
+            <span className={[styles.instrumentDetails, 'extraSmallText'].join(' ')}> Added {dateAddedDate}</span>
         </div>
     )
 }

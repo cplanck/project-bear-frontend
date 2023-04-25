@@ -37,6 +37,9 @@ let deploymentList = [
 
   {name: 'BG 2022 #2', instrument_id: 3, id: 4, status: 'active', location: 'Nain Community Center', description: 'Located in Nain, NF, this SIMB3 was deployed on Sept 29 2022 in shallow water. Expected operational lifespan of 200 days.', instrument: {name: 'SIMB3 2019 #1 (w/active)', id: 3, avatar: 'https://nyc3.digitaloceanspaces.com/ci-webapp-space/static/simb3/img/simb3.png'}, instrument_color:'#1e20b0', private: false,  tags: [{'name': 'Retired', 'color': '#740303'},{'name': 'NAIN', 'color': '#D7A700'},{'name': 'Winter Deployment', 'color': '#0368FF'}], 'collaborators': [{'name':'Cameron Planck', 'avatar': 'https://i.pravatar.cc/300'}, {'name':'Don Perovich', 'avatar': 'https://i.pravatar.cc/300'}], date_added: '2023-03-03 17:11:43.776674', last_modified: '2022-04-09 17:11:43.776674', starred: true, starred_date: '2023-04-24 17:11:43.776674'}]
 
+  // deploymentList = []
+  // instrumentList = []
+
 export function ContextWrapper({ children }) {
 
   let [context, setContext] = useState({alert: {status: false, type: '', message: 'success', text: 'Your account has been approved!'}, snackbar: {status: false, type: '', message: 'success', text: 'Your account has been approved!'}})

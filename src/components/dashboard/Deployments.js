@@ -43,20 +43,20 @@ export default function Deployments(props){
                         </div>
                        <ModifyButtonStar type={'deployment'} item={props.deployment}/>
                     </div>
-                     {props.deployment.description?<p className={dbstyles.description}>{props.deployment.description}</p>:''}
+                    <span className='smallText mt-3'><span className='boldText'> Active from </span> {dayjs(props.deployment.deployment_start_date).format('MMMM D, YYYY')} - {endDate}</span>
+
                      <div className={dbstyles.bottomDetailsWrapper}>
                     </div>
                     <div className='flexCentered'>
                         <InstrumentAvatar base64={true} size={'small'} url={props.deployment.instrument?.avatar}/>
                         <span className='smallText boldText'>{props.deployment.instrument?.name}</span>
                     </div>
+                    
                     <div className='flexCenterSpaceBetween'>
                         {props.deployment.tags?<DeploymentTags deployment={props.deployment}/>:''}
                         {props.deployment.collaborators?<CollaboratorsList instrument={props.deployment}/>:''}
                     </div>
-                    <span className='extraSmallText mt-3'>
-                        {/* <span className='boldText'> Last updated </span> {dayjs(props.deployment.last_modified).format('MMMM D, YYYY')}</span> */}
-                        <span className='boldText'> Active from </span> {dayjs(props.deployment.deployment_start_date).format('MMMM D, YYYY')} - {endDate}</span>
+                    {/* <span className='extraSmallText mt-3'><span className='boldText'> Active from </span> {dayjs(props.deployment.deployment_start_date).format('MMMM D, YYYY')} - {endDate}</span> */}
                 </div>
                 <hr className='hr'></hr>
             </Grid> 
@@ -86,12 +86,12 @@ export default function Deployments(props){
 
     return(
         <div style={{border: '0px solid blue', maxWidth: '1800px'}}>
-            {/* {props.searchBar?<SearchDeployments/>:''} */}
-            <div className={dbstyles.sortHeader}>
+            <div className={dbstyles.sortHeaderWrapper}>
+                <div className={dbstyles.sortHeader}>
                     <h4 className='removeHeaderMargin'>Your Deployments</h4>
                     <SortButton setSortBy={setSortBy}/>
                 </div>
-            <hr className='hr'></hr>
+            </div>
             <Grid container spacing={0}>
                 {deploymentArray}
             </Grid>

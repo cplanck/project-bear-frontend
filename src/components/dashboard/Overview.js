@@ -5,7 +5,10 @@ import { DeploymentContext, InstrumentContext, DataAvailableContext } from '@/co
 import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import styles from '@/components/dashboard/Instruments.module.css'
+import IntroStepper from '@/components/dashboard/IntroStepper'
+import styles from '@/components/dashboard/Instruments.module.css';
+import dbstyles from '@/components/dashboard/Dashboard.module.css';
+import { Container } from '@mui/system';
 import * as dayjs from 'dayjs'
 
 export default function Overview(){
@@ -70,17 +73,6 @@ export default function Overview(){
                     <p className='overviewDeploymentDescription'>
                         {props.instrument.description}
                     </p>
-                   
-                    {/* <div className='extraSmallText flexCenterFlexStart'>
-                        <div>
-                            <span className='boldText'>Created</span> {dateAddedDate}
-                        </div>
-                        <span style={{padding: '0px 10px 0px 10px'}}>|</span>
-                        <div>
-                            <span className='boldText'>Last Updated</span> 
-                            {lastModifiedDate}
-                        </div>
-                    </div> */}
                 </div>
             </Grid>
         )
@@ -106,19 +98,38 @@ export default function Overview(){
     const projectArray = projects.map((project, i)=><ProjectPanel key={i} project={project}/>)
 
     return(
-        <div>
-             <h4 className='' style={{margin: '20px 0px 10px 0px'}}>Top Instruments</h4>
-            <Grid container spacing={3}>
-                {instrumentArray}
-            </Grid>
-            <h4 className='' style={{margin: '20px 0px 10px 0px'}}>Recent Deployments</h4>
-            <Grid container spacing={3}>
-                {deploymentArray}
-            </Grid>
-            {/* <h4 className='removeHeaderMargin'>Projects</h4>
-            <Grid container spacing={0}>
-                {projectArray}
-            </Grid> */}
+        instrumentArray.length != 0?
+        <div className='flexCenterAndCenter' style={{border: '0px solid red'}}>
+            <div maxWidth={false} style={{maxWidth: '1200px', width: '100%', border: '0px solid blue'}}>
+                <h4 className='' style={{margin: '0px 0px 10px 0px'}}>Top Instruments</h4>
+                <Grid container spacing={3}>
+                    {instrumentArray}
+                </Grid>
+                <h4 className='' style={{margin: '20px 0px 10px 0px'}}>Recent Deployments</h4>
+                <Grid container spacing={3}>
+                    {deploymentArray}
+                </Grid>
+            </div>
         </div>
+        :
+        <Grid container spacing={3}>
+            <Grid item lg={8}>
+                <div className={[dbstyles.overviewInstructionCard, dbstyles.lightGreyCard].join(' ')}>
+                    <h2 className='removeHeaderMargin'>Manage data from your scientific instruments deployed worldwide.</h2>
+                    {/* <span className='my-3'>Add an instrument to manage deployments, create a real-time database, and organize your media and permissions.</span> */}
+                    {/* <span className='my-3'>Add an instrument to create a real-time database, manage your data, permissions, and files from one centralized location.</span> */}
+                    {/* <span>Add data any data in real-time from any instrument from one centralized location.</span> */}
+                    <span className='my-3'>BitBear centralizes or new instruments to create a real-time database, manage permissions, collaborators, and media from one centralized location.</span>
+                        <Link href={'/instrument/add'}>
+                            <button  className={'greyButton my-3'}>
+                                Get started
+                            </button>
+                        </Link>
+                </div>
+            </Grid>
+            <Grid item lg={4}>
+                <IntroStepper/>
+            </Grid>
+        </Grid>
     )
 }

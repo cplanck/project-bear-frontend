@@ -275,14 +275,20 @@ function EditForm(props){
               <textarea 
               id='description' 
               className='styledTextArea single small' 
-              placeholder='Observations, notes, or anything you think is important for understanding this deployment'
+              placeholder='Observations, details, or anything you think is important for understanding this deployment.'
               onChange={handleChange}
               value={values.description}
               />
             </Grid>
             <Grid xs={12} item >
             <div className='inputSelectLabel'>Notes<span className='greyText3 smallText ms-2'>(optional)</span></div>
-                <textarea id='notes' name='notes' className='styledTextArea small' onChange={handleChange} value={values.notes}/>
+                <textarea 
+                id='notes' 
+                name='notes' 
+                className='styledTextArea small' 
+                placeholder='Notes about this deployment or anything you watn to remember.'
+                onChange={handleChange} 
+                value={values.notes}/>
             </Grid>
             <Grid xs={12} item >
               <div className='inputSelectLabel'>Tags<span className='greyText3 smallText ms-2'>(optional)</span></div>

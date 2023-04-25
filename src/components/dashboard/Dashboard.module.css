@@ -1,11 +1,26 @@
 .card {
-    padding: 25px 0px 25px 0px;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     min-height: 150px;
+    /* border: 1px solid red; */
+    max-width: 1200px;
+    width: 100%;
+    padding: 25px 0px 15px 0px;
+    /* margin: 20px 0 0 0; */
+
+}
+
+.cardWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 25px 0px 25px 0px; */
+    /* border: 1px solid red; */
+    /* justify-content: space-between; */
 }
 
 .cardPrivacy {
@@ -15,10 +30,6 @@
     font-weight: 600;
     font-size: small;
     height: 1.5em;
-}
-
-.cardWrapper {
-    width: 100%;
 }
 
 .statusStar {
@@ -60,11 +71,7 @@
 }
 
 .bottomDetailsWrapper {
-    /* display: flex; */
-    /* justify-content: space-between; */
-    flex-direction: row;
     width: 100%;
-    /* font-size: small; */
     flex-wrap: wrap;
 }
 
@@ -103,6 +110,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 1200px;
+    /* border: 1px solid red; */
+    width: 100%;
+}
+
+.sortHeaderWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .tag {
@@ -206,4 +223,24 @@
     max-width: 100px;
     border: 0px;
     cursor: pointer;
+}
+
+.lightGreyCard {
+    background-color: var(--dark-theme-header);
+    border: 1px solid var(--dark-theme-grey-4);
+    border-radius: 10px;
+}
+
+.overviewInstructionCard {
+    width: 100%;
+    min-height: 200px;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 20px 20px;
+}
+
+.sideNavInstructionCard {
+    /* border: 2px solid red; */
+    padding: 20px 20px 20px 20px;
 }

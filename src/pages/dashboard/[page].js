@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import React, { useState } from "react";
 import Overview from '@/components/dashboard/Overview';
 import Deployments from '@/components/dashboard/Deployments';
 import Instruments from '@/components/dashboard/Instruments';
 import DashboardTabs from '@/components/dashboard/DashboardTabs'
+import { Container } from '@mui/system';
 import { useRouter } from 'next/router'
 import styles from '@/components/instrument/Instrument.module.css'
 import { useContext } from 'react';

@@ -591,7 +591,8 @@ input:-webkit-autofill {
 }
 
 .hr {
-  border: 0.5px solid var(--dark-theme-grey-outline)
+  border: 0.5px solid var(--dark-theme-grey-5);
+  width: 100%;
 }
 
 .darkThemeBlueText {
@@ -923,6 +924,10 @@ a:hover {
 .my-4 {
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+.ms-4 {
+  margin-left: 15px;
 }
 
 .mx-3 {

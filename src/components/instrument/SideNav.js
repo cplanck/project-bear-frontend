@@ -1,4 +1,5 @@
 import styles from './Instrument.module.css'
+import dbstyles from '@/components/dashboard/Dashboard.module.css'
 import SortButton from '../dashboard/SortButton'
 import SearchInput from '../../components/general/SearchInput'
 import Image from 'next/image'
@@ -80,16 +81,39 @@ export default function SideNav(){
 
     return(
         <div className={styles.sideNavWrapper}>
-            <div className={styles.sideNavTitleWrapper}>
-                <h3>Your Instruments</h3>
-                <Link  href='/instrument/add'>
-                    <button className='greyButton'>New</button>
-                </Link>
+            {listItems.length != 0?
+            <>
+                <div className={styles.sideNavTitleWrapper}>
+                    <h3>Your Instruments</h3>
+                    <Link  href='/instrument/add'>
+                        <button className='greyButton'>New</button>
+                    </Link>
+                </div>
+                <SearchInput placeholder={'Search Instruments'}/>
+                <div className={styles.sideNavlistItemsContainer}>
+                    {listItems}
+                </div>
+            </>
+            :
+            <div className={dbstyles.sideNavInstructionCard}>
+                <span className='boldText'>Add and deploy your first instrument</span>
+                <p className=''>Ready to get started? Add an instrument and create a deployment to build your real-time database, control access, and add media.</p>
+                {/* <p>With BitBear you can:</p>
+                <ul>
+                    <li>Organize data, metadata, files, and media from any instruments</li>
+                    <li>Control permissions</li>
+                    <li></li>
+                </ul> */}
+                <div>
+                    <Link href={'/instrument/add'}>
+                        <button  className={'greenButton'}>
+                            Add Instrument
+                        </button>
+                    </Link>
+                    <span className='darkThemeBlueText ms-4 smallText'>Learn more</span>
+                </div>
             </div>
-            <SearchInput placeholder={'Search Instruments'}/>
-            <div className={styles.sideNavlistItemsContainer}>
-                {listItems}
-            </div>
+            }
         </div>
     )
 }
