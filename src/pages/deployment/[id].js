@@ -63,7 +63,7 @@ dataAvailable?
         <div>
         <InstrumentHeading instrument={instrument} instrumentId={pageId}/>
         </div>
-        <div style={{border: '1px solid blue', height: '100vh'}}>
+        <div style={{border: '0px solid blue', height: '100vh'}}>
         <div className='activePage'><DeploymentDetails deployment={deployment} instrument={instrument} deploymentList={deploymentList} setDeploymentList={setDeploymentList}/></div>
         </div>
     </Container>

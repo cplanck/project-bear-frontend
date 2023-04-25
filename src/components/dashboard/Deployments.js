@@ -31,12 +31,7 @@ export default function Deployments(props){
 
     function Deployment(props){
 
-        let endDate
-        if(props.deployment.deployment_end_date){
-            endDate = dayjs(props.deployment.deployment_end_date).format('MMMM D, YYYY')
-        }else{
-            endDate = 'Present'
-        }
+        const endDate = props.deployment.deployment_end_date? dayjs(props.deployment.deployment_end_date).format('MMMM D, YYYY'):'Present'
 
         return(       
             <Grid item sm={12}  className={dbstyles.cardWrapper}>

@@ -9,12 +9,14 @@ import MenuList from '@mui/material/MenuList';
 import Link from 'next/link';
 import Stack from '@mui/material/Stack';
 import dbstyles from '@/components/dashboard/Dashboard.module.css'
+import Divider from '@mui/material/Divider';
 import styles from '@/components/instrument/Instrument.module.css'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useContext } from 'react';
 import { InstrumentContext, DeploymentContext, DataAvailableContext } from '@/components/Context'
 import StarHalfOutlinedIcon from '@mui/icons-material/StarHalfOutlined';
@@ -131,17 +133,32 @@ export default function ModifyButtonStar(props) {
                     aria-labelledby="composition-button"
                   >
                     {props.type == 'instrument'?
+                    <>
                     <Link href={'/instrument/edit/' + props.item.id} className='removeLinkFormatting'>
                       <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><EditOutlinedIcon fontSize={'small'} className={'me-3'}/>Edit</MenuItem>
                     </Link>
-                    :
-                    <Link href={'/deployment/edit/' + props.item.id} className='removeLinkFormatting'>
-                      <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><EditOutlinedIcon fontSize={'small'} className={'me-3'}/>Edit</MenuItem>
-                     </Link>
-                    }
-                    <Link href={{pathname: '/deployment/add', query: {instrument: props.item.id}}}>
+                    <Link href={{pathname: '/deployment/add', query: {instrument: props.item.id}}} className='removeLinkFormatting'>
                       <MenuItem id='deploy' className={styles.modifyButtonMenu} onClick={handleClose}><ArrowForwardOutlinedIcon fontSize={'small'} className={'me-3'}/>Deploy</MenuItem>
                     </Link>
+                    {/* <hr className='hr'></hr> */}
+                    <Link href={'/deployment/edit/' + props.item.id} className='removeLinkFormatting'>
+                      <hr className='hr'></hr>
+                      <MenuItem style={{color: 'var(--dark-theme-red-text)'}} className={[styles.modifyButtonMenu].join(' ')} onClick={handleClose}><DeleteOutlineIcon fontSize={'small'} className={'me-3 redText'}/>Delete</MenuItem>
+                    </Link>
+                    </>
+                    :
+                    <>
+                    <Link href={'/deployment/edit/' + props.item.id} className='removeLinkFormatting'>
+                      <MenuItem className={styles.modifyButtonMenu} onClick={handleClose}><EditOutlinedIcon fontSize={'small'} className={'me-3'}/>Edit</MenuItem>
+                    </Link>
+                    <Link href={'/deployment/edit/' + props.item.id} className='removeLinkFormatting redText'>
+                      <hr className='hr'></hr>
+                      <MenuItem style={{color: 'var(--dark-theme-red-text)'}} className={[styles.modifyButtonMenu].join(' ')} onClick={handleClose}><DeleteOutlineIcon fontSize={'small'} className={'me-3 redText'}/>Delete</MenuItem>
+                    </Link>
+                   </>
+                    }
+
+                   
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

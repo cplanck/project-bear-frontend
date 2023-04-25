@@ -19,6 +19,9 @@ export default function Overview(){
     let projects = [{'name': 'Nain Community Deployment 2021', 'description': 'SIMB3s, SAMs buoys, etc. '},{'name': 'SIDEx 2023', 'description': 'US Army  SIDEx project in collaboration with Ted, Andy, and Mark'}]
 
     function DeploymentPanel(props){
+
+        const endDate = props.deployment.deployment_end_date? dayjs(props.deployment.deployment_end_date).format('MMMM D, YYYY'):'Present'
+
         return(
             <Grid item sm={12} md={6} className={'overviewDeploymentCardWrapper'}>
                 <div className={'overviewDeploymentCard darkThemeDarkText'}>
@@ -26,11 +29,14 @@ export default function Overview(){
                         <Link href={'/deployment' + '/' + props.deployment.id}><h4 className='darkThemeBlueText removeHeaderMargin overviewCardDeploymentTitle'>{props.deployment.name}</h4></Link>
                         <span className='overviewDeploymentCardPrivacy'>{props.deployment.private?'Private':'Public'}</span>
                     </div>
-                    <span className='smallText'>{props.deployment.location}</span>
+                    {/* <span className='smallText'>{props.deployment.location}</span> */}
+                    <span className='boldText smallText me-2'> Active from </span> {dayjs(props.deployment.deployment_start_date).format('MMMM D, YYYY')} - {endDate}
+
                     <p className='overviewDeploymentDescription'>{props.deployment.description}</p>
                     <div className='deploymentInstrumentType'>
-                        {props.deployment.type}
-                        {props.deployment.instrument.name}
+                        {/* {props.deployment.type}
+                        {props.deployment.instrument.name} */}
+                        <span className='boldText me-2'> Active from </span> {dayjs(props.deployment.deployment_start_date).format('MMMM D, YYYY')} - {endDate}
                     </div>
                 </div>
             </Grid>            
@@ -65,11 +71,16 @@ export default function Overview(){
                         {props.instrument.description}
                     </p>
                    
-                    <div className='extraSmallText flexCenterFlexStart'>
-                        <div><span className='boldText'>Created</span> {dateAddedDate}</div>
+                    {/* <div className='extraSmallText flexCenterFlexStart'>
+                        <div>
+                            <span className='boldText'>Created</span> {dateAddedDate}
+                        </div>
                         <span style={{padding: '0px 10px 0px 10px'}}>|</span>
-                        <div><span className='boldText'>Last Updated</span> {lastModifiedDate}</div>
-                    </div>
+                        <div>
+                            <span className='boldText'>Last Updated</span> 
+                            {lastModifiedDate}
+                        </div>
+                    </div> */}
                 </div>
             </Grid>
         )
@@ -96,12 +107,12 @@ export default function Overview(){
 
     return(
         <div>
-             <h4 className='removeHeaderMargin'>Top Instruments</h4>
-            <Grid container spacing={0}>
+             <h4 className='' style={{margin: '20px 0px 10px 0px'}}>Top Instruments</h4>
+            <Grid container spacing={3}>
                 {instrumentArray}
             </Grid>
-            <h4 className='' style={{margin: '20px 0px 0px 0px'}}>Recent Deployments</h4>
-            <Grid container spacing={0}>
+            <h4 className='' style={{margin: '20px 0px 10px 0px'}}>Recent Deployments</h4>
+            <Grid container spacing={3}>
                 {deploymentArray}
             </Grid>
             {/* <h4 className='removeHeaderMargin'>Projects</h4>

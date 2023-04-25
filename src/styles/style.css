@@ -1,6 +1,7 @@
+/* 0D1116 202124*/
 :root {
 
-  --main-bg-color: #0D1116;
+  --main-bg-color: #12161C;
   --dark-theme-bg-extra-dark: #0C0D11;
   --dark-theme-text-main: #E7E7E7;
   --dark-theme-text-dark: #949494;
@@ -30,7 +31,7 @@
   --dark-theme-grey-4: #343941;
   --dark-theme-grey-5: #21262D;
 
-  --dark-theme-black: #0a0a0a;
+  --dark-theme-black: #0D1116;
 
   --top-nav-height: 60px;
   --side-nav-width: 350px;
@@ -605,7 +606,7 @@ input:-webkit-autofill {
 .overviewDeploymentCard {
   height: 100%;
   max-height: 250px;
-  border: 1px solid var(--dark-theme-grey-outline);
+  border: 1px solid var(--dark-theme-grey-4);
   border-radius: 8px;
   padding: 10px 10px 10px 10px;
   text-decoration: none;
@@ -658,6 +659,7 @@ a:hover {
 
 .overviewCardDeploymentTitle {
   margin-right: 0px;
+  font-size: 1.2em;
   /* border: 1px solid green; */
   overflow: hidden;
   /* word-break: break-all; */
@@ -986,7 +988,8 @@ a:hover {
 }
 
 .redText {
-  color: var(--dark-theme-red-text)
+  color: var(--dark-theme-red-text);
+  fill: var(--dark-theme-red-text);
 }
 
 .greenText {
