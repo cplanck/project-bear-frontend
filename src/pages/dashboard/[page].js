@@ -51,6 +51,11 @@ export default function Dashboard(props) {
     activePage = <div>Projects</div>
   }
 
+  // useEffect(()=>{
+  //   !userLoggedIn?router.push('/login'):''
+  // },[])
+  // this useEffect prevents instant navigation to this endpoint because it redirects before userLoggedIn has had a chance to set
+
   return (
     userLoggedIn?
     <div className={styles.instrumentContainer}>

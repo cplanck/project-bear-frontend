@@ -12,6 +12,8 @@ export const InstrumentContext = createContext();
 export const DeploymentContext = createContext();
 export const DataAvailableContext = createContext();
 export const UserLoggedInContext = createContext();
+export const TestContext = createContext();
+
 
 export const blankInstrumentObject = {name: '',id: '', serial_number:'', description: '',notes: '' ,instrument_color: '', avatar: '', status: '', starred: false, starred_date: '', purchase_date: '', date_added: '', last_modified: '', template: false, data_model: {configured: false, field_num: 0, entries: 0}, active_deployment: {name: '', id: '', avatar: ''}}
 
