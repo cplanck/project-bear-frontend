@@ -61,7 +61,7 @@ function SearchBar(props){
                     <Link href={'/dashboard/overview'} className={'removeLinkFormatting me-3'}>Dashboard</Link>
                     <Link href={'/learn'} className={'removeLinkFormatting me-3'}>Learn</Link>
                     <Link href={'/about'} className={'removeLinkFormatting me-3'}>Pricing</Link>
-                    <Link href={'/about'} className={'removeLinkFormatting me-3'}>About</Link>
+                    <Link href={'/login'} className={'removeLinkFormatting me-3'}>Login</Link>
                 </div>
         </div>
     )
