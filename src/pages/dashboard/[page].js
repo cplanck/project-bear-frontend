@@ -63,6 +63,6 @@ export default function Dashboard(props) {
       </div>
     </div>
     :
-    <div>Hello</div>
+    <div></div>
   )
 }

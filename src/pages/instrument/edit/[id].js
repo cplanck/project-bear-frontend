@@ -2,14 +2,14 @@ import EditInstrumentForm from "@/components/forms/EditInstrumentForm"
 import React, { useEffect, useState } from "react";
 import styles from '@/components/instrument/Instrument.module.css'
 import { useContext } from 'react';
-import { InstrumentContext } from '@/components/Context'
+import { InstrumentContext, UserLoggedInContext } from '@/components/Context'
 import { useRouter } from 'next/router'
 
 export default function EditInstrument(){
 
     const [instruments, setInstruments] = useContext(InstrumentContext);
     const [instrumentToEdit, setInstrumentToEdit] = useState()
-
+    let [userLoggedIn, setUserLoggedIn] = useContext(UserLoggedInContext);
 
     const router = useRouter()
 
@@ -20,8 +20,12 @@ export default function EditInstrument(){
 
       },[router.query.id])
     
-    return( <div className={styles.instrumentAddWrapper}>
-                <EditInstrumentForm instrumentToEdit={instrumentToEdit} setInstrumentToEdit={setInstrumentToEdit} instruments={instruments} setInstruments={setInstruments}/>
-            </div>
+    return(
+      userLoggedIn?
+    <div className={styles.instrumentAddWrapper}>
+      <EditInstrumentForm instrumentToEdit={instrumentToEdit} setInstrumentToEdit={setInstrumentToEdit} instruments={instruments} setInstruments={setInstruments}/>
+    </div>
+    :
+    <div>Not allowed</div>
     )
 }

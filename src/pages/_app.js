@@ -7,19 +7,10 @@ import { useEffect, useState } from 'react';
 
 export default function App({ Component, pageProps }) {
   
-  const [userLoggedIn, setUserLoggedIn] = useState(true)
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      console.log('Checking login credentials....');
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
-
   return (
     <ContextWrapper>
       <Layout>
-      {userLoggedIn?<Component {...pageProps}/>:<div>You need to log in dude</div>}
+        <Component {...pageProps}/>
       </Layout>
     </ContextWrapper>
   )
