@@ -8,7 +8,7 @@ import { Container } from '@mui/system';
 import { useRouter } from 'next/router'
 import styles from '@/components/instrument/Instrument.module.css'
 import { useContext } from 'react';
-import { InstrumentContext, DeploymentContext, DataAvailableContext } from '@/components/Context'
+import { InstrumentContext, DeploymentContext, DataAvailableContext, UserLoggedInContext } from '@/components/Context'
 import { maxWidth } from '@mui/system';
 import SideNav from '@/components/instrument/SideNav';
 
@@ -16,6 +16,7 @@ import SideNav from '@/components/instrument/SideNav';
 export default function Dashboard(props) {
 
   let [instruments, setInstruments] = useContext(InstrumentContext);
+  let [userLoggedIn, setUserLoggedIn] = useContext(UserLoggedInContext);
   let [page, setPage] = useState('')
 
   let userOverview = {'instruments': 3, 'deployments': 13, 'projects': 2, 'data_models': 4}
@@ -51,6 +52,7 @@ export default function Dashboard(props) {
   }
 
   return (
+    userLoggedIn?
     <div className={styles.instrumentContainer}>
       <SideNav/>
       <div className={styles.mainPanel} style={{border: '0px solid blue', width: '100%'}}>
@@ -60,5 +62,7 @@ export default function Dashboard(props) {
         </Container>
       </div>
     </div>
+    :
+    <div>Hello</div>
   )
 }

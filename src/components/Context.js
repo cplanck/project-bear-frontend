@@ -10,6 +10,7 @@ export const AppContext = createContext();
 export const InstrumentContext = createContext();
 export const DeploymentContext = createContext();
 export const DataAvailableContext = createContext();
+export const UserLoggedInContext = createContext();
 
 export const blankInstrumentObject = {name: '',id: '', serial_number:'', description: '',notes: '' ,instrument_color: '', avatar: '', status: '', starred: false, starred_date: '', purchase_date: '', date_added: '', last_modified: '', template: false, data_model: {configured: false, field_num: 0, entries: 0}, active_deployment: {name: '', id: '', avatar: ''}}
 
@@ -46,23 +47,26 @@ export function ContextWrapper({ children }) {
   let [instruments, setInstruments] = useState(instrumentList)
   let [deployments, setDeployments] = useState(deploymentList)
   let [dataAvailable, setDataAvailable] = useState(false)
+  let [userLoggedIn, setUserLoggedIn] = useState(false)
 
 
   return (
-    <ThemeProvider theme={MUITheme}>
-      <CssBaseline/>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+  <ThemeProvider theme={MUITheme}>
+    <CssBaseline/>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <UserLoggedInContext.Provider value={[userLoggedIn, setUserLoggedIn]}>
         <DataAvailableContext.Provider value={[dataAvailable, setDataAvailable]}>
           <InstrumentContext.Provider value={[instruments, setInstruments]}>
             <DeploymentContext.Provider value={[deployments, setDeployments]}>
               <AppContext.Provider value={[context, setContext]}>
                 {children}
               </AppContext.Provider>
-              </DeploymentContext.Provider>
+            </DeploymentContext.Provider>
           </InstrumentContext.Provider>
         </DataAvailableContext.Provider>
-      </LocalizationProvider>
-    </ThemeProvider>
+      </UserLoggedInContext.Provider>
+    </LocalizationProvider>
+  </ThemeProvider>
   );
 
 }
