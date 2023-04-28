@@ -11,6 +11,7 @@ import { useContext } from 'react';
 import { InstrumentContext, DeploymentContext, DataAvailableContext, UserLoggedInContext } from '@/components/Context'
 import { maxWidth } from '@mui/system';
 import SideNav from '@/components/instrument/SideNav';
+import ProtectedRoute from '@/components/general/ProtectedRoute';
 
 
 export default function Dashboard(props) {
@@ -51,13 +52,8 @@ export default function Dashboard(props) {
     activePage = <div>Projects</div>
   }
 
-  // useEffect(()=>{
-  //   !userLoggedIn?router.push('/login'):''
-  // },[])
-  // this useEffect prevents instant navigation to this endpoint because it redirects before userLoggedIn has had a chance to set
-
-  return (
-    userLoggedIn?
+  return (  
+    <ProtectedRoute>
     <div className={styles.instrumentContainer}>
       <SideNav/>
       <div className={styles.mainPanel} style={{border: '0px solid blue', width: '100%'}}>
@@ -67,7 +63,6 @@ export default function Dashboard(props) {
         </Container>
       </div>
     </div>
-    :
-    <div></div>
+    </ProtectedRoute>
   )
 }

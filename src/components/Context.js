@@ -12,7 +12,8 @@ export const InstrumentContext = createContext();
 export const DeploymentContext = createContext();
 export const DataAvailableContext = createContext();
 export const UserLoggedInContext = createContext();
-export const TestContext = createContext();
+export const PageLoaderContext = createContext();
+
 
 
 export const blankInstrumentObject = {name: '',id: '', serial_number:'', description: '',notes: '' ,instrument_color: '', avatar: '', status: '', starred: false, starred_date: '', purchase_date: '', date_added: '', last_modified: '', template: false, data_model: {configured: false, field_num: 0, entries: 0}, active_deployment: {name: '', id: '', avatar: ''}}
@@ -50,116 +51,12 @@ export function ContextWrapper({ children }) {
   let [instruments, setInstruments] = useState(instrumentList)
   let [deployments, setDeployments] = useState(deploymentList)
   let [dataAvailable, setDataAvailable] = useState(false)
-  let [userLoggedIn, setUserLoggedIn] = useState(false)
 
-  const router = useRouter()
-
-  function RefreshToken(refreshToken){
-    fetch('http://localhost:8000/auth/token/refresh/', {
-        method: 'POST',
-        // credentials: 'include',
-        headers: {
-            "Content-Type": "application/json",
-          },
-        body: JSON.stringify({refresh: refreshToken})
-      })
-      .then(response => {
-        response.json().then(response=>{
-            console.log(response)
-            const accessCode = response['access']
-            console.log(accessCode)
-            localStorage.setItem('access_token', accessCode)
-        })
-      })
-      .catch(error => {
-        console.log('THERE WAS AN ERROR GETTING THE TOKEN')
-      });
-  }
-
-  const checkAuthentication = ()=>{
-
-    console.log('Checking login credentials....');
-    let accessToken = localStorage.getItem('access_token')
-    let refreshToken = localStorage.getItem('refresh_token')
-
-    accessToken = accessToken != 'undefined'?accessToken:null
-    refreshToken = refreshToken != 'undefined'?refreshToken:null
-
-
-    if(!refreshToken){
-      router.push('/login')
-      setUserLoggedIn(false)
-      return
-    }
-    else if(refreshToken && accessToken){
-      console.log('ACCESS AND REFRESH TOKENS FOUND')
-      const refreshParts = refreshToken.split(".");
-      const refreshPayload = JSON.parse(atob(refreshParts[1]));
-      const refreshTokenExpirationTime = refreshPayload['exp']
-
-      console.log(refreshTokenExpirationTime)
-      
-      const currentTime = Date.now()/1000;
-      console.log(currentTime)
-
-      if(refreshTokenExpirationTime < currentTime){ 
-        // refresh token is expired and user needs to relogin
-        console.log('REFRESH TOKEN IS EXPIRED')
-        localStorage.removeItem('access_token')
-        localStorage.removeItem('refresh_token')
-        setUserLoggedIn(false)
-        router.push('/login')
-        return
-      }
-      else if(refreshPayload['exp'] > currentTime){
-        // refresh token is valid, now checking access_token
-        console.log('REFRESH TOKEN IS VALID, CHECKING ACCESS TOKEN...')
-        console.log(accessToken)
-        const accessParts = accessToken.split(".");
-        const accessPayload = JSON.parse(atob(accessParts[1]));
-        const accessTokenExpirationTime = accessPayload['exp']
-
-        console.log(accessTokenExpirationTime)
-        console.log(currentTime)
-        if(accessTokenExpirationTime + 12 < currentTime){ 
-          // access token is expired, but refresh token is good so we can exchange it for a new one
-          // modified -- access token is about to expire, so get a new one
-          console.log('ACCESS TOKEN INVALID, GETTING A NEW ONE FROM API')
-          RefreshToken(refreshToken)
-          setUserLoggedIn(true)
-          return
-        }
-        else{
-          // user has a good access_token and refresh_token. Good to go. 
-          console.log('THIS SHOULD BE RUNNING')
-          setUserLoggedIn(true)
-          return
-        }
-      }
-    }
-    else{
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('refresh_token')
-      setUserLoggedIn(false)
-      router.push('/login')
-    }
-
-  }
-
-  useEffect(() => {
-    checkAuthentication()
-    const intervalId = setInterval(() => {
-      // localStorage.getItem('access_token')?setUserLoggedIn(true):setUserLoggedIn(false)
-      checkAuthentication()
-    }, 10000);
-    return () => clearInterval(intervalId);
-  }, []);
 
   return (
   <ThemeProvider theme={MUITheme}>
     <CssBaseline/>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <UserLoggedInContext.Provider value={[userLoggedIn, setUserLoggedIn]}>
         <DataAvailableContext.Provider value={[dataAvailable, setDataAvailable]}>
           <InstrumentContext.Provider value={[instruments, setInstruments]}>
             <DeploymentContext.Provider value={[deployments, setDeployments]}>
@@ -169,7 +66,6 @@ export function ContextWrapper({ children }) {
             </DeploymentContext.Provider>
           </InstrumentContext.Provider>
         </DataAvailableContext.Provider>
-      </UserLoggedInContext.Provider>
     </LocalizationProvider>
   </ThemeProvider>
   );

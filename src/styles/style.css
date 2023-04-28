@@ -1051,6 +1051,16 @@ input[type="file"] {
   display: none;
 }
 
+.pagePreloaderWrapper {
+  position: absolute;
+  width: 100%;
+  height: calc(100vh - var(--top-nav-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark-theme-grey-3);
+}
+
 /* Small Screen Media Querty */
 @media screen and (max-width: 768px) {
   .profilePictureWrapper {

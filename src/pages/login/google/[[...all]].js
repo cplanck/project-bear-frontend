@@ -1,10 +1,15 @@
 import { useEffect, useState, useContext } from "react"
-import { UserLoggedInContext } from '@/components/Context'
+import { UserLoggedInContext, PageLoaderContext } from '@/components/Context'
+import PagePreloader from '@/components/general/PagePreloader'
 import { useRouter } from "next/router"
 
 export default function GoogleLogin(props){
 
     let [userLoggedIn, setUserLoggedIn] = useContext(UserLoggedInContext);
+    let [loadingPage, setLoadingPage] = useContext(PageLoaderContext);
+
+
+    let [userLoggingIn, setUserLoggingIn] = useState(true)
 
     const router = useRouter()
 
@@ -32,12 +37,17 @@ export default function GoogleLogin(props){
               console.log(response)
             return response.json();
           }).then(function(data) {
-            router.push('/dashboard/overview')
-            setUserLoggedIn(true)
-            localStorage.setItem("access_token", data['access_token']);
             localStorage.setItem("refresh_token", data['refresh_token']);
+            localStorage.setItem("access_token", data['access_token']);
+            setUserLoggingIn(false)
           });
     }
+
+    useEffect(()=>{
+        setUserLoggedIn(true)
+        setLoadingPage(false)
+        router.push('/dashboard/overview')
+    },[userLoggingIn])
 
     const testRequest = ()=>{
         console.log("click is working")
@@ -57,8 +67,6 @@ export default function GoogleLogin(props){
     }
 
     return(
-        <div>
-            Loading Dashboard....
-        </div>
+       <PagePreloader/>
     )
 }
