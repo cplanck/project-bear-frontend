@@ -26,39 +26,37 @@ import Link from 'next/link';
 
 export default function AddInstrumentForm(props){
 
-    const [instrumentDetails, setInstrumentDetails] = useState(blankInstrumentObject)
-    const [avatarUploadOpen, setAvatarUploadOpen] = useState(false)
-    const [imageBlob, setImageBlob] = useState('')
-    const [context, setContext] = useContext(AppContext)
-    const [fromTemplate, setFromTemplate] = useState(false)
-    const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
-    const [templateInstrument, setTemplateInstrument] = useState()
-    const inputRef = useRef(null);
+  const [instrumentDetails, setInstrumentDetails] = useState(blankInstrumentObject)
+  const [avatarUploadOpen, setAvatarUploadOpen] = useState(false)
+  const [imageBlob, setImageBlob] = useState('')
+  const [context, setContext] = useContext(AppContext)
+  const [fromTemplate, setFromTemplate] = useState(false)
+  const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
+  const [templateInstrument, setTemplateInstrument] = useState()
+  const inputRef = useRef(null);
 
-    const router = useRouter()
+  const router = useRouter()
 
-    function handleAlerts(alertType, alertSeverity, alertMessage){
-      setContext(structuredClone(context.alert.status=false))
-      let newContext = context
-      newContext[alertType].status = true
-      newContext[alertType].type = alertSeverity
-      newContext[alertType].message = alertMessage
-      setContext(structuredClone(newContext))
-    }
+  function handleAlerts(alertType, alertSeverity, alertMessage){
+    setContext(structuredClone(context.alert.status=false))
+    let newContext = context
+    newContext[alertType].status = true
+    newContext[alertType].type = alertSeverity
+    newContext[alertType].message = alertMessage
+    setContext(structuredClone(newContext))
+  }
 
-    function handleUserInput(event, id){
-        console.log(event.target.checked)
-        formik.handleChange(event)
-        let temp = structuredClone(instrumentDetails)
-        id == 'template'?temp[id] = event.target.checked:temp[id] = event.target.value
-        console.log(temp)
-        setInstrumentDetails(temp)
-    }
-
-    function handleDateChange(newDate, id){
-      let temp = structuredClone(instrumentDetails);
-      temp[id] = String(newDate.format())
+  function handleUserInput(event, id){
+      formik.handleChange(event)
+      let temp = structuredClone(instrumentDetails)
+      id == 'template'?temp[id] = event.target.checked:temp[id] = event.target.value
       setInstrumentDetails(temp)
+  }
+
+  function handleDateChange(newDate, id){
+    let temp = structuredClone(instrumentDetails);
+    temp[id] = String(newDate.format())
+    setInstrumentDetails(temp)
   }
 
   function initializeFromTemplate(event){
@@ -74,21 +72,56 @@ export default function AddInstrumentForm(props){
       setFromTemplate(true)
   }
 
-    function updateInstrumentContext(){
-      instrumentDetails['date_added']=dayjs().format()
-      instrumentDetails['last_modified']=dayjs().format()
-      instrumentDetails['purchased_date']?instrumentDetails:setInstrumentDetails(structuredClone(instrumentDetails['purchase_date']=dayjs().format()))
-      setInstrumentDetails(structuredClone(instrumentDetails['id']=24))
+
+  const handleSubmission = (instrumentDetails) => {
+    instrumentDetails['date_added']=dayjs().format()
+    instrumentDetails['last_modified']=dayjs().format()
+    instrumentDetails['purchased_date']?instrumentDetails:setInstrumentDetails(structuredClone(instrumentDetails['purchase_date']=dayjs().format()))
+    delete instrumentDetails.avatar
+
+    const url = 'http://localhost:8000/api/instruments/';
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(instrumentDetails),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      }
+    })
+    .then(response => {
+      console.log(response)
+      if(!response.ok){
+        handleAlerts('alert', 'error', 'There was a problem with your submission. Please try again. Server returned with ' + response.status + ' code.')
+        throw new Error('HTTP error, status = ' + response.status);
+      }
+      return response.json();
+    })
+    .then(instrumentDetails => {
+      setInstrumentDetails(structuredClone(instrumentDetails))
       const temp = props.instruments
       temp.push(instrumentDetails)
       props.setInstruments(temp)
       router.push('/dashboard/instruments')
-    }
+      handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
+    })
+    .catch(error => {
+      // could put some code to log these errors to the db
+    });
+  };
 
-    function triggerAvatarModal(e){
-      e.preventDefault()
-      setAvatarUploadOpen(true)
-    }
+  function updateInstrumentContext(instrumentDetails, id){
+    setInstrumentDetails(structuredClone(instrumentDetails['id']=id))
+    const temp = props.instruments
+    temp.push(instrumentDetails)
+    props.setInstruments(temp)
+    router.push('/dashboard/instruments')
+    handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
+  }
+
+  function triggerAvatarModal(e){
+    e.preventDefault()
+    setAvatarUploadOpen(true)
+  }
 
     const formik = useFormik({
       initialValues: {
@@ -106,15 +139,14 @@ export default function AddInstrumentForm(props){
 
       onSubmit: values => {
         console.log(instrumentDetails)
-        updateInstrumentContext()
-        handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
+        handleSubmission(instrumentDetails)
       },
     });
 
     function onSubmit(e){
       formik.handleSubmit(e)
-      !formik.dirty?handleAlerts('alert', 'error', 'You have form errors!'):''
-      formik.errors?handleAlerts('alert', 'error', 'You have form errors!'):''
+      // !formik.dirty?handleAlerts('alert', 'error', 'You have form errors!'):''
+      // formik.errors?handleAlerts('alert', 'error', 'You have form errors!'):''
     }
 
     useEffect(()=>{

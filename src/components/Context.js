@@ -16,9 +16,9 @@ export const PageLoaderContext = createContext();
 
 
 
-export const blankInstrumentObject = {name: '',id: '', serial_number:'', description: '',notes: '' ,instrument_color: '', avatar: '', status: '', starred: false, starred_date: '', purchase_date: '', date_added: '', last_modified: '', template: false, data_model: {configured: false, field_num: 0, entries: 0}, active_deployment: {name: '', id: '', avatar: ''}}
+export const blankInstrumentObject = {name: '',id: '', serial_number:'', description: '',notes: '' ,instrument_color: '', status: '', starred: false, starred_date: '1900-01-01T00:00:00+00:00', purchase_date: '', date_added: '', last_modified: '', template: false, data_model: {configured: false, field_num: 0, entries: 0}, active_deployment: {name: '', id: '', avatar: ''}}
 
-export const blankDeploymentObject = {name: '', instrument_id: '', id: '', location: '' , description: '', deployment_start_date: '', deployment_end_date: '', instrument_color: '', status: '', private: true, tags: [], collaborators: [], date_added: '', last_modified: '', starred: false, starred_date: ''}
+export const blankDeploymentObject = {name: '', instrument_id: '', id: '', location: '' , description: '', deployment_start_date: '', deployment_end_date: '', instrument_color: '', status: '', private: true, tags: [], collaborators: [], date_added: '', last_modified: '', starred: false, starred_date: '1900-01-01T00:00:00+00:00'}
 
 export const blankTagObject = {name: '', color: ''}
 

@@ -18,7 +18,6 @@ export default function App({ Component, pageProps }) {
   function RefreshToken(refreshToken){
     fetch('http://localhost:8000/auth/token/refresh/', {
         method: 'POST',
-        // credentials: 'include',
         headers: {
             "Content-Type": "application/json",
           },
