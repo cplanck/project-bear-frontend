@@ -12,7 +12,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import * as dayjs from 'dayjs'
 import { useContext } from 'react';
-import { AppContext } from '@/components/Context'
+import { AppContext, UserContext } from '@/components/Context'
 import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -33,6 +33,7 @@ export default function AddInstrumentForm(props){
   const [fromTemplate, setFromTemplate] = useState(false)
   const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
   const [templateInstrument, setTemplateInstrument] = useState()
+  const [user, setUser] = useContext(UserContext);
   const inputRef = useRef(null);
 
   const router = useRouter()
@@ -77,6 +78,7 @@ export default function AddInstrumentForm(props){
     instrumentDetails['date_added']=dayjs().format()
     instrumentDetails['last_modified']=dayjs().format()
     instrumentDetails['purchased_date']?instrumentDetails:setInstrumentDetails(structuredClone(instrumentDetails['purchase_date']=dayjs().format()))
+    instrumentDetails['user'] = user.user
     delete instrumentDetails.avatar
 
     const url = 'http://localhost:8000/api/instruments/';

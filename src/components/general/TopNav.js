@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import styles from './General.module.css'
 import logo from '@/images/bit-bear-logo-dark.png'
-import { useState } from 'react';
+import { UserContext, UserLoggedInContext } from '@/components/Context'
+import { useState, useContext } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -94,10 +95,33 @@ function SmallMenu(props){
 
 export default function TopNav(props){
 
-    let user = {'name': 'Cameron Planck', 'avatar': 'https://i.pravatar.cc/300'}
+    // let user = {'name': 'Cameron Planck', 'avatar': 'https://i.pravatar.cc/300'}
 
     const [smallMenuOpen, setSmallMenuOpen] = useState(false)
+    const [user, setUser] = useContext(UserContext);
+    const [userLoggedIn, setUserLoggedIn] = useContext(UserContext);
 
+    const getAvatar = () =>{
+       
+        const url = 'http://localhost:8000/users/profile'
+        
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+            }
+            })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+    });
+        
+    }
+
+    console.log(user)
     return(
         <div className={styles.topNavWrapper}>
             <div className={styles.topNavLeftGroup}>
@@ -115,16 +139,22 @@ export default function TopNav(props){
                 <div>
                 </div>
             </div>
-            <Image src={logo} className={[styles.topNavLogo, 'showOnSmall'].join(' ')} alt="User profile picture" />
-            <div className={styles.topNavRightGroup}>
-                <div className='hideOnSmall' style={{paddingTop: '5px'}}>
-                    <NotificationsNoneIcon style={{color: 'var(--dark-theme-text-main)'}}/>
+            
+            {Object.keys(user?user:{}).length !== 0 && userLoggedIn?<div>
+                <Image src={logo} className={[styles.topNavLogo, 'showOnSmall'].join(' ')} alt="User profile picture" />
+                <div className={styles.topNavRightGroup}>
+                    <div className='hideOnSmall' style={{paddingTop: '5px'}}>
+                        <NotificationsNoneIcon style={{color: 'var(--dark-theme-text-main)'}}/>
+                    </div>
+                    <div className='hideOnSmall'>
+                        <AddDropDown style={{color: 'var(--dark-theme-text-main)'}}/>
+                    </div>
+                    <AvatarDropDown user={user}/>
                 </div>
-                <div className='hideOnSmall'>
-                    <AddDropDown style={{color: 'var(--dark-theme-text-main)'}}/>
-                </div>
-                <AvatarDropDown avatar={user.avatar}/>
             </div>
+            :
+            ''
+            }
         </div>
     )
 }

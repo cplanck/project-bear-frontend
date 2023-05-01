@@ -3,17 +3,58 @@ import Layout from '../components/Layout'
 import React from 'react';
 import {ContextWrapper} from '../components/Context'
 import { useEffect, useState } from 'react';
-import { createContext, useContext } from 'react';
-import { UserLoggedInContext, PageLoaderContext } from '@/components/Context';
+import { UserLoggedInContext, PageLoaderContext, UserContext } from '@/components/Context';
+import { createContext, useContext, InstrumentContext } from 'react';
 import PagePreloader from '@/components/general/PagePreloader'
 import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }) {
 
   let [userLoggedIn, setUserLoggedIn] = useState(false)
+  let [user, setUser] = useState({})
   let [loadingPage, setLoadingPage] = useState(true)
+  const [instruments, setInstruments] = useContext(InstrumentContext)
 
   const router = useRouter()
+
+  const fetchUserDetails = (token)=>{
+    const url = 'http://localhost:8000/users/profile'
+    fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data[0])
+      setUser(data[0])
+      setUserLoggedIn(true)
+      setLoadingPage(false)
+      router.push('/dashboard/overview')
+    })
+    .catch(error => {
+        console.error('Error:', error);
+});
+}
+
+const fetchUserInstruments = ()=>{
+  const url = 'http://localhost:8000/api/instruments'
+  fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      }
+    })
+  .then(response => response.json())
+  .then(data => {
+   console.log(data)
+   setInstruments(data)
+  })
+  .catch(error => {
+      console.error('Error:', error);
+});
+}
 
   function RefreshToken(refreshToken){
     fetch('http://localhost:8000/auth/token/refresh/', {
@@ -59,6 +100,7 @@ export default function App({ Component, pageProps }) {
           console.log('REFRESH TOKEN IS EXPIRED')
           localStorage.removeItem('access_token')
           localStorage.removeItem('refresh_token')
+          handleAlerts('alert', 'warning', 'You\'ve been logged out for security purposes. Please log back in to continue.')
           return false
         }
         else if(refreshPayload['exp'] > currentTime){
@@ -97,8 +139,8 @@ export default function App({ Component, pageProps }) {
 
     if(authenticatedUser){
       console.log('USER LOGGED IN AND THIS RAN')
-      setUserLoggedIn(true)
-      setLoadingPage(false)
+      fetchUserDetails(localStorage.getItem('access_token'))
+      fetchUserInstruments()
     }
     else{
       setUserLoggedIn(false)
@@ -118,6 +160,7 @@ export default function App({ Component, pageProps }) {
   return (
     <PageLoaderContext.Provider value={[loadingPage, setLoadingPage]}>
       <UserLoggedInContext.Provider value={[userLoggedIn, setUserLoggedIn]}>
+        <UserContext.Provider value={[user, setUser]}>
         <ContextWrapper>
           <Layout>
             {loadingPage?<PagePreloader />
@@ -126,6 +169,7 @@ export default function App({ Component, pageProps }) {
             }
           </Layout>
         </ContextWrapper>
+        </UserContext.Provider>
       </UserLoggedInContext.Provider>
     </PageLoaderContext.Provider >
   )

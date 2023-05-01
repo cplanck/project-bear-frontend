@@ -12,6 +12,7 @@ export const InstrumentContext = createContext();
 export const DeploymentContext = createContext();
 export const DataAvailableContext = createContext();
 export const UserLoggedInContext = createContext();
+export const UserContext = createContext();
 export const PageLoaderContext = createContext();
 
 

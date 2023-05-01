@@ -9,11 +9,17 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import styles from './General.module.css'
 import Link from 'next/link'
+import Image from 'next/image'
 
 
 export default function AvatarDropDown(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const avatar = props.user.avatar?props.user.avatar:'https://ui-avatars.com/api/?bold=true&background=D30303&name=' + props.user.full_name
+
+  console.log(avatar)
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -32,7 +38,7 @@ export default function AvatarDropDown(props) {
             aria-expanded={open ? 'true' : undefined}
           >
             <div className={['textButton', styles.topNavAddButton].join(" ")}>
-              <div className={styles.topNavAvatar} style={{backgroundImage: `url(${props.avatar})`}}></div>
+              <div className={styles.topNavAvatar} style={{backgroundImage: `url(${avatar})`}}></div>
             </div>
           </IconButton>
       </Box>
@@ -74,7 +80,7 @@ export default function AvatarDropDown(props) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem className={styles.menuItem} onClick={handleClose}>
-            Logged in as <span className='boldText' style={{marginLeft: '4px'}}>Cameron Planck</span>
+            Logged in as <span className='boldText' style={{marginLeft: '4px'}}>{props.user?.full_name}</span>
         </MenuItem>
         <Divider className={styles.menuDivider}/>
         <MenuItem className={styles.menuItem} onClick={handleClose}>

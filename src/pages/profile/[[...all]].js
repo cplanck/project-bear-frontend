@@ -15,11 +15,14 @@ import profilePic from '@/images/cam.jpeg'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
+import { UserContext } from '@/components/Context'
 import { type } from 'os';
 
 export default function Dashboard(props) {
 
-  let user = {'name': 'Cameron Planck','work': 'Cryosphere Innovation', 'location': 'West Lebanon, NH' , 'title': 'CEO of Cryosphere ', 'website': 'www.cryosphereinnovation.com'}
+  const [user, setUser] = useContext(UserContext);
+
+  // let user = {'name': 'Cameron Planck','work': 'Cryosphere Innovation', 'location': 'West Lebanon, NH' , 'title': 'CEO of Cryosphere ', 'website': 'www.cryosphereinnovation.com'}
   let userOverview = {'instruments': 3, 'deployments': 13, 'projects': 2, 'data_models': 4}
 
   let [userProfileDetails, setUserProfileDetails] = useState({'name': 'Cameron Planck','work': 'Cryosphere Innovation', 'location': 'West Lebanon, NH' , 'bio': 'CEO of Cryosphere ', 'website': 'www.cryosphereinnovation.com'})
@@ -100,7 +103,7 @@ export default function Dashboard(props) {
     let smallProfilePanel = 
       <div className='profilePictureWrapperSmall'>
           <div className='profilePictureWrapperSmall2'>
-            <Image priority={true} src={profilePic} className={'userProfilePictureSmall'} alt="User profile picture" />
+            <Image priority={true} src={props.userProfileDetails.avatar} className={'userProfilePictureSmall'} alt="User profile picture" width={100} height={100}/>
             {profilePanelState != 'edit-profile'?
               <div className='profilePictureWrapperSmall3'>
                 <h2>{props.userProfileDetails.name}</h2>
@@ -119,15 +122,15 @@ export default function Dashboard(props) {
     let largeProfilePanel = 
       <div className='profilePictureWrapper'>
           <div className='profilePictureWrapper2'>
-            <Image
-              src={profilePic}
+            <img src={props.userProfileDetails.avatar} 
               className={'userProfilePicture'}
               alt="User profile picture"
-              priority={true}
+              width={200} 
+              height={200}
             />
             {profilePanelState != 'edit-profile'?
               <div className='profilePictureWrapper3'>
-                <h2>{props.userProfileDetails.name}</h2>
+                <h2>{props.userProfileDetails.full_name}</h2>
                 <span className='userProfileDetails'>{props.userProfileDetails.bio}</span>
                 <button className='greyButton userProfileButton' onClick={() => {setProfilePanelState('edit-profile')}}>Edit Profile</button>
                 <span className='userProfileDetails'><LocationOnOutlinedIcon fontSize='small' className='userProfileIcon'/>{props.userProfileDetails.work}</span>
@@ -151,7 +154,7 @@ export default function Dashboard(props) {
         <div style={{border: '0px solid blue', height: '100vh'}}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={3}>
-                <ProfilePanel userProfileDetails={userProfileDetails}/>
+                <ProfilePanel userProfileDetails={user}/>
               </Grid>
               <DashboardTabs page={page} updatePage={updatePage} userOverview={userOverview} className={'showOnSmall'}/>
               <Grid item xs={12} md={9}>
