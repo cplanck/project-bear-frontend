@@ -5,12 +5,15 @@ import { useContext } from 'react'
 import { AppContext } from '../components/Context'
 import Container from '@mui/material/Container';
 import React, { useState, useEffect } from "react";
+import { PageLoaderContext } from '@/components/Context';
+import PagePreloader from '@/components/general/PagePreloader'
 import MUITheme from '@/MUITheme'
 
 
 export default function Layout({ children }) {
 
 const [context, setContext] = useContext(AppContext)
+const [pageLoading, setPageLoading] = useContext(PageLoaderContext)
 
 function closeAlert(alertType){
         let newContext = context
@@ -129,13 +132,17 @@ function UserAlerts(){
         )
 }
 
+    console.log(pageLoading)
   return (
     <>
       <TopNav />
       <div className='pageContent'>
       <UserAlerts/>
       <UserSnackbar />
-          <main>{children}</main>
+      {pageLoading?
+        <PagePreloader/>:
+        <main>{children}</main>
+      }
       </div>
     </>
   )

@@ -49,7 +49,7 @@ function LinkItem(props){
 export default function SideNav(){
 
     const [instruments, setInstruments] = useContext(InstrumentContext);
-    const sortedInstruments = instruments.sort((a, b) => a.last_modified.localeCompare(b.last_modified));
+    const sortedInstruments = instruments?.sort((a, b) => a.last_modified.localeCompare(b.last_modified));
     const [browserWidth, setBrowserWidth] = useState(1800)
 
     // if(typeof window != undefined){

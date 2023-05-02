@@ -54,15 +54,15 @@ export default function Dashboard(props) {
 
   return (  
     <ProtectedRoute>
-    <div className={styles.instrumentContainer}>
-      <SideNav/>
-      <div className={styles.mainPanel} style={{border: '0px solid blue', width: '100%'}}>
-        <DashboardTabs page={page} updatePage={updatePage} userOverview={userOverview} className={'hideOnSmall'}/>
-        <Container className={styles.mainPageContainer} maxWidth={false} style={{maxWidth: '1800px'}}>
-            {activePage}
-        </Container>
+      <div className={styles.instrumentContainer}>
+        <SideNav/>
+        <div className={styles.mainPanel} style={{border: '0px solid blue', width: '100%'}}>
+          <DashboardTabs page={page} updatePage={updatePage} userOverview={userOverview} className={'hideOnSmall'}/>
+          <Container className={styles.mainPageContainer} maxWidth={false} style={{maxWidth: '1800px'}}>
+              {activePage}
+          </Container>
+        </div>
       </div>
-    </div>
     </ProtectedRoute>
   )
 }

@@ -34,6 +34,11 @@ function SearchBar(props){
     const searchBox = useRef();
     const [searchOpen, setSearchOpen] = useState(false)
 
+    const logOut = () =>{
+        console.log('LOCKOUT CLICKED!')
+        window.google.accounts.id.disableAutoSelect();
+    }
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             
@@ -63,12 +68,14 @@ function SearchBar(props){
                     <Link href={'/learn'} className={'removeLinkFormatting me-3'}>Learn</Link>
                     <Link href={'/about'} className={'removeLinkFormatting me-3'}>Pricing</Link>
                     <Link href={'/login'} className={'removeLinkFormatting me-3'}>Login</Link>
+                    {/* <button onClick={()=>logOut()} href='/dashboard/deployments' className={'removeLinkFormatting boldText greyButton'}>Sign Out</button> */}
                 </div>
         </div>
     )
 }
 
 function SmallMenu(props){
+
     return(
         props.smallMenuOpen?
             <div className={[styles.smallMenuWrapper, 'showOnSmall'].join(' ')}>
@@ -84,7 +91,6 @@ function SmallMenu(props){
                     <hr className={styles.hrLink}></hr>
                     <Link href='/dashboard/binary-map' className={'removeLinkFormatting boldText'} onClick={()=>{props.setSmallMenuOpen(false)}}>Binary Maps</Link>
                     <hr className={styles.hrLink}></hr>
-                    <Link href='/dashboard/deployments' className={'removeLinkFormatting boldText'} onClick={()=>{props.setSmallMenuOpen(false)}}>Sign Out</Link>
                 </div>
             </div>
         :''
@@ -118,10 +124,8 @@ export default function TopNav(props){
         .catch(error => {
             console.error('Error:', error);
     });
-        
     }
 
-    console.log(user)
     return(
         <div className={styles.topNavWrapper}>
             <div className={styles.topNavLeftGroup}>

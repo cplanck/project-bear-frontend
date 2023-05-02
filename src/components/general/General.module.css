@@ -1,18 +1,18 @@
-.searchInputWrapper{
+.searchInputWrapper {
     border: 1px solid var(--dark-theme-grey-4);
     width: 100%;
     background-color: var(--dark-theme-black);
     border-radius: 4px;
-    padding: 5px 5px 5px 5px; 
+    padding: 5px 5px 5px 5px;
 }
 
-.searchInputWrapper:focus{
+.searchInputWrapper:focus {
     outline: none;
     border: 2px solid var(--dark-theme-blue);
     color: var(--dark-theme-text-main);
 }
 
-.topNavWrapper{
+.topNavWrapper {
     /* background-color: #1F1E3C; */
     /* background: rgb(74,43,125);
     background: -moz-linear-gradient(292deg, rgba(74,43,125,1) 0%, rgba(40,39,78,1) 81%);
@@ -20,11 +20,11 @@
     background: linear-gradient(292deg, rgba(74,43,125,1) 0%, rgba(40,39,78,1) 81%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4a2b7d",endColorstr="#28274e",GradientType=1); */
 
-    background: rgb(68,42,117);
-    background: -moz-linear-gradient(145deg, rgba(68,42,117,1) 1%, rgba(103,2,195,1) 100%);
-    background: -webkit-linear-gradient(145deg, rgba(68,42,117,1) 1%, rgba(103,2,195,1) 100%);
-    background: linear-gradient(145deg, rgba(68,42,117,1) 1%, rgba(103,2,195,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#442a75",endColorstr="#6702c3",GradientType=1);
+    background: rgb(68, 42, 117);
+    background: -moz-linear-gradient(145deg, rgba(68, 42, 117, 1) 1%, rgba(103, 2, 195, 1) 100%);
+    background: -webkit-linear-gradient(145deg, rgba(68, 42, 117, 1) 1%, rgba(103, 2, 195, 1) 100%);
+    background: linear-gradient(145deg, rgba(68, 42, 117, 1) 1%, rgba(103, 2, 195, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#442a75", endColorstr="#6702c3", GradientType=1);
 
     height: var(--top-nav-height);
     width: 100%;
@@ -36,7 +36,7 @@
     top: 0px;
 }
 
-.topNavLogo{
+.topNavLogo {
     width: 40px;
     height: 40px;
     margin-right: 20px;
@@ -44,14 +44,14 @@
     /* margin: 20px 20px 20px 20px; */
 }
 
-.topNavAvatar{
+.topNavAvatar {
     height: 25px;
     width: 25px;
     background-size: contain;
     border-radius: 50%;
 }
 
-.topNavLogoSearchWrapper{
+.topNavLogoSearchWrapper {
     display: flex;
     align-items: center;
     padding-right: 20px;
@@ -59,7 +59,7 @@
     border: 2px solid blue;
 }
 
-.topNavLinks{
+.topNavLinks {
     font-weight: 800;
     font-size: 0.9em;
     color: var(--dark-theme-text-main);
@@ -67,25 +67,25 @@
     text-decoration: none;
 }
 
-.topNavLinks:hover{
+.topNavLinks:hover {
     color: var(--dark-theme-grey-2);
     text-decoration: none;
 }
 
-.topNavLeftGroup{
+.topNavLeftGroup {
     display: flex;
     align-items: center;
     position: relative;
 }
 
-.topNavRightGroup{
+.topNavRightGroup {
     display: flex;
     align-items: center;
     padding-right: 20px;
     justify-content: flex-end;
 }
 
-.topNavAddButton{
+.topNavAddButton {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -94,44 +94,44 @@
     margin: -10px
 }
 
-.removeIconPadding{
+.removeIconPadding {
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
 }
 
-.plusIcon{
+.plusIcon {
     margin-left: -8px;
 }
 
-.menuItem{
+.menuItem {
     padding: 5px 15px 5px 15px !important;
     font-size: 0.9em;
 }
 
-.menuItem:hover{
+.menuItem:hover {
     background-color: var(--dark-theme-darker-blue);
 }
 
-.link{
+.link {
     color: var(--dark-theme-text-main) !important;
     text-decoration: none;
 }
 
-.link:hover{
+.link:hover {
     text-decoration: none;
 }
 
-.menuDivider{
+.menuDivider {
     border: 0.5px solid var(--dark-theme-grey-4);
 }
 
-.searchBarWrapperTop{
+.searchBarWrapperTop {
     position: relative;
     top: -3px;
     /* border: 4px solid blue; */
 }
 
-.searchBarWrapper{
+.searchBarWrapper {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -144,7 +144,7 @@
     will-change: auto;
 }
 
-.topNavLinkGroup{
+.topNavLinkGroup {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -161,10 +161,10 @@
     will-change: auto;
 }
 
-.searchOpen{
+.searchOpen {
     position: relative;
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
     max-width: 420px;
     min-height: 200px;
     background-color: var(--main-bg-color);
@@ -175,7 +175,7 @@
     font-size: 0.9em;
 }
 
-.searchOpen{
+.searchOpen {
     position: relative;
     /* min-width: 100%; */
     max-width: 420px;
@@ -190,12 +190,12 @@
     font-size: 0.9em;
 }
 
-.searchInput{
+.searchInput {
     background-color: black;
-    -moz-appearance: none; 
-    -webkit-appearance: none; 
+    -moz-appearance: none;
+    -webkit-appearance: none;
     appearance: none;
-    height: 30px; 
+    height: 30px;
     width: 100%;
     padding: 8px 8px 8px 8px;
     color: var(--dark-theme-text-main);
@@ -204,47 +204,55 @@
     border-radius: 6px;
     border: 1px solid var(--dark-theme-grey-4);
     outline: none;
-  }
+}
 
-  .smallMenuWrapper{
-      min-width: 100vw;
-      left: 0px;
-      top: var(--top-nav-height);
-      position: fixed;
-      border: 0px solid red;
-      background-color: var(--dark-theme-navbar-dropdown);
-      min-height: 300px;
-      padding: 30px 10px 40px 10px;
-      border-bottom: 1px solid var(--dark-theme-grey-4);
-  }
+.smallMenuWrapper {
+    min-width: 100vw;
+    left: 0px;
+    top: var(--top-nav-height);
+    position: fixed;
+    border: 0px solid red;
+    background-color: var(--dark-theme-navbar-dropdown);
+    min-height: 300px;
+    padding: 30px 10px 40px 10px;
+    border-bottom: 1px solid var(--dark-theme-grey-4);
+}
 
-  .smallMenulinkGroup{
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      top: 30px;
-      color: var(--dark-theme-header);
-      text-decoration: none;
-  }
+.smallMenulinkGroup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    top: 30px;
+    color: var(--dark-theme-header);
+    text-decoration: none;
+}
 
-  .hrLink{
-      border: 0.5px solid var(--dark-theme-grey-4);
-      width: 100%;
-  }
+.hrLink {
+    border: 0.5px solid var(--dark-theme-grey-4);
+    width: 100%;
+}
 
+.loginWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border: 1px solid green;
+}
 
 @media screen and (max-width: 768px) {
 
-    .topNavLeftGroup{
+    .topNavLeftGroup {
         margin-left: 15px;
         width: 40px;
     }
 
-    .searchBarWrapper{
+    .searchBarWrapper {
         width: 100%;
     }
 
-    .searchOpen{
+    .searchOpen {
         max-width: 100%;
     }
 }

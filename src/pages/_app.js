@@ -7,19 +7,15 @@ import { PageLoaderContext } from '@/components/Context';
 import { createContext, useContext, InstrumentContext } from 'react';
 import PagePreloader from '@/components/general/PagePreloader'
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 
 export default function App({ Component, pageProps }) {
-  
-  // const [loadingPage, setLoadingPage] = useContext(PageLoaderContext)
-  // let [loadingPage, setLoadingPage] = useState(true)
 
   return (
         <ContextWrapper>
             <Layout>
-              {/* {loadingPage?<PagePreloader />
-              : */}
+              <Script beforeInteractive={true} src="https://accounts.google.com/gsi/client" />
               <Component {...pageProps}/>
-              {/* } */}
             </Layout>
       </ContextWrapper>
   )
