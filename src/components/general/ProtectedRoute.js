@@ -1,24 +1,19 @@
 import { useEffect, useContext } from "react"
-import { UserLoggedInContext, UserContext } from '@/components/Context'
+import { UserLoggedInContext, UserContext, PageLoaderContext } from '@/components/Context'
 import { useRouter } from "next/router"
+import PagePreloader from '@/components/general/PagePreloader'
 
 export default function ProtectedRoute({ children }){
 
     const router = useRouter()
-    // let [userLoggedIn] = useContext(UserLoggedInContext);
-
     let [user] = useContext(UserContext);
-
-    // useEffect(()=>{
-    //   !userLoggedIn?router.push('/login'):''
-    // },[userLoggedIn])
     
     useEffect(()=>{
-        console.log(user)
-        !localStorage.getItem('access_token')?router.push('/login'):''
+        !localStorage.getItem('access_token')?router.push('/'):''
     },[user])
   
     return(
-        children
+        Object.keys(user).length === 0?<PagePreloader/>:children
+        
     )
   }

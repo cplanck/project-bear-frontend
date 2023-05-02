@@ -213,7 +213,7 @@ td {
 
 .styledInput.small {
   height: 30px;
-  width: 100%;
+  min-width: 100%;
   padding: 8px 8px 8px 8px;
   font-size: 0.9em;
   text-indent: 0px;
@@ -1059,6 +1059,28 @@ input[type="file"] {
   align-items: center;
   justify-content: center;
   color: var(--dark-theme-grey-3);
+}
+
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 10px 15px 10px;
+  font-size: 0.9em;
+  background-color: var(--dark-theme-header);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border: 2px solid red;
+  /* width: 100%; */
+}
+
+.modalBody {
+  background-color: var(--main-bg-color);
+  padding: 15px 15px 15px 15px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  /* border: 2px solid green; */
 }
 
 /* Small Screen Media Querty */

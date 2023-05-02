@@ -5,20 +5,30 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import AddIcon from '@mui/icons-material/Add';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import styles from './General.module.css'
 import Link from 'next/link'
-import Image from 'next/image'
+import { UserContext } from '@/components/Context'
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
 
 
 export default function AvatarDropDown(props) {
+
+  const [user, setUser] = useContext(UserContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const avatar = props.user.avatar?props.user.avatar:'https://ui-avatars.com/api/?bold=true&background=D30303&name=' + props.user.full_name
 
-  console.log(avatar)
+  const router = useRouter()
+
+  const logOut = () =>{
+      window.google.accounts.id.disableAutoSelect();
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      setUser({})
+      router.push('/')
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -110,7 +120,7 @@ export default function AvatarDropDown(props) {
         </MenuItem>
         <Divider className={styles.menuDivider}/>
         <MenuItem className={styles.menuItem} onClick={handleClose}>
-          Sign Out
+          <button onClick={()=>logOut()} className={'removeLinkFormatting boldText greyButton'}>Sign Out</button>
         </MenuItem>
       </Menu>
     </React.Fragment>

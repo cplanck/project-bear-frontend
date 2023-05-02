@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { useRef } from "react";
 import { Divider } from '@mui/material';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 function SearchDropDown(props){
    
@@ -33,11 +34,6 @@ function SearchBar(props){
     const ref = useRef();
     const searchBox = useRef();
     const [searchOpen, setSearchOpen] = useState(false)
-
-    const logOut = () =>{
-        console.log('LOCKOUT CLICKED!')
-        window.google.accounts.id.disableAutoSelect();
-    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -68,7 +64,6 @@ function SearchBar(props){
                     <Link href={'/learn'} className={'removeLinkFormatting me-3'}>Learn</Link>
                     <Link href={'/about'} className={'removeLinkFormatting me-3'}>Pricing</Link>
                     <Link href={'/login'} className={'removeLinkFormatting me-3'}>Login</Link>
-                    {/* <button onClick={()=>logOut()} href='/dashboard/deployments' className={'removeLinkFormatting boldText greyButton'}>Sign Out</button> */}
                 </div>
         </div>
     )
@@ -101,30 +96,10 @@ function SmallMenu(props){
 
 export default function TopNav(props){
 
-    // let user = {'name': 'Cameron Planck', 'avatar': 'https://i.pravatar.cc/300'}
 
     const [smallMenuOpen, setSmallMenuOpen] = useState(false)
     const [user, setUser] = useContext(UserContext);
     const [userLoggedIn, setUserLoggedIn] = useContext(UserContext);
-
-    const getAvatar = () =>{
-       
-        const url = 'http://localhost:8000/users/profile'
-        
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-            }
-            })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        })
-        .catch(error => {
-            console.error('Error:', error);
-    });
-    }
 
     return(
         <div className={styles.topNavWrapper}>
@@ -157,7 +132,7 @@ export default function TopNav(props){
                 </div>
             </div>
             :
-            ''
+            <Link href={'/login'}>Login</Link>
             }
         </div>
     )

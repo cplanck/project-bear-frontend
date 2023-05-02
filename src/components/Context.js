@@ -55,15 +55,14 @@ export function ContextWrapper({ children }) {
   let [dataAvailable, setDataAvailable] = useState(false)
   let [userLoggedIn, setUserLoggedIn] = useState(false)
   let [user, setUser] = useState({})
-  let [loadingPage, setLoadingPage] = useState(true)
+  let [loadingPage, setLoadingPage] = useState(false)
 
   const router = useRouter()
 
   useEffect(() => {
-    setLoadingPage(true)
+    
     loginOrRefresh(setLoadingPage, setInstruments, setUser)
     
-
     const authCheckTiming = setInterval(() => {
       const authenticatedUser = checkAuthentication()
       if(!authenticatedUser){

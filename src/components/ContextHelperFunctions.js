@@ -57,7 +57,7 @@ export function RefreshToken(refreshToken){
       });
   }
 
-export const checkAuthentication = ()=>{
+export const checkAuthentication = (setLoadingPage)=>{
 
     console.log('Checking login credentials....');
     let accessToken = localStorage.getItem('access_token')
@@ -112,15 +112,22 @@ export const checkAuthentication = ()=>{
   }
 
   export const loginOrRefresh = (setLoadingPage, setInstruments, setUser, redirect, router) =>{
-    setLoadingPage(true)
-    const authenticatedUser = checkAuthentication()
-    if(authenticatedUser){
-      console.log('User is authenticated, fetching details...')
-      fetchUserDetails(localStorage.getItem('access_token'), setUser)
-      fetchUserInstruments(setInstruments).then(loading=>setLoadingPage(!loading)).then(()=>{redirect?router.push(redirect):''})
-    }
-    else{
-        setLoadingPage(false)
-        return true
-    }
+
+    const userHasVisited = localStorage.getItem('user_has_visited')??false
+    const accessToken = localStorage.getItem('access_token')??false
+    const refreshToken = localStorage.getItem('refresh_token')??false
+
+    if(!userHasVisited || !accessToken || !refreshToken){
+        return false
+    }else{
+        const authenticatedUser = checkAuthentication(setLoadingPage)
+        if(authenticatedUser){
+          console.log('User is authenticated, fetching details...')
+          fetchUserDetails(localStorage.getItem('access_token'), setUser)
+          return fetchUserInstruments(setInstruments).then(loading=>setLoadingPage(!loading)).then(()=>{redirect?router.push(redirect):''})
+        }
+        else{
+            setLoadingPage(false)
+        }
+    }    
   }
