@@ -7,7 +7,7 @@ import DeploymentDetails from '@/components/deployment/DeploymentDetails';
 import SideNav from '@/components/instrument/SideNav';
 import { useRouter } from 'next/router'
 import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
-import { DeploymentContext, InstrumentContext, DataAvailableContext } from '@/components/Context'
+import { DeploymentContext, InstrumentContext } from '@/components/Context'
 import ProtectedRoute from '@/components/general/ProtectedRoute';
 import styles from '@/components/instrument/Instrument.module.css'
 
@@ -40,20 +40,18 @@ export default function Dashboard(props) {
 
 const [deploymentList, setDeploymentList] = useContext(DeploymentContext)
 const [instrumentList, setInstrumentList] = useContext(InstrumentContext)
-const [dataAvailable, setDataAvailable] = useContext(DataAvailableContext)
 
 const router = useRouter()
 let pageId = router.query.id
 
-useEffect(()=>{
-    if(router.isReady){
-    setDataAvailable(true)
-    };
-}, [router.isReady]);
+// useEffect(()=>{
+//     if(router.isReady){
+//     };
+// }, [router.isReady]);
 
 console.log(deploymentList)
-const deployment = dataAvailable?deploymentList.filter((deployment)=>deployment['id'] == pageId)[0]:''
-const instrument = dataAvailable?instrumentList.filter((instrument)=>instrument['id'] == deployment['instrument_id'])[0]:''
+const deployment = deploymentList.filter((deployment)=>deployment['id'] == pageId)[0]
+const instrument = instrumentList.filter((instrument)=>instrument['id'] == deployment['instrument_id'])[0]
 
 return (
   <ProtectedRoute>
