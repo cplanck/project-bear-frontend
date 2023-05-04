@@ -119,7 +119,7 @@ export const checkAuthentication = (setLoadingPage)=>{
     const userHasVisited = localStorage.getItem('user_has_visited')??false
     const accessToken = localStorage.getItem('access_token')??false
     const refreshToken = localStorage.getItem('refresh_token')??false
-    const user = localStorage.getItem('user')??false
+    const user = localStorage.getItem('user') != 'undefined'?localStorage.getItem('user'):false
 
     function redirectUser(router, redirect, setLoadingPage) {        
         // this function is to prevent page flickering after login
@@ -133,7 +133,7 @@ export const checkAuthentication = (setLoadingPage)=>{
         return false
     }else{
         console.log(user)
-        setUser({user: JSON.parse(user), loading: false})
+        user?setUser({user: JSON.parse(user), loading: false}):''
         const authenticatedUser = checkAuthentication(setLoadingPage)
         if(authenticatedUser){
             setLoadingPage(true)

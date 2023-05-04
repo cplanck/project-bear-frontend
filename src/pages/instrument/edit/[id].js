@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from '@/components/instrument/Instrument.module.css'
 import { useContext } from 'react';
 import { InstrumentContext, UserLoggedInContext } from '@/components/Context'
+import ProtectedRoute from '@/components/general/ProtectedRoute';
 import { useRouter } from 'next/router'
 
 export default function EditInstrument(){
@@ -18,8 +19,10 @@ export default function EditInstrument(){
       },[router.query.id])
     
     return(
-    <div className={styles.instrumentAddWrapper}>
-      <EditInstrumentForm instrumentToEdit={instrumentToEdit} setInstrumentToEdit={setInstrumentToEdit} instruments={instruments} setInstruments={setInstruments}/>
-    </div>
+      <ProtectedRoute>
+        <div className={styles.instrumentAddWrapper}>
+          <EditInstrumentForm instrumentToEdit={instrumentToEdit} setInstrumentToEdit={setInstrumentToEdit} instruments={instruments} setInstruments={setInstruments}/>
+        </div>
+      </ProtectedRoute>
     )
 }
