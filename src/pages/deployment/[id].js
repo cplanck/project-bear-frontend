@@ -8,6 +8,7 @@ import SideNav from '@/components/instrument/SideNav';
 import { useRouter } from 'next/router'
 import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
 import { DeploymentContext, InstrumentContext, DataAvailableContext } from '@/components/Context'
+import ProtectedRoute from '@/components/general/ProtectedRoute';
 import styles from '@/components/instrument/Instrument.module.css'
 
 function InstrumentHeading(props){
@@ -55,21 +56,20 @@ const deployment = dataAvailable?deploymentList.filter((deployment)=>deployment[
 const instrument = dataAvailable?instrumentList.filter((instrument)=>instrument['id'] == deployment['instrument_id'])[0]:''
 
 return (
-dataAvailable?
-<div className={styles.instrumentContainer}>
-    <SideNav/>
-    <div className={styles.mainPanel}>
-    <Container maxWidth={false} sx={{ maxWidth: '1800px'}}>
-        <div>
-        <InstrumentHeading instrument={instrument} instrumentId={pageId}/>
+  <ProtectedRoute>
+    <div className={styles.instrumentContainer}>
+        <SideNav/>
+        <div className={styles.mainPanel}>
+        <Container maxWidth={false} sx={{ maxWidth: '1800px'}}>
+            <div>
+            <InstrumentHeading instrument={instrument} instrumentId={pageId}/>
+            </div>
+            <div style={{border: '0px solid blue', height: '100vh'}}>
+            <div className='activePage'><DeploymentDetails deployment={deployment} instrument={instrument} deploymentList={deploymentList} setDeploymentList={setDeploymentList}/></div>
+            </div>
+        </Container>
         </div>
-        <div style={{border: '0px solid blue', height: '100vh'}}>
-        <div className='activePage'><DeploymentDetails deployment={deployment} instrument={instrument} deploymentList={deploymentList} setDeploymentList={setDeploymentList}/></div>
-        </div>
-    </Container>
     </div>
-</div>
-:
-'data not available'
+  </ProtectedRoute>
 )
 }
