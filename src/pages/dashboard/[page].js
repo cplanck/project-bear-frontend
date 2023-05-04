@@ -17,7 +17,6 @@ import ProtectedRoute from '@/components/general/ProtectedRoute';
 export default function Dashboard(props) {
 
   let [instruments, setInstruments] = useContext(InstrumentContext);
-  let [userLoggedIn, setUserLoggedIn] = useContext(UserLoggedInContext);
   let [page, setPage] = useState('')
 
   let userOverview = {'instruments': 3, 'deployments': 13, 'projects': 2, 'data_models': 4}

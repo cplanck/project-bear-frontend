@@ -54,19 +54,18 @@ export function ContextWrapper({ children }) {
   let [deployments, setDeployments] = useState(deploymentList)
   let [dataAvailable, setDataAvailable] = useState(false)
   let [userLoggedIn, setUserLoggedIn] = useState(false)
-  let [user, setUser] = useState({})
+  let [user, setUser] = useState({user:false, loading: true})
   let [loadingPage, setLoadingPage] = useState(false)
 
-  const router = useRouter()
-
   useEffect(() => {
-    
+
     loginOrRefresh(setLoadingPage, setInstruments, setUser)
     
     const authCheckTiming = setInterval(() => {
       const authenticatedUser = checkAuthentication()
       if(!authenticatedUser){
-        setUserLoggedIn(false)
+        // setUserLoggedIn(false)
+        setUser({user: false, loading: false})
       }
     }, 10000);
     return () => clearInterval(authCheckTiming);
@@ -77,9 +76,7 @@ export function ContextWrapper({ children }) {
     <CssBaseline/>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <PageLoaderContext.Provider value={[loadingPage, setLoadingPage]}>
-        <UserLoggedInContext.Provider value={[userLoggedIn, setUserLoggedIn]}>
           <UserContext.Provider value={[user, setUser]}>
-            <DataAvailableContext.Provider value={[dataAvailable, setDataAvailable]}>
               <InstrumentContext.Provider value={[instruments, setInstruments]}>
                 <DeploymentContext.Provider value={[deployments, setDeployments]}>
                   <AppContext.Provider value={[context, setContext]}>
@@ -87,9 +84,7 @@ export function ContextWrapper({ children }) {
                   </AppContext.Provider>
                 </DeploymentContext.Provider>
               </InstrumentContext.Provider>
-            </DataAvailableContext.Provider>
           </UserContext.Provider>
-        </UserLoggedInContext.Provider>
       </PageLoaderContext.Provider >
     </LocalizationProvider>
   </ThemeProvider>

@@ -57,13 +57,12 @@ function SearchBar(props){
                     :
                     ''
                     }
-                    
                 </div>
                 <div href={'/dashboard'} className={[styles.topNavLinkGroup, 'hideOnSmall'].join(' ')} style={searchOpen&props.grow?{marginLeft: '430px'}:{marginLeft: '260px'}}>
                     <Link href={'/dashboard/overview'} className={'removeLinkFormatting me-3'}>Dashboard</Link>
                     <Link href={'/learn'} className={'removeLinkFormatting me-3'}>Learn</Link>
-                    <Link href={'/about'} className={'removeLinkFormatting me-3'}>Pricing</Link>
-                    <Link href={'/login'} className={'removeLinkFormatting me-3'}>Login</Link>
+                    {/* <Link href={'/about'} className={'removeLinkFormatting me-3'}>Pricing</Link>
+                    <Link href={'/login'} className={'removeLinkFormatting me-3'}>Login</Link> */}
                 </div>
         </div>
     )
@@ -93,20 +92,15 @@ function SmallMenu(props){
     )
 }
 
-
-export default function TopNav(props){
-
-
+function AuthenticatedTopNav(props){
     const [smallMenuOpen, setSmallMenuOpen] = useState(false)
-    const [user, setUser] = useContext(UserContext);
-    const [userLoggedIn, setUserLoggedIn] = useContext(UserContext);
-
+    
     return(
-        <div className={styles.topNavWrapper}>
+        <div className={[styles.topNavWrapper, props.publicPage?styles.unauthenticated:''].join(' ')}>
             <div className={styles.topNavLeftGroup}>
                 <div className={''} style={{position: 'relative', border: '0px solid pink', display: 'flex', alignItems: 'center'}}>
                     <Link href='/dashboard/overview'>
-                        <Image src={logo} className={[styles.topNavLogo, 'hideOnSmall'].join(' ')} alt="User profile picture" />
+                        <Image src={logo} className={[styles.topNavLogo, 'hideOnSmall'].join(' ')} alt="Logo" />
                     </Link>
                     <div className='showOnSmall flex' >
                         <MenuIcon style={{color: 'var(--dark-theme-text-main)'}}  onClick={()=>{setSmallMenuOpen(!smallMenuOpen)}}/>
@@ -114,26 +108,66 @@ export default function TopNav(props){
                     <SearchBar displayClass={'hideOnSmall'} grow={true}/>
                     <SmallMenu smallMenuOpen={smallMenuOpen} setSmallMenuOpen={setSmallMenuOpen}/>
                 </div>
+                <div>
+            </div>
+            </div>
+            <Image src={logo} className={[styles.topNavLogo, 'showOnSmall'].join(' ')} alt="User profile picture" />
+            <div className={styles.topNavRightGroup}>
+                <div className='hideOnSmall' style={{paddingTop: '5px'}}>
+                    <NotificationsNoneIcon style={{color: 'var(--dark-theme-text-main)'}}/>
+                </div>
+                <div className='hideOnSmall'>
+                    <AddDropDown style={{color: 'var(--dark-theme-text-main)'}}/>
+                </div>
+                <AvatarDropDown user={props.user.user}/>
+            </div>
+        </div>
+
+    )
+}
+
+function UnauthenticatedTopNav(){
+    return(
+        <div className={[styles.topNavWrapper, styles.unauthenticated].join(' ')}>
+            <div className={styles.topNavLeftGroup}>
+                <div className={''} style={{position: 'relative', border: '0px solid pink', display: 'flex', alignItems: 'center'}}>
+                    <Link href='/'>
+                        <Image src={logo} className={[styles.topNavLogo, 'hideOnSmall'].join(' ')} alt="Logo" />
+                    </Link>
+                    <div className='showOnSmall flex' >
+                        <MenuIcon style={{color: 'var(--dark-theme-text-main)'}}  onClick={()=>{setSmallMenuOpen(!smallMenuOpen)}}/>
+                    </div>
+                </div>
                 
                 <div>
+                    
                 </div>
+                
             </div>
-            
-            {Object.keys(user?user:{}).length !== 0 && userLoggedIn?<div>
-                <Image src={logo} className={[styles.topNavLogo, 'showOnSmall'].join(' ')} alt="User profile picture" />
-                <div className={styles.topNavRightGroup}>
-                    <div className='hideOnSmall' style={{paddingTop: '5px'}}>
-                        <NotificationsNoneIcon style={{color: 'var(--dark-theme-text-main)'}}/>
-                    </div>
-                    <div className='hideOnSmall'>
-                        <AddDropDown style={{color: 'var(--dark-theme-text-main)'}}/>
-                    </div>
-                    <AvatarDropDown user={user}/>
-                </div>
-            </div>
-            :
-            <Link href={'/login'}>Login</Link>
-            }
+            <Link className='greyButton' href={'/login'}>Login</Link>
         </div>
     )
+}
+
+
+
+            
+
+export default function TopNav({props, test}){
+
+    const [user, setUser] = useContext(UserContext);
+    const router = useRouter()
+    const publicRoutes = ['/', '/login', '/learn']
+
+    let publicPage
+    if(router.isReady){
+        publicPage = publicRoutes.includes(router.pathname)?true:false
+    }
+
+   return(
+       user.user?
+        <AuthenticatedTopNav user={user} publicPage={publicPage}/>
+       :
+        <UnauthenticatedTopNav/>
+   )
 }

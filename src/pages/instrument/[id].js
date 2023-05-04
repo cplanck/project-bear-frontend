@@ -11,11 +11,12 @@ import { useRouter } from 'next/router'
 import styles from '@/components/instrument/Instrument.module.css'
 import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
 import Link from 'next/link';
+import ProtectedRoute from '@/components/general/ProtectedRoute';
 
 function InstrumentHeading(props){
 
   let instrumentState
-  if(props.instrument.status == 'deployed'){
+  if(props.instrument?.status == 'deployed'){
     instrumentState =  <div>{instrumentState}</div>
 }
 console.log(props)
@@ -23,10 +24,10 @@ console.log(props)
   return(
     <div className={styles.instrumentHeadingWrapper}>
       <div className={styles.instrumentAvatarGroup}>
-        <InstrumentAvatar url={props.instrument.avatar}/>
+        <InstrumentAvatar url={props.instrument?.avatar}/>
           <div className={styles.instrumentHeadingAvatarWrapper}>
           <div className={[styles.instrumentTitle, 'mx-3'].join(' ')}>
-            <h2 className={'removeHeaderMargin'}>{props.instrument.name}</h2>
+            <h2 className={'removeHeaderMargin'}>{props.instrument?.name}</h2>
           </div>
         </div>
       </div>
@@ -43,7 +44,7 @@ export default function Dashboard() {
                                                 
   const [deploymentList, setDeploymentList] = useContext(DeploymentContext)
   const [instrumentList, setInstrumentList] = useContext(InstrumentContext)
-  const [dataAvailable, setDataAvailable] = useContext(DataAvailableContext)
+  // const [dataAvailable, setDataAvailable] = useContext(DataAvailableContext)
 
   const router = useRouter()
   let pageId = router.query.id
@@ -51,14 +52,15 @@ export default function Dashboard() {
 
   useEffect(()=>{
     if(router.isReady){
-      setDataAvailable(true)
+      // setDataAvailable(true)
     };
 }, [router.isReady]);
 
-  const instrument = dataAvailable?instrumentList.filter((instrument)=>instrument['id'] == pageId)[0]:''
-
+  const instrument = instrumentList.filter((instrument)=>instrument['id'] == pageId)[0]
+  console.log(instrument)
 
   return (
+    <ProtectedRoute>
     <div className={styles.instrumentContainer}>
       <SideNav/>
       <div className={styles.mainPanel}>
@@ -72,5 +74,6 @@ export default function Dashboard() {
         </Container>
       </div>
     </div>
+    </ProtectedRoute>
   )
 }

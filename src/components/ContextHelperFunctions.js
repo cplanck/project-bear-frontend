@@ -9,7 +9,9 @@ function fetchUserDetails(token, setUser){
       })
     .then(response => response.json())
     .then(data => {
-      setUser(data[0])
+      setUser({user: data[0], loading: false})
+      localStorage.setItem('user',JSON.stringify(data[0]))
+      console.log(data[0])
     })
     .catch(error => {
         console.error('Error:', error);
@@ -80,6 +82,7 @@ export const checkAuthentication = (setLoadingPage)=>{
           console.log('REFRESH TOKEN IS EXPIRED')
           localStorage.removeItem('access_token')
           localStorage.removeItem('refresh_token')
+          localStorage.removeItem('user')
         //   handleAlerts('alert', 'warning', 'You\'ve been logged out for security purposes. Please log back in to continue.')
           return false
         }
@@ -116,18 +119,31 @@ export const checkAuthentication = (setLoadingPage)=>{
     const userHasVisited = localStorage.getItem('user_has_visited')??false
     const accessToken = localStorage.getItem('access_token')??false
     const refreshToken = localStorage.getItem('refresh_token')??false
+    const user = localStorage.getItem('user')??false
+
+    function redirectUser(router, redirect, setLoadingPage) {        
+        // this function is to prevent page flickering after login
+        redirect?router.push(redirect, redirect, { shallow: true }):'';
+        setTimeout(() => {
+          setLoadingPage(false);
+        }, 1000);
+      }
 
     if(!userHasVisited || !accessToken || !refreshToken){
         return false
     }else{
+        console.log(user)
+        setUser({user: JSON.parse(user), loading: false})
         const authenticatedUser = checkAuthentication(setLoadingPage)
         if(authenticatedUser){
-          console.log('User is authenticated, fetching details...')
-          fetchUserDetails(localStorage.getItem('access_token'), setUser)
-          return fetchUserInstruments(setInstruments).then(loading=>setLoadingPage(!loading)).then(()=>{redirect?router.push(redirect):''})
+            setLoadingPage(true)
+            // fetch everything to populate page:
+            fetchUserDetails(localStorage.getItem('access_token'), setUser)
+            fetchUserInstruments(setInstruments).then(()=>redirectUser(router, redirect, setLoadingPage))
         }
         else{
             setLoadingPage(false)
+            setUser({user: false, loading: false})
         }
     }    
   }

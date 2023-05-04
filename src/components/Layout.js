@@ -1,19 +1,24 @@
-import TopNav from './general/TopNav'
+import TopNav from '@/components/general/TopNav';
+import TopNavUnauthenticated from '@/components/general/TopNavUnauthenticated';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import Link from 'next/link';
 import { useContext } from 'react'
 import { AppContext } from '../components/Context'
 import Container from '@mui/material/Container';
 import React, { useState, useEffect } from "react";
-import { PageLoaderContext } from '@/components/Context';
+import { PageLoaderContext, UserContext } from '@/components/Context';
 import PagePreloader from '@/components/general/PagePreloader'
-import MUITheme from '@/MUITheme'
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+
 
 
 export default function Layout({ children }) {
 
 const [context, setContext] = useContext(AppContext)
 const [pageLoading, setPageLoading] = useContext(PageLoaderContext)
+const [user, setUser] = useContext(UserContext)
 
 function closeAlert(alertType){
         let newContext = context
@@ -74,6 +79,7 @@ function UserAlerts(){
     let [context, setContext] = useContext(AppContext)
     let [mouseMovementDetected, setMouseMovementDetected] = useState(false)
 
+    let accessToken
     if (typeof window != "undefined") {
         const hasMouseCheck = () => {
             setMouseMovementDetected(true)
@@ -133,17 +139,44 @@ function UserAlerts(){
 }
 
     console.log(pageLoading)
+    console.log(user)
+
+    const router = useRouter()
+
+    let accessToken
+    if(typeof window != 'undefined'){
+        accessToken = localStorage.getItem('access_token')
+    }
+
+    const publicRoutes = ['/', '/learn', '/login']
+
+    let isPublic = false
+    if(router.isReady){
+        console.log(router)
+        const pathname = router.pathname
+        if(publicRoutes.includes(pathname)){
+            isPublic = true
+        }
+        else{
+            isPublic = false
+        }
+
+    }
+
   return (
+       
     <>
-      <TopNav />
-      <div className='pageContent'>
-      <UserAlerts/>
-      <UserSnackbar />
-      {pageLoading?
-        <PagePreloader/>:
-        <main>{children}</main>
-      }
-      </div>
+        {router.pathname=='/login'?'':<TopNav user={accessToken}/>}
+        <div className='pageContent'>
+            <UserAlerts/>
+            <UserSnackbar />
+            {isPublic? 
+            <main>{children}</main>
+            :pageLoading?
+            <PagePreloader/>:
+            <main>{children}</main>
+            }
+        </div>
     </>
   )
 }

@@ -13,7 +13,7 @@ export default function ProtectedRoute({ children }){
     },[user])
   
     return(
-        Object.keys(user).length === 0?<PagePreloader/>:children
+       !user.user?<div></div>:children
         
     )
   }

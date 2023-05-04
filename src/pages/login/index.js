@@ -1,20 +1,21 @@
 import Head from "next/head"
 import Script from "next/script"
+import Image from "next/image"
 import { useEffect, useContext, useState, useRef } from "react"
 import { useRouter } from "next/router"
 import styles from '@/components/general/General.module.css'
 import { UserLoggedInContext, UserContext, PageLoaderContext, InstrumentContext, AppContext } from '@/components/Context'
+import PagePreloader from '@/components/general/PagePreloader'
 import { loginOrRefresh } from '@/components/ContextHelperFunctions'
+import logo from '@/images/bit-bear-logo-dark.png'
 
 export default function Login(props){
 
-    const [userLoggedIn, setUserLoggedIn] = useContext(UserLoggedInContext);
     const [user, setUser] = useContext(UserContext);
     const [pageLoading, setPageLoading] = useContext(PageLoaderContext)
     const [instruments, setInstruments] = useContext(InstrumentContext)
     const [context, setContext] = useContext(AppContext)
-
-    const [userLoggingIn, setUserLoggingIn] = useState(true)
+    const [loggingIn, setLoggingIn] = useState(false)
 
     const router = useRouter()
     const googleButton = useRef(null);
@@ -30,6 +31,7 @@ export default function Login(props){
 
     const handleCredentialResponse = (response)=>{
         setPageLoading(true)
+        setLoggingIn(true)
         const url = 'http://localhost:8000/auth/google/login/'
         fetch(url, {
             method: "POST",
@@ -45,7 +47,7 @@ export default function Login(props){
             localStorage.setItem("access_token", data['access_token']);
             localStorage.setItem("user_has_visited", true)
             const redirect = '/dashboard/overview'
-            loginOrRefresh(setPageLoading, setInstruments, setUser, redirect, router).then(()=>handleAlerts('snackbar', 'success', 'Welcome back, ' + data.first_name + '!'))
+            loginOrRefresh(setPageLoading, setInstruments, setUser, redirect, router) //.then(()=>handleAlerts('snackbar', 'success', 'Welcome back, ' + data.first_name + '!'))
         
           }).catch(error => {
             console.log(error);
@@ -64,12 +66,19 @@ export default function Login(props){
             callback: handleCredentialResponse
           });
           window.google?.accounts.id.renderButton(googleButton.current, {
+            type: "standard",
+            shape: "pill",
+            theme: 'filled_black'
           });
         }
       }, [googleButton.current]);
 
     return(
+        loggingIn?
+        <PagePreloader/>
+        :
         <div className={styles.loginWrapper}>
+            <Image src={logo} width={50} height={50}/>
             <h2>Sign in to BitBear</h2>
             <div className={[styles.loginForm, 'modalBody'].join(' ')}>
                 <div className={styles.googleButton} ref={googleButton} ></div>

@@ -13,12 +13,6 @@
 }
 
 .topNavWrapper {
-    /* background-color: #1F1E3C; */
-    /* background: rgb(74,43,125);
-    background: -moz-linear-gradient(292deg, rgba(74,43,125,1) 0%, rgba(40,39,78,1) 81%);
-    background: -webkit-linear-gradient(292deg, rgba(74,43,125,1) 0%, rgba(40,39,78,1) 81%);
-    background: linear-gradient(292deg, rgba(74,43,125,1) 0%, rgba(40,39,78,1) 81%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4a2b7d",endColorstr="#28274e",GradientType=1); */
 
     background: rgb(68, 42, 117);
     background: -moz-linear-gradient(145deg, rgba(68, 42, 117, 1) 1%, rgba(103, 2, 195, 1) 100%);
@@ -34,6 +28,11 @@
     position: fixed;
     z-index: 1;
     top: 0px;
+}
+
+.topNavWrapper.unauthenticated {
+    background: inherit;
+    /* border: 3px solid red; */
 }
 
 .topNavLogo {
@@ -239,7 +238,8 @@
     justify-content: center;
     width: 100%;
     min-height: 100%;
-    border: 1px solid green;
+    padding-top: 50px;
+    /* border: 1px solid green; */
 }
 
 .loginForm {

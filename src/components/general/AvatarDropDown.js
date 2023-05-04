@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { UserContext } from '@/components/Context'
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
+import Image from 'next/image';
 
 
 export default function AvatarDropDown(props) {
@@ -26,6 +27,7 @@ export default function AvatarDropDown(props) {
       window.google.accounts.id.disableAutoSelect();
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
+      localStorage.removeItem('user')
       setUser({})
       router.push('/')
   }
@@ -48,7 +50,8 @@ export default function AvatarDropDown(props) {
             aria-expanded={open ? 'true' : undefined}
           >
             <div className={['textButton', styles.topNavAddButton].join(" ")}>
-              <div className={styles.topNavAvatar} style={{backgroundImage: `url(${avatar})`}}></div>
+              {/* <div className={styles.topNavAvatar} style={{backgroundImage: `url(${avatar})`}}></div> */}
+              <Image className={styles.topNavAvatar} src={avatar} width={50} height={50}/>
             </div>
           </IconButton>
       </Box>

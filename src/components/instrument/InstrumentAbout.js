@@ -23,23 +23,23 @@ export default function InstrumentAbout(props){
         <div className={[styles.instrumentAboutWrapper, 'hideOnMedium'].join(' ')}>
             <div className={styles.aboutHeader}>
                 <h3 className='removeHeaderMargin'>About</h3>
-                <Link href={{ pathname: '/instrument/edit/'  +props.instrument.id, query: { from: 'instrument' } }}><SettingsIcon className='iconButton'/></Link>
+                <Link href={{ pathname: '/instrument/edit/'  +props.instrument?.id, query: { from: 'instrument' } }}><SettingsIcon className='iconButton'/></Link>
             </div>
             <div className='greyText2 smallText'>
-                <p>{props.instrument.description}</p>
-                <p className={styles.instrumentDetails}><QrCodeOutlinedIcon className={styles.instrumentDetailIcon} fontSize='small'/>{props.instrument['serial_number']}</p>
-                <p className={styles.instrumentDetails}><FlightTakeoffIcon className={styles.instrumentDetailIcon} fontSize='small'/><span style={{fontWeight: '800', paddingRight: '5px'}}>{props.instrument['deployment_num']?props.instrument['deployment_num']:0}</span> Deployments</p>
+                <p>{props.instrument?.description}</p>
+                <p className={styles.instrumentDetails}><QrCodeOutlinedIcon className={styles.instrumentDetailIcon} fontSize='small'/>{props.instrument?.serial_number}</p>
+                <p className={styles.instrumentDetails}><FlightTakeoffIcon className={styles.instrumentDetailIcon} fontSize='small'/><span style={{fontWeight: '800', paddingRight: '5px'}}>{props.instrument?.deployment_num?props.instrument?.deployment_num:0}</span> Deployments</p>
             </div>
             {/* <hr className='hr'></hr> */}
             {/* <div>
                 <p className='greyText2 smallText'>{props.instrument['notes']}</p>
                 <h4 className='removeHeaderMargin'>Instrument Notes</h4>
             </div> */}
-            {props.instrument.notes?
+            {props.instrument?.notes?
              <div>
                  <hr className='hr'></hr>
                 <h4 className='removeHeaderMargin'>Instrument Notes</h4>
-                <p className='greyText2 smallText'>{props.instrument['notes']}</p>
+                <p className='greyText2 smallText'>{props?.instrument.notes}</p>
             </div>
              :
              <div className={styles.instrumentNotesPlaceholder}>
