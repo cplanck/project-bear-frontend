@@ -64,7 +64,7 @@ export default function Login(props){
         <PagePreloader/>
         :
         <div className={styles.loginWrapper}>
-            <Image src={logo} width={50} height={50}/>
+            <Image src={logo} width={50} height={50} priority={true}/>
             <h2>Sign in to BitBear</h2>
             <div className={[styles.loginForm, 'modalBody'].join(' ')}>
                 <GoogleButton/>
@@ -100,7 +100,7 @@ function GoogleButton(){
       }, []);
     
       return (
-        <>
+        <div style={{height: '44px'}}>
           <div
             id='g_id_onload'
             data-client_id='320101378878-ekm77duul895gmsah18nuh7cdtlv0feb.apps.googleusercontent.com'
@@ -117,6 +117,6 @@ function GoogleButton(){
             data-shape='pill'
             data-logo_alignment='center'
           />
-        </>
+        </div>
       );
 }

@@ -237,9 +237,7 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    min-height: 100%;
     padding-top: 50px;
-    /* border: 1px solid green; */
 }
 
 .loginForm {
@@ -249,6 +247,8 @@
     flex-direction: column;
     width: 100%;
     max-width: 400px;
+    min-height: 300px;
+
 }
 
 .googleButton {
