@@ -18,8 +18,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 function SearchDropDown(props){
-   
-    
+
         return(
             <div className={styles.searchOpen}>
                 Search Drop Down!
@@ -100,7 +99,7 @@ function AuthenticatedTopNav(props){
             <div className={styles.topNavLeftGroup}>
                 <div className={''} style={{position: 'relative', border: '0px solid pink', display: 'flex', alignItems: 'center'}}>
                     <Link href='/dashboard/overview'>
-                        <Image src={logo} className={[styles.topNavLogo, 'hideOnSmall'].join(' ')} alt="Logo" />
+                        <Image src={logo} className={[styles.topNavLogo, 'hideOnSmall'].join(' ')} priority={true} alt="Logo" />
                     </Link>
                     <div className='showOnSmall flex' >
                         <MenuIcon style={{color: 'var(--dark-theme-text-main)'}}  onClick={()=>{setSmallMenuOpen(!smallMenuOpen)}}/>
@@ -158,7 +157,7 @@ export default function TopNav(props){
     if(router.isReady){
         publicPage = publicRoutes.includes(router.pathname)?true:false
     }
-    
+
    return(
     props.user.loading?<div></div>:props.user.user?<AuthenticatedTopNav user={props.user.user} publicPage={publicPage}/>:<UnauthenticatedTopNav />
    )
