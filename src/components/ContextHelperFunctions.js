@@ -1,6 +1,6 @@
 function fetchUserDetails(token, setUser){
 
-    const url = 'http://localhost:8000/users/profile'
+    const url =  process.env.NEXT_PUBLIC_BACKEND_ROOT + '/users/profile'
     fetch(url, {
         method: 'GET',
         headers: {
@@ -19,7 +19,7 @@ function fetchUserDetails(token, setUser){
 }
 
 function fetchUserInstruments(setInstruments){
-    const url = 'http://localhost:8000/api/instruments'
+    const url = process.env.NEXT_PUBLIC_BACKEND_ROOT + '/api/instruments'
     return fetch(url, {
         method: 'GET',
         headers: {
@@ -37,9 +37,28 @@ function fetchUserInstruments(setInstruments){
   });
   }
 
+  function fetchUserDeployments(setDeployments){
+    const url = process.env.NEXT_PUBLIC_BACKEND_ROOT + '/api/deployments'
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      })
+    .then(response => response.json())
+    .then(data => {
+     setDeployments(data)
+     return true
+    })
+    .catch(error => {
+        console.error('Error loading deployments:', error);
+        return false
+  });
+  }
+
 
 export function RefreshToken(refreshToken){
-    fetch('http://localhost:8000/auth/token/refresh/', {
+    fetch(process.env.NEXT_PUBLIC_BACKEND_ROOT + '/auth/token/refresh/', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -114,7 +133,7 @@ export const checkAuthentication = (setLoadingPage)=>{
 
   }
 
-  export const loginOrRefresh = (setLoadingPage, setInstruments, setUser, redirect, router) =>{
+  export const loginOrRefresh = (setLoadingPage, setInstruments, setDeployments, setUser, redirect, router) =>{
 
     const userHasVisited = localStorage.getItem('user_has_visited')??false
     const accessToken = localStorage.getItem('access_token')??false
@@ -126,7 +145,7 @@ export const checkAuthentication = (setLoadingPage)=>{
         redirect?router.push(redirect, redirect, { shallow: true }):'';
         setTimeout(() => {
           setLoadingPage(false);
-        }, 1000);
+        }, 100);
       }
 
     if(!userHasVisited || !accessToken || !refreshToken){
@@ -139,6 +158,7 @@ export const checkAuthentication = (setLoadingPage)=>{
             setLoadingPage(true)
             // fetch everything to populate page:
             fetchUserDetails(localStorage.getItem('access_token'), setUser)
+            fetchUserDeployments(setDeployments)
             fetchUserInstruments(setInstruments).then(()=>redirectUser(router, redirect, setLoadingPage))
         }
         else{

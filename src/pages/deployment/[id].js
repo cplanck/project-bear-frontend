@@ -44,12 +44,6 @@ const [instrumentList, setInstrumentList] = useContext(InstrumentContext)
 const router = useRouter()
 let pageId = router.query.id
 
-// useEffect(()=>{
-//     if(router.isReady){
-//     };
-// }, [router.isReady]);
-
-console.log(deploymentList)
 const deployment = deploymentList.filter((deployment)=>deployment['id'] == pageId)[0]
 const instrument = instrumentList.filter((instrument)=>instrument['id'] == deployment['instrument_id'])[0]
 

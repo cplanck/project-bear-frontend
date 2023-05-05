@@ -57,9 +57,11 @@ export function ContextWrapper({ children }) {
   let [user, setUser] = useState({user:false, loading: true})
   let [loadingPage, setLoadingPage] = useState(false)
 
+  const router = useRouter()
+  
   useEffect(() => {
 
-    loginOrRefresh(setLoadingPage, setInstruments, setUser)
+    loginOrRefresh(setLoadingPage, setInstruments, setDeployments, setUser, false, router)
     
     const authCheckTiming = setInterval(() => {
       const authenticatedUser = checkAuthentication()
