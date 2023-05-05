@@ -1,4 +1,6 @@
-function fetchUserDetails(token, setUser){
+import { useRouter } from "next/router";
+
+function fetchUserDetails(token, setUser, router){
 
     const url =  process.env.NEXT_PUBLIC_BACKEND_ROOT + '/users/profile'
     fetch(url, {
@@ -7,14 +9,25 @@ function fetchUserDetails(token, setUser){
           'Authorization': 'Bearer ' + token
         }
       })
-    .then(response => response.json())
+    .then(response => {
+        if(response.status == 401){
+            console.log('WELP THIS IS WORKING')
+            router.push('/login')
+            return
+             
+        }else{
+            return response.json()
+        }
+    })
     .then(data => {
+        console.log(data)
       setUser({user: data[0], loading: false})
       localStorage.setItem('user',JSON.stringify(data[0]))
       console.log(data[0])
     })
     .catch(error => {
         console.error('Error:', error);
+        console.log(error)
 });
 }
 
@@ -78,7 +91,7 @@ export function RefreshToken(refreshToken){
       });
   }
 
-export const checkAuthentication = (setLoadingPage)=>{
+export const checkAuthentication = ()=>{
 
     console.log('Checking login credentials....');
     let accessToken = localStorage.getItem('access_token')
@@ -138,26 +151,30 @@ export const checkAuthentication = (setLoadingPage)=>{
     const userHasVisited = localStorage.getItem('user_has_visited')??false
     const accessToken = localStorage.getItem('access_token')??false
     const refreshToken = localStorage.getItem('refresh_token')??false
-    const user = localStorage.getItem('user') != 'undefined'?localStorage.getItem('user'):false
+
+    let user = {user: false, loading: false}
+    localStorage.getItem('user') != 'undefined'?user = {user:JSON.parse(localStorage.getItem('user')), loading:false}:''
 
     function redirectUser(router, redirect, setLoadingPage) {        
         // this function is to prevent page flickering after login
         redirect?router.push(redirect, redirect, { shallow: true }):'';
         setTimeout(() => {
           setLoadingPage(false);
-        }, 100);
+        }, 500);
       }
 
+
     if(!userHasVisited || !accessToken || !refreshToken){
-        return false
-    }else{
+        setUser({user: false, loading: false})
+    }
+    else{
         console.log(user)
-        user?setUser({user: JSON.parse(user), loading: false}):''
+        setUser({user: user.user, loading: false}) // set user from localstorage
         const authenticatedUser = checkAuthentication(setLoadingPage)
         if(authenticatedUser){
             setLoadingPage(true)
             // fetch everything to populate page:
-            fetchUserDetails(localStorage.getItem('access_token'), setUser)
+            fetchUserDetails(localStorage.getItem('access_token'), setUser, router)
             fetchUserDeployments(setDeployments)
             fetchUserInstruments(setInstruments).then(()=>redirectUser(router, redirect, setLoadingPage))
         }

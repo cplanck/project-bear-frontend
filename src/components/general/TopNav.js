@@ -119,14 +119,13 @@ function AuthenticatedTopNav(props){
                 <div className='hideOnSmall'>
                     <AddDropDown style={{color: 'var(--dark-theme-text-main)'}}/>
                 </div>
-                <AvatarDropDown user={props.user.user}/>
+                <AvatarDropDown user={props.user}/>
             </div>
         </div>
-
     )
 }
 
-function UnauthenticatedTopNav(){
+function UnauthenticatedTopNav(props){
     return(
         <div className={[styles.topNavWrapper, styles.unauthenticated].join(' ')}>
             <div className={styles.topNavLeftGroup}>
@@ -138,11 +137,8 @@ function UnauthenticatedTopNav(){
                         <MenuIcon style={{color: 'var(--dark-theme-text-main)'}}  onClick={()=>{setSmallMenuOpen(!smallMenuOpen)}}/>
                     </div>
                 </div>
-                
                 <div>
-                    
                 </div>
-                
             </div>
             <Link className='greyButton' href={'/login'}>Login</Link>
         </div>
@@ -153,9 +149,8 @@ function UnauthenticatedTopNav(){
 
             
 
-export default function TopNav({props, test}){
+export default function TopNav(props){
 
-    const [user, setUser] = useContext(UserContext);
     const router = useRouter()
     const publicRoutes = ['/', '/login', '/learn']
 
@@ -163,11 +158,8 @@ export default function TopNav({props, test}){
     if(router.isReady){
         publicPage = publicRoutes.includes(router.pathname)?true:false
     }
-
+    
    return(
-       user.user?
-        <AuthenticatedTopNav user={user} publicPage={publicPage}/>
-       :
-        <UnauthenticatedTopNav/>
+    props.user.loading?<div></div>:props.user.user?<AuthenticatedTopNav user={props.user.user} publicPage={publicPage}/>:<UnauthenticatedTopNav />
    )
 }

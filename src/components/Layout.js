@@ -138,21 +138,12 @@ function UserAlerts(){
         )
 }
 
-    console.log(pageLoading)
-    console.log(user)
 
     const router = useRouter()
 
-    let accessToken
-    if(typeof window != 'undefined'){
-        accessToken = localStorage.getItem('access_token')
-    }
-
     const publicRoutes = ['/', '/learn', '/login']
-
     let isPublic = false
     if(router.isReady){
-        console.log(router)
         const pathname = router.pathname
         if(publicRoutes.includes(pathname)){
             isPublic = true
@@ -166,7 +157,7 @@ function UserAlerts(){
   return (
        
     <>
-        {router.pathname=='/login'?'':<TopNav user={accessToken}/>}
+        {router.pathname=='/login'?'':<TopNav user={user}/>}
         <div className='pageContent'>
             <UserAlerts/>
             <UserSnackbar />

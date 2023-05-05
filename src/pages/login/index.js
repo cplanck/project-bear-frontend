@@ -48,7 +48,7 @@ export default function Login(props){
             localStorage.setItem("access_token", data['access_token']);
             localStorage.setItem("user_has_visited", true)
             const redirect = '/dashboard/overview'
-            loginOrRefresh(setPageLoading, setInstruments, setDeployments, setUser, redirect, router) //.then(()=>handleAlerts('snackbar', 'success', 'Welcome back, ' + data.first_name + '!'))
+            loginOrRefresh(setPageLoading, setInstruments, setDeployments, setUser, redirect, router)  //.then(()=>handleAlerts('snackbar', 'success', 'Welcome back, ' + data.first_name + '!'))
         
           }).catch(error => {
             console.log(error);
@@ -59,22 +59,6 @@ export default function Login(props){
         window.handleCredentialResponse = handleCredentialResponse
     }
 
-
-    useEffect(() => {
-        if (googleButton.current) {
-          window.google?.accounts.id.initialize({
-            client_id: '320101378878-ekm77duul895gmsah18nuh7cdtlv0feb.apps.googleusercontent.com',
-            callback: handleCredentialResponse
-          });
-          window.google?.accounts.id.renderButton(googleButton.current, {
-            type: "standard",
-            shape: "pill",
-            theme: 'filled_black'
-          });
-        }
-        window.google?.accounts.id.prompt()
-      }, [googleButton.current]);
-
     return(
         loggingIn?
         <PagePreloader/>
@@ -83,7 +67,7 @@ export default function Login(props){
             <Image src={logo} width={50} height={50}/>
             <h2>Sign in to BitBear</h2>
             <div className={[styles.loginForm, 'modalBody'].join(' ')}>
-                <div className={styles.googleButton} ref={googleButton} ></div>
+                <GoogleButton/>
                 <p>Or</p>
                 <div className="inputWrapper">
                     <span className="inputHelpText boldText">Email</span>
@@ -96,4 +80,43 @@ export default function Login(props){
             </div>
         </div>
     )
+}
+
+
+function GoogleButton(){
+
+    useEffect(() => {
+        const script = document.createElement('script');
+    
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.defer = true;
+    
+        document.body.appendChild(script);
+    
+        return () => {
+          document.body.removeChild(script);
+        };
+      }, []);
+    
+      return (
+        <>
+          <div
+            id='g_id_onload'
+            data-client_id='320101378878-ekm77duul895gmsah18nuh7cdtlv0feb.apps.googleusercontent.com'
+            data-callback="handleCredentialResponse"
+            data-auto_select="true"
+            data-itp_support="true"
+          />
+          <div
+            className='g_id_signin'
+            data-type='standard'
+            data-size='large'
+            data-theme='filled_black'
+            data-text='sign_in_with'
+            data-shape='pill'
+            data-logo_alignment='center'
+          />
+        </>
+      );
 }

@@ -52,13 +52,11 @@ export function ContextWrapper({ children }) {
   let [context, setContext] = useState({alert: {status: false, type: '', message: 'success', text: 'Your account has been approved!'}, snackbar: {status: false, type: '', message: 'success', text: 'Your account has been approved!'}})
   let [instruments, setInstruments] = useState(instrumentList)
   let [deployments, setDeployments] = useState(deploymentList)
-  let [dataAvailable, setDataAvailable] = useState(false)
-  let [userLoggedIn, setUserLoggedIn] = useState(false)
   let [user, setUser] = useState({user:false, loading: true})
   let [loadingPage, setLoadingPage] = useState(false)
 
   const router = useRouter()
-  
+
   useEffect(() => {
 
     loginOrRefresh(setLoadingPage, setInstruments, setDeployments, setUser, false, router)
@@ -66,7 +64,6 @@ export function ContextWrapper({ children }) {
     const authCheckTiming = setInterval(() => {
       const authenticatedUser = checkAuthentication()
       if(!authenticatedUser){
-        // setUserLoggedIn(false)
         setUser({user: false, loading: false})
       }
     }, 10000);
