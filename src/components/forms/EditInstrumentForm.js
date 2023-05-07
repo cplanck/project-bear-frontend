@@ -74,6 +74,28 @@ export default function EditInstrumentForm(props){
       temp.push(newTemp)
       props.setInstruments(temp)
       router.query.from == 'instrument'?router.push('/instrument/'+router.query.id):router.push('/dashboard/instruments')
+      
+      const url = 'http://localhost:8000/api/instruments/' + instrumentDetails.id + '/';
+      return fetch(url, {
+        method: 'PATCH',
+        body: JSON.stringify(instrumentDetails),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+        }
+      }).then(response => {
+        console.log(response)
+        if(!response.ok){
+          handleAlerts('alert', 'error', 'There was a problem with your submission. Please try again. Server returned with ' + response.status + ' code.')
+          throw new Error('HTTP error, status = ' + response.status);
+        }
+        return response.json();
+      })
+      .then(instrumentDetails => {
+        handleAlerts('snackbar', 'success', instrumentDetails.name + ' successfully edited!')
+      }).catch(error => {
+        // could put some code to log these errors to the db
+      });
     }
 
     function triggerAvatarModal(e){
@@ -92,20 +114,17 @@ export default function EditInstrumentForm(props){
           name: Yup.string().min(fr.instrumentName.minLength.val, fr.instrumentName.minLength.error).max(fr.instrumentName.maxLength.val, fr.instrumentName.maxLength.error).required('You must specify an instrument name'),
           notes: Yup.string().max(fr.instrumentNotes.maxLength.val, fr.instrumentNotes.maxLength.error),
           // serialNumber: Yup.string().max(fr.instrumentSerialNumber.maxLength.val, fr.instrumentSerialNumber.maxLength.error).min(fr.instrumentSerialNumber.minLength.val, fr.instrumentSerialNumber.minLength.error).required('You must specify an serial number for this instrument'),
-          description: Yup.string().max(fr.instrumentDescription.maxLength.val, fr.instrumentDescription.maxLength.error).required('Must specify a brief description')
+          description: Yup.string().max(fr.instrumentDescription.maxLength.val, fr.instrumentDescription.maxLength.error)
         }),
 
       onSubmit: values => {
         updateInstrumentContext()
-        handleAlerts('snackbar', 'success', instrumentDetails.name + ' successfully edited!')
-
       },
     });
 
     function onSubmit(e){
       e.preventDefault()
       formik.handleSubmit()
-      formik.errors?handleAlerts('snackbar', 'error', 'Please fix form errors!'):''
     }
 
     useEffect(()=>{
@@ -119,8 +138,6 @@ export default function EditInstrumentForm(props){
     const lastModified = dayjs(instrumentDetails?.last_modified); 
     const isToday = lastModified.isSame(dayjs(), 'day');
     const lastModifiedDate = isToday ? 'Today' : lastModified.format('MMMM Do, YYYY');
-
-    // console.log(dayjs(instrumentDetails?.purchase_date)) 2023-03-03 17:11:43.776674
 
     return(
         <Container maxWidth={false} style={{ maxWidth: '900px', paddingTop: '50px' }}>

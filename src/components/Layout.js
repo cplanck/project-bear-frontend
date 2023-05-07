@@ -60,6 +60,8 @@ function UserAlerts(){
             activeAlert = <Alert className='alert success' variant="filled"onClose={() => {closeAlert('alert')}} severity="success">{context.alert.message}</Alert>
         }else if(context.alert.type == 'error'){
             activeAlert = <Alert className='alert error' variant="filled" severity="error" onClose={() => {closeAlert('alert')}}>{context.alert.message}</Alert>
+        }else if(context.alert.type == 'info'){
+            activeAlert = <Alert className='alert info' variant="filled" severity="info" onClose={() => {closeAlert('alert')}}>{context.alert.message}</Alert>
         }
     }
     return(
@@ -79,7 +81,6 @@ function UserAlerts(){
     let [context, setContext] = useContext(AppContext)
     let [mouseMovementDetected, setMouseMovementDetected] = useState(false)
 
-    let accessToken
     if (typeof window != "undefined") {
         const hasMouseCheck = () => {
             setMouseMovementDetected(true)

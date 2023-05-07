@@ -13,12 +13,7 @@ import styles from '@/components/instrument/Instrument.module.css'
 
 function InstrumentHeading(props){
 
-    let instrumentState
-    console.log(props)
-    if(props.instrument.status == 'active'){
-      instrumentState = <div>Deployed</div>
-    }
-
+  console.log(props.instrument)
     return(
       <div className={styles.instrumentHeadingWrapper}>
         <div className={styles.instrumentAvatarGroup}>
@@ -29,14 +24,14 @@ function InstrumentHeading(props){
             </div>
           </div>
         </div>
-        <span className={'greenIndicatorOutline showOnSmall my-3'}>{instrumentState}</span>
+        {/* <span className={'greenIndicatorOutline showOnSmall my-3'}>{instrumentState}</span> */}
         <div className={styles.deployButtonGroup}>
         </div>
       </div>
     )
   }
 
-export default function Dashboard(props) {
+export default function Deployment(props) {
 
 const [deploymentList, setDeploymentList] = useContext(DeploymentContext)
 const [instrumentList, setInstrumentList] = useContext(InstrumentContext)
@@ -44,8 +39,13 @@ const [instrumentList, setInstrumentList] = useContext(InstrumentContext)
 const router = useRouter()
 let pageId = router.query.id
 
-const deployment = deploymentList.filter((deployment)=>deployment['id'] == pageId)[0]
-const instrument = instrumentList.filter((instrument)=>instrument['id'] == deployment['instrument_id'])[0]
+const deployment = deploymentList?.filter((deployment)=>deployment['id'] == pageId)[0]
+console.log(deploymentList)
+console.log(deployment)
+
+const instrument = instrumentList?.filter((instrument)=>instrument['id'] == deployment.instrument.id)[0]
+console.log(instrumentList)
+console.log(instrument)
 
 return (
   <ProtectedRoute>

@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { useState, useContext, useEffect, useRef } from 'react'
 import { DatePicker, MobileDatPicker } from '@mui/x-date-pickers/DatePicker';
 import { useRouter } from 'next/router'
-import { AppContext } from '@/components/Context'
+import { AppContext, UserContext } from '@/components/Context'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import DeploymentTagsModal from "@/components/deployment/DeploymentTagModal";
 import DeploymentTagsEditPanel from '../deployment/DeploymentTagsEditPanel';
@@ -25,7 +25,8 @@ import { Formik, Form, Field, setFieldValue, useFormikContext } from 'formik';
 export default function AddDeploymentForm(props){
 
   const [context, setContext] = useContext(AppContext)
-  const [tags, setTags] = useState({tags: ''})
+  const [user, setUser] = useContext(UserContext)
+  const [tags, setTags] = useState({tags: []})
   const router = useRouter()
 
   function handleAlerts(alertType, alertSeverity, alertMessage){
@@ -78,33 +79,74 @@ export default function AddDeploymentForm(props){
       })
   });
 
-  const successfulSubmit = (values, { setSubmitting }) => {
-    const deploymentIdArray = props.deployments.map(deployment=>deployment.id)
-    const newId = Math.max(...deploymentIdArray) + 1
-    const addedParams = {last_modified: dayjs().format(), date_added: dayjs().format(), id: newId}
+  const postDeploymentToDB = (values, tags) =>{
+
+    const addedParams = {last_modified: dayjs().format(), date_added: dayjs().format()}
     const newDeploymentObject = {...addedParams, ...values, ...tags}
+    newDeploymentObject.user = user.user.user
     newDeploymentObject.deployment_start_date = dayjs(values.deployment_start_date).format()
     newDeploymentObject.deployment_end_date = dayjs(values.deployment_end_date).isValid()?dayjs(values.deployment_end_date).format():null
-    const newDeploymentList = props.deployments
-    newDeploymentList.push(newDeploymentObject)
-    props.setDeployments(newDeploymentList)
+    newDeploymentObject.instrument = values.instrument.id
 
-    const activeDeployment = {name: values.name, id: newId}
-    const instrumentContext = props.instruments.filter(instrument=>instrument.id!=values.instrument_id)
-    const instrument = props.instruments.filter(instrument=>instrument.id==values.instrument_id)[0]
-    instrument.active_deployment = activeDeployment
-    instrumentContext.push(instrument)
-    props.setInstruments(instrumentContext)
-    handleAlerts('snackbar', 'success', 'Deployment ' + values.name + ' added!')
-    router.push('/dashboard/deployments')
-    setSubmitting(false);
+    console.log(newDeploymentObject)
+
+    const url = process.env.NEXT_PUBLIC_BACKEND_ROOT + '/api/deployments/';
+    console.log(newDeploymentObject)
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(newDeploymentObject),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      }
+    })
+    .then(response => {
+      if(!response.ok){
+        handleAlerts('alert', 'error', 'There was a problem with your submission. Please try again. Server returned with ' + response.status + ' code.')
+        setSubmitting(false);
+        throw new Error('HTTP error, status = ' + response.status);
+      }
+      return response.json();
+    })
+    .then(newDeployment => {
+
+      console.log(newDeployment)
+      newDeployment.instrument = {id: values.instrument.id, name: 'Some instrument', avatar: 'hahaha'}
+
+      console.log(newDeployment)
+      const newDeploymentList = props.deployments
+      newDeploymentList.push(newDeployment)
+      props.setDeployments(newDeploymentList)
+      router.push('/dashboard/deployments')
+      handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
+      setSubmitting(false);
+    })
+    .catch(error => {
+      // could put some code to log these errors to the db
+    });
+  }
+
+  const successfulSubmit = (values, { setSubmitting }) => {
+  
+    postDeploymentToDB(values, tags)
+    // add active deployment
+
+
+    // const activeDeployment = {name: values.name, id: newId}
+    // const instrumentContext = props.instruments.filter(instrument=>instrument.id!=values.instrument_id)
+    // const instrument = props.instruments.filter(instrument=>instrument.id==values.instrument_id)[0]
+    // instrument.active_deployment = activeDeployment
+    // instrumentContext.push(instrument)
+    // props.setInstruments(instrumentContext)
+    // router.push('/dashboard/deployments')
+    // setSubmitting(false);
   };
 
     return(
         <Formik
           initialValues={{
             instrument_to_deploy: '',
-            instrument_id: '',
+            instrument: '',
             name: '',
             location: '',
             status: '',
@@ -148,7 +190,7 @@ function AddForm(props){
         const selectedInstrument = props.instruments.filter(instrument=>instrument.id==router.query.instrument?instrument:'')[0]
         setInstruments(selectedInstrumentList)
         selectedInstrument?setFieldValue('instrument_to_deploy', selectedInstrument.name):''
-        selectedInstrument?setFieldValue('instrument_id', selectedInstrument.id):''
+        selectedInstrument?setFieldValue('instrument', {id: selectedInstrument.id, avatar: selectedInstrument.avatar, name: selectedInstrument.name}):''
         
       }, [router])
 
@@ -173,7 +215,9 @@ function AddForm(props){
       const handleInstrumentSelection = (e) =>{
         // On instrument selection, update instrument_to_deploy and instrument_id
         setFieldValue('instrument_to_deploy', e.target.value)
-        setFieldValue('instrument_id', e.target.options[e.target.selectedIndex].id)
+        setFieldValue('instrument', parseInt(e.target.options[e.target.selectedIndex].id))
+        console.log('INSTRUMENT SELECTED')
+        console.log(values)
       }
   
       const privateDiv = <div className={styles.privacyWrapper}>

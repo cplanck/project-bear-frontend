@@ -19,16 +19,6 @@ export default function Login(props){
     const [loggingIn, setLoggingIn] = useState(false)
 
     const router = useRouter()
-    const googleButton = useRef(null);
-
-    function handleAlerts(alertType, alertSeverity, alertMessage){
-        setContext(structuredClone(context.alert.status=false))
-        let newContext = context
-        newContext[alertType].status = true
-        newContext[alertType].type = alertSeverity
-        newContext[alertType].message = alertMessage
-        setContext(structuredClone(newContext))
-      }
 
     const handleCredentialResponse = (response)=>{
         setPageLoading(true)
@@ -44,11 +34,13 @@ export default function Login(props){
           .then(function(response) {
             return response.json();
           }).then(data=>{
+            console.log(data)
             localStorage.setItem("refresh_token", data['refresh_token']);
             localStorage.setItem("access_token", data['access_token']);
             localStorage.setItem("user_has_visited", true)
+            localStorage.setItem('user', JSON.stringify(data['user']))
             const redirect = '/dashboard/overview'
-            loginOrRefresh(setPageLoading, setInstruments, setDeployments, setUser, redirect, router)  //.then(()=>handleAlerts('snackbar', 'success', 'Welcome back, ' + data.first_name + '!'))
+            loginOrRefresh(setPageLoading, setInstruments, setDeployments, setUser, redirect, router)
         
           }).catch(error => {
             console.log(error);

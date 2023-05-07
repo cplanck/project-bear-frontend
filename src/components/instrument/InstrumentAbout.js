@@ -13,11 +13,15 @@ export default function InstrumentAbout(props){
     dayjs.extend(advancedFormat)
 
     const lastModified = dayjs(props.instrument?.last_modified); 
-    const isToday = lastModified.isSame(dayjs(), 'day');
-    const lastModifiedDate = isToday ? 'Today at ' + lastModified.format('h:mma') : lastModified.format('MMMM Do, YYYY');
+    const modifiedToday = lastModified.isSame(dayjs(), 'day');
+    const lastModifiedDate = modifiedToday ? 'Today at ' + lastModified.format('h:mma') : lastModified.format('MMMM Do, YYYY');
 
     const dateAdded = dayjs(props.instrument?.date_added); 
-    const dateAddedDate = isToday ? 'Today at ' + dateAdded.format('h:mma') : dateAdded.format('MMMM Do, YYYY');
+    const addedToday = dateAdded.isSame(dayjs(), 'day')
+    const dateAddedDate = addedToday ? 'Today at ' + dateAdded.format('h:mma') : dateAdded.format('MMMM Do, YYYY');
+    console.log(dateAddedDate)
+    console.log(addedToday)
+    console.log(dateAdded)
 
     return(
         <div className={[styles.instrumentAboutWrapper, 'hideOnMedium'].join(' ')}>
@@ -30,11 +34,6 @@ export default function InstrumentAbout(props){
                 <p className={styles.instrumentDetails}><QrCodeOutlinedIcon className={styles.instrumentDetailIcon} fontSize='small'/>{props.instrument?.serial_number}</p>
                 <p className={styles.instrumentDetails}><FlightTakeoffIcon className={styles.instrumentDetailIcon} fontSize='small'/><span style={{fontWeight: '800', paddingRight: '5px'}}>{props.instrument?.deployment_num?props.instrument?.deployment_num:0}</span> Deployments</p>
             </div>
-            {/* <hr className='hr'></hr> */}
-            {/* <div>
-                <p className='greyText2 smallText'>{props.instrument['notes']}</p>
-                <h4 className='removeHeaderMargin'>Instrument Notes</h4>
-            </div> */}
             {props.instrument?.notes?
              <div>
                  <hr className='hr'></hr>

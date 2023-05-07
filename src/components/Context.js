@@ -60,14 +60,12 @@ export function ContextWrapper({ children }) {
   useEffect(() => {
 
     loginOrRefresh(setLoadingPage, setInstruments, setDeployments, setUser, false, router)
-    
-    const authCheckTiming = setInterval(() => {
-      const authenticatedUser = checkAuthentication()
-      if(!authenticatedUser){
+
+    setInterval(()=>{
+      if(!checkAuthentication(context, setContext)){
         setUser({user: false, loading: false})
       }
-    }, 10000);
-    return () => clearInterval(authCheckTiming);
+    },20000)
   }, []);
 
   return (

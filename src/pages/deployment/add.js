@@ -3,6 +3,7 @@ import styles from '@/components/instrument/Instrument.module.css'
 import { useContext } from 'react';
 import { InstrumentContext, DeploymentContext } from '@/components/Context'
 import AddDeploymentForm from "@/components/forms/AddDeploymentForm";
+import ProtectedRoute from "@/components/general/ProtectedRoute";
 
 export default function AddDeploymentPanel() {
                                               
@@ -10,8 +11,10 @@ export default function AddDeploymentPanel() {
   const [deployments, setDeployments] = useContext(DeploymentContext);
 
   return (
-    <div className={styles.instrumentAddWrapper}>
-          <AddDeploymentForm instruments={instruments} setInstruments={setInstruments} deployments={deployments} setDeployments={setDeployments}/>
-    </div>
+    <ProtectedRoute>
+      <div className={styles.instrumentAddWrapper}>
+            <AddDeploymentForm instruments={instruments} setInstruments={setInstruments} deployments={deployments} setDeployments={setDeployments}/>
+      </div>
+    </ProtectedRoute>
   )
 }

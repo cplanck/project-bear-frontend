@@ -20,10 +20,8 @@ function fetchUserDetails(token, setUser, router){
         }
     })
     .then(data => {
-        console.log(data)
       setUser({user: data[0], loading: false})
       localStorage.setItem('user',JSON.stringify(data[0]))
-      console.log(data[0])
     })
     .catch(error => {
         console.error('Error:', error);
@@ -41,7 +39,7 @@ function fetchUserInstruments(setInstruments){
       })
     .then(response => response.json())
     .then(data => {
-     setInstruments(data)
+     setInstruments(data.results)
      return true
     })
     .catch(error => {
@@ -61,6 +59,7 @@ function fetchUserInstruments(setInstruments){
     .then(response => response.json())
     .then(data => {
      setDeployments(data)
+     console.log(data)
      return true
     })
     .catch(error => {
@@ -91,7 +90,16 @@ export function RefreshToken(refreshToken){
       });
   }
 
-export const checkAuthentication = ()=>{
+export const checkAuthentication = (context, setContext)=>{
+
+    function handleAlerts(alertType, alertSeverity, alertMessage){
+        let newContext = context
+        newContext[alertType].status = true
+        newContext[alertType].type = alertSeverity
+        newContext[alertType].message = alertMessage
+        console.log(newContext)
+        setContext(structuredClone(newContext))
+      }
 
     console.log('Checking login credentials....');
     let accessToken = localStorage.getItem('access_token')
@@ -115,7 +123,7 @@ export const checkAuthentication = ()=>{
           localStorage.removeItem('access_token')
           localStorage.removeItem('refresh_token')
           localStorage.removeItem('user')
-        //   handleAlerts('alert', 'warning', 'You\'ve been logged out for security purposes. Please log back in to continue.')
+          handleAlerts('alert', 'info', 'You\'ve been logged out for security purposes. Please login again to continue.')
           return false
         }
         else if(refreshPayload['exp'] > currentTime){
@@ -143,7 +151,6 @@ export const checkAuthentication = ()=>{
       console.log('NO ACCESS TOKENS FOUND')
       return false
     }
-
   }
 
   export const loginOrRefresh = (setLoadingPage, setInstruments, setDeployments, setUser, redirect, router) =>{
@@ -151,9 +158,7 @@ export const checkAuthentication = ()=>{
     const userHasVisited = localStorage.getItem('user_has_visited')??false
     const accessToken = localStorage.getItem('access_token')??false
     const refreshToken = localStorage.getItem('refresh_token')??false
-
-    let user = {user: false, loading: false}
-    localStorage.getItem('user') != 'undefined'?user = {user:JSON.parse(localStorage.getItem('user')), loading:false}:''
+    const user = {user:JSON.parse(localStorage.getItem('user')), loading:false}
 
     function redirectUser(router, redirect, setLoadingPage) {        
         // this function is to prevent page flickering after login
@@ -163,20 +168,21 @@ export const checkAuthentication = ()=>{
         }, 500);
       }
 
-
     if(!userHasVisited || !accessToken || !refreshToken){
         setUser({user: false, loading: false})
     }
     else{
+        console.log('USER INSIDE LOGIN OR REFRESH')
         console.log(user)
         setUser({user: user.user, loading: false}) // set user from localstorage
+
         const authenticatedUser = checkAuthentication(setLoadingPage)
         if(authenticatedUser){
             setLoadingPage(true)
             // fetch everything to populate page:
             fetchUserDetails(localStorage.getItem('access_token'), setUser, router)
-            fetchUserDeployments(setDeployments)
-            fetchUserInstruments(setInstruments).then(()=>redirectUser(router, redirect, setLoadingPage))
+            fetchUserDeployments(setDeployments).then(()=>fetchUserInstruments(setInstruments)).then(()=>redirectUser(router, redirect, setLoadingPage))
+            // fetchUserInstruments(setInstruments).then(()=>redirectUser(router, redirect, setLoadingPage))
         }
         else{
             setLoadingPage(false)

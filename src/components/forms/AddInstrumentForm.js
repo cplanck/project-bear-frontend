@@ -75,13 +75,16 @@ export default function AddInstrumentForm(props){
 
 
   const handleSubmission = (instrumentDetails) => {
+    console.log(instrumentDetails)
     instrumentDetails['date_added']=dayjs().format()
     instrumentDetails['last_modified']=dayjs().format()
     instrumentDetails['purchased_date']?instrumentDetails:setInstrumentDetails(structuredClone(instrumentDetails['purchase_date']=dayjs().format()))
-    instrumentDetails['user'] = user.user
+    instrumentDetails['user'] = user.user.user
     delete instrumentDetails.avatar
 
-    const url = 'http://localhost:8000/api/instruments/';
+    const url = process.env.NEXT_PUBLIC_BACKEND_ROOT + '/api/instruments/';
+
+    console.log(instrumentDetails)
     return fetch(url, {
       method: 'POST',
       body: JSON.stringify(instrumentDetails),
@@ -94,6 +97,7 @@ export default function AddInstrumentForm(props){
       console.log(response)
       if(!response.ok){
         handleAlerts('alert', 'error', 'There was a problem with your submission. Please try again. Server returned with ' + response.status + ' code.')
+        console.log(response.text())
         throw new Error('HTTP error, status = ' + response.status);
       }
       return response.json();
@@ -111,15 +115,6 @@ export default function AddInstrumentForm(props){
     });
   };
 
-  function updateInstrumentContext(instrumentDetails, id){
-    setInstrumentDetails(structuredClone(instrumentDetails['id']=id))
-    const temp = props.instruments
-    temp.push(instrumentDetails)
-    props.setInstruments(temp)
-    router.push('/dashboard/instruments')
-    handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
-  }
-
   function triggerAvatarModal(e){
     e.preventDefault()
     setAvatarUploadOpen(true)
@@ -136,7 +131,7 @@ export default function AddInstrumentForm(props){
           name: Yup.string().min(fr.instrumentName.minLength.val, fr.instrumentName.minLength.error).max(fr.instrumentName.maxLength.val, fr.instrumentName.maxLength.error).required('You must specify an instrument name'),
           notes: Yup.string().max(fr.instrumentNotes.maxLength.val, fr.instrumentNotes.maxLength.error),
           serialNumber: Yup.string().max(fr.instrumentSerialNumber.maxLength.val, fr.instrumentSerialNumber.maxLength.error).min(fr.instrumentSerialNumber.minLength.val, fr.instrumentSerialNumber.minLength.error).required('You must specify an serial number for this instrument'),
-          description: Yup.string().max(fr.instrumentDescription.maxLength.val, fr.instrumentDescription.maxLength.error).required('Must specify a brief description')
+          description: Yup.string().max(fr.instrumentDescription.maxLength.val, fr.instrumentDescription.maxLength.error)
         }),
 
       onSubmit: values => {
@@ -147,8 +142,6 @@ export default function AddInstrumentForm(props){
 
     function onSubmit(e){
       formik.handleSubmit(e)
-      // !formik.dirty?handleAlerts('alert', 'error', 'You have form errors!'):''
-      // formik.errors?handleAlerts('alert', 'error', 'You have form errors!'):''
     }
 
     useEffect(()=>{

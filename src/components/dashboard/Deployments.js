@@ -23,7 +23,7 @@ function CollaboratorsList(props){
 export default function Deployments(props){
 
     const [deploymentContext, setDeployments] = useContext(DeploymentContext);
-    let deployments = !props.listAll?deploymentContext.filter((deployment)=>deployment['instrument_id']==props.instrument.id):deploymentContext
+    let deployments = !props.listAll?deploymentContext.filter((deployment)=>deployment.instrument.id==props.instrument.id):deploymentContext
     const [sortBy, setSortBy] = useState('starred')
 
     const advancedFormat = require('dayjs/plugin/advancedFormat')
