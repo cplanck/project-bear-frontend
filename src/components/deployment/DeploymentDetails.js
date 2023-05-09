@@ -32,7 +32,7 @@ export default function DeploymentDetails(props){
                     <h3 className='removeHeaderMargin'>Data</h3>
                     <DeploymentData deployment={props.deployment}/>
                     <h3 className='removeHeaderMargin'>Tags</h3>
-                    <div className={styles.deploymentTagsWrapper}>{props.deployment.tags?<DeploymentTags deployment={props.deployment}/>:''}</div>
+                    <div className={styles.deploymentTagsWrapper}>{props.deployment?.tags?<DeploymentTags deployment={props.deployment}/>:''}</div>
                     <h3 className='removeHeaderMargin'>Notes</h3>
                     <DeploymentNotes deployment={props.deployment}/>
                     <h3 className='removeHeaderMargin'>Images</h3>

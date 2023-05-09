@@ -8,6 +8,7 @@ import { UserLoggedInContext, UserContext, PageLoaderContext, InstrumentContext,
 import PagePreloader from '@/components/general/PagePreloader'
 import { loginOrRefresh } from '@/components/ContextHelperFunctions'
 import logo from '@/images/bit-bear-logo-dark.png'
+import { toast } from 'react-toastify';
 
 export default function Login(props){
 
@@ -41,6 +42,7 @@ export default function Login(props){
             localStorage.setItem('user', JSON.stringify(data['user']))
             const redirect = '/dashboard/overview'
             loginOrRefresh(setPageLoading, setInstruments, setDeployments, setUser, redirect, router)
+            // setLoggingIn(false)
         
           }).catch(error => {
             console.log(error);

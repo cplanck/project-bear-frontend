@@ -30,7 +30,7 @@ export default function InstrumentAbout(props){
                 <Link href={{ pathname: '/instrument/edit/'  +props.instrument?.id, query: { from: 'instrument' } }}><SettingsIcon className='iconButton'/></Link>
             </div>
             <div className='greyText2 smallText'>
-                <p>{props.instrument?.description}</p>
+                <p className=''>{props.instrument?.description}</p>
                 <p className={styles.instrumentDetails}><QrCodeOutlinedIcon className={styles.instrumentDetailIcon} fontSize='small'/>{props.instrument?.serial_number}</p>
                 <p className={styles.instrumentDetails}><FlightTakeoffIcon className={styles.instrumentDetailIcon} fontSize='small'/><span style={{fontWeight: '800', paddingRight: '5px'}}>{props.instrument?.deployment_num?props.instrument?.deployment_num:0}</span> Deployments</p>
             </div>

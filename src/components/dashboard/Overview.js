@@ -10,14 +10,18 @@ import styles from '@/components/dashboard/Instruments.module.css';
 import dbstyles from '@/components/dashboard/Dashboard.module.css';
 import { Container } from '@mui/system';
 import * as dayjs from 'dayjs'
+import { useQuery } from 'react-query';
+import toast, { Toaster } from 'react-hot-toast';
+
+
 
 export default function Overview(){
 
+    let { instrumentsLoading, instrumentError, data: instruments } = useQuery({ queryKey: ['/instruments']})
+    let { isLoading, error, data: deployments } = useQuery({ queryKey: ['/deployments'] })
+
     var advancedFormat = require('dayjs/plugin/advancedFormat')
     dayjs.extend(advancedFormat)
-
-    const [deployments, setdDeployments] = useContext(DeploymentContext)
-    const [instruments, setInstruments] = useContext(InstrumentContext)
    
     let projects = [{'name': 'Nain Community Deployment 2021', 'description': 'SIMB3s, SAMs buoys, etc. '},{'name': 'SIDEx 2023', 'description': 'US Army  SIDEx project in collaboration with Ted, Andy, and Mark'}]
 
@@ -93,12 +97,20 @@ export default function Overview(){
         )
     }
 
-    const deploymentArray = deployments.map((deployment, i)=><DeploymentPanel key={i} deployment={deployment}/>)
-    const instrumentArray = instruments.map((instrument, i)=><InstrumentPanel key={i} instrument={instrument}/>)
+        function Toast(){
+        return(
+            <div>
+                This is a <strong>Toast</strong>
+            </div>
+        )
+        }
+
+    const deploymentArray = deployments?.results.map((deployment, i)=><DeploymentPanel key={i} deployment={deployment}/>)
+    const instrumentArray = instruments?.results.map((instrument, i)=><InstrumentPanel key={i} instrument={instrument}/>)
     const projectArray = projects.map((project, i)=><ProjectPanel key={i} project={project}/>)
 
     return(
-        instrumentArray.length != 0?
+        instrumentArray?.length != 0?
         <div className='flexCenterAndCenter' style={{border: '0px solid red'}}>
             <div maxWidth={false} style={{maxWidth: '1200px', width: '100%', border: '0px solid blue'}}>
                 <h4 className='' style={{margin: '0px 0px 10px 0px'}}>Top Instruments</h4>

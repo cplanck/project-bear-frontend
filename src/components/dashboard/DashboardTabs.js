@@ -5,6 +5,7 @@ import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
 import DvrOutlinedIcon from '@mui/icons-material/DvrOutlined';
 import PodcastsIcon from '@mui/icons-material/Podcasts';
+import { useQuery } from 'react-query';
 import styles from './Dashboard.module.css'
 
 function Tab(props){
@@ -22,13 +23,19 @@ function Tab(props){
 
 export default function DashboardTabs(props){
 
+    const {data: instruments } = useQuery({ queryKey: ['/instruments']})
+    const {data: deployments } = useQuery({ queryKey: ['/deployments']})
+
+    console.log('HELLOOOOOOOO')
+    console.log(instruments)
+
     return(
         <div style={{width: '100%'}} className={props.className}>
             <Container maxWidth={'none'} className={styles.tabContainer}>
                 <div className={styles.tabWrapper} id='tabWrapper'>
                     <Tab id={'overview'} updatePage={props.updatePage} name='Overview' page={props.page} Icon={DvrOutlinedIcon}/>
-                    <Tab id={'instruments'} updatePage={props.updatePage} name='Instruments'  page={props.page}  Icon={PodcastsIcon} number={props.userOverview.instruments}/>
-                    <Tab id={'deployments'} updatePage={props.updatePage} name='Deployments' page={props.page} Icon={FlightTakeoffOutlinedIcon} number={props.userOverview.deployments}/>
+                    <Tab id={'instruments'} updatePage={props.updatePage} name='Instruments'  page={props.page}  Icon={PodcastsIcon} number={instruments?.count}/>
+                    <Tab id={'deployments'} updatePage={props.updatePage} name='Deployments' page={props.page} Icon={FlightTakeoffOutlinedIcon} number={deployments?.count}/>
                     {/* <Tab id={'data-models'} updatePage={props.updatePage} name='Data Models'  page={props.page}  Icon={AccountTreeIcon} number={props.userOverview.data_models}/> */}
                     <Tab id={'projects'} updatePage={props.updatePage} name='Projects'  page={props.page}  Icon={FolderSharedIcon} number={props.userOverview.projects}/>
                 </div>

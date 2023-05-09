@@ -9,8 +9,18 @@ import SortButton from './SortButton';
 import Link from 'next/link';
 import InstrumentAvatar from "../instrument/InstrumentAvatar";
 import * as dayjs from 'dayjs'
+import { useQuery } from 'react-query';
 
-export default function Instruments(props){
+export default function Instruments(){
+
+    // const getInstruments = async () =>{
+    //     const data = await fetch(process.env.NEXT_PUBLIC_BACKEND_ROOT + '/api/instruments', {method: 'GET',  headers: {'Authorization': 'Bearer ' + localStorage.getItem('access_token')}}).then(res => res.json())
+    //     return data.results
+    // }
+
+    let { isLoading, error, data } = useQuery({ queryKey: ['/instruments'] })
+    const instruments = data?.results
+
 
     const [sortBy, setSortBy] = useState('last_modified')
     const [isEdting, setIsEditing] = useState(false)
@@ -37,46 +47,32 @@ export default function Instruments(props){
                     </div>
                     <div className={dbstyles.bottomDetailsWrapper}>
                     </div>
+                    <hr className='hr'></hr>
                 </div>
-                <hr className='hr'></hr>
             </Grid> 
         )
     }
 
-    function SearchInstruments(){
-    
-        return(
-        // <Grid container spacing={2} className={dbstyles.searchWrapper}>
-        //     <Grid item xs={12} md={7} lg={8} xl={10}>
-        //         <input className={[dbstyles.search, 'styledInput small'].join(" ")} placeholder={'Search Instruments'}></input>
-        //     </Grid>
-        //     <Grid item xs={12} md={5} lg={4} xl={2}>
-        //         <Link href='/instrument/add' >
-        //             <button  className={[dbstyles.addButton, 'greenButton'].join(" ")}>
-        //                 <AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument
-        //             </button>
-        //         </Link>
-        //     </Grid>
-        // </Grid>
-        <div className={dbstyles.searchWrapper}>
-            <input className={[dbstyles.search, 'styledInput small'].join(" ")} placeholder={'Search Instruments'}></input>
-            <Link href='/instrument/add' >
-                <button  className={[dbstyles.addButton, 'greenButton'].join(" ")}>
-                    <AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument
-                </button>
-            </Link>
-        </div>
-        )
-    }
+ 
 
     if(sortBy == 'last_modified'){
-        props.instruments.sort((a, b) => (a.last_modified > b.last_modified) ? -1 : 1)
+        instruments?.sort((a, b) => (a.last_modified > b.last_modified) ? -1 : 1)
     }
     else{
-        props.instruments.sort((a, b) => (a.starred_date > b.starred_date) ? -1 : 1)
+        instruments?.sort((a, b) => (a.starred_date > b.starred_date) ? -1 : 1)
     }
 
-    let instrumentArray = props.instruments.map((instrument, i)=><Instrument key={i} instrument={instrument}/>)
+    
+    let instrumentArray = instruments?.map((instrument, i)=><Instrument key={i} instrument={instrument}/>)
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+      }
+      
+      if (error) {
+        return <div>Error: {error.message}</div>;
+      }
+
 
     return(
         isEdting?<InstrumentsAddPanel setIsEditing={setIsEditing}/>:
@@ -88,9 +84,57 @@ export default function Instruments(props){
                 </div>
             </div>
             {/* <hr className='hr'></hr> */}
-            <Grid container spacing={0}>
+            <Grid container spacing={2}>
                 {instrumentArray}
             </Grid>
         </>
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function SearchInstruments(){
+    
+    return(
+    // <Grid container spacing={2} className={dbstyles.searchWrapper}>
+    //     <Grid item xs={12} md={7} lg={8} xl={10}>
+    //         <input className={[dbstyles.search, 'styledInput small'].join(" ")} placeholder={'Search Instruments'}></input>
+    //     </Grid>
+    //     <Grid item xs={12} md={5} lg={4} xl={2}>
+    //         <Link href='/instrument/add' >
+    //             <button  className={[dbstyles.addButton, 'greenButton'].join(" ")}>
+    //                 <AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument
+    //             </button>
+    //         </Link>
+    //     </Grid>
+    // </Grid>
+    <div className={dbstyles.searchWrapper}>
+        <input className={[dbstyles.search, 'styledInput small'].join(" ")} placeholder={'Search Instruments'}></input>
+        <Link href='/instrument/add' >
+            <button  className={[dbstyles.addButton, 'greenButton'].join(" ")}>
+                <AddBoxOutlinedIcon style={{marginRight: '5px', color: 'var(--dark-theme-text-main)'}}/>Add Instrument
+            </button>
+        </Link>
+    </div>
     )
 }

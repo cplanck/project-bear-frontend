@@ -92,15 +92,6 @@ export function RefreshToken(refreshToken){
 
 export const checkAuthentication = (context, setContext)=>{
 
-    function handleAlerts(alertType, alertSeverity, alertMessage){
-        let newContext = context
-        newContext[alertType].status = true
-        newContext[alertType].type = alertSeverity
-        newContext[alertType].message = alertMessage
-        console.log(newContext)
-        setContext(structuredClone(newContext))
-      }
-
     console.log('Checking login credentials....');
     let accessToken = localStorage.getItem('access_token')
     let refreshToken = localStorage.getItem('refresh_token')
@@ -160,12 +151,9 @@ export const checkAuthentication = (context, setContext)=>{
     const refreshToken = localStorage.getItem('refresh_token')??false
     const user = {user:JSON.parse(localStorage.getItem('user')), loading:false}
 
-    function redirectUser(router, redirect, setLoadingPage) {        
+    function redirectUser(router, redirect) {        
         // this function is to prevent page flickering after login
         redirect?router.push(redirect, redirect, { shallow: true }):'';
-        setTimeout(() => {
-          setLoadingPage(false);
-        }, 500);
       }
 
     if(!userHasVisited || !accessToken || !refreshToken){
@@ -178,11 +166,8 @@ export const checkAuthentication = (context, setContext)=>{
 
         const authenticatedUser = checkAuthentication(setLoadingPage)
         if(authenticatedUser){
-            setLoadingPage(true)
-            // fetch everything to populate page:
-            fetchUserDetails(localStorage.getItem('access_token'), setUser, router)
-            fetchUserDeployments(setDeployments).then(()=>fetchUserInstruments(setInstruments)).then(()=>redirectUser(router, redirect, setLoadingPage))
-            // fetchUserInstruments(setInstruments).then(()=>redirectUser(router, redirect, setLoadingPage))
+            redirectUser(router, redirect)
+            setLoadingPage(false)
         }
         else{
             setLoadingPage(false)

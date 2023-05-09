@@ -112,7 +112,6 @@ export default function AddDeploymentForm(props){
 
       console.log(newDeployment)
       newDeployment.instrument = {id: values.instrument.id, name: 'Some instrument', avatar: 'hahaha'}
-
       console.log(newDeployment)
       const newDeploymentList = props.deployments
       newDeploymentList.push(newDeployment)

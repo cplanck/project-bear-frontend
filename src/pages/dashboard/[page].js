@@ -12,11 +12,12 @@ import { InstrumentContext, DeploymentContext, DataAvailableContext, UserLoggedI
 import { maxWidth } from '@mui/system';
 import SideNav from '@/components/instrument/SideNav';
 import ProtectedRoute from '@/components/general/ProtectedRoute';
+import { useQuery } from 'react-query';
 
 
-export default function Dashboard(props) {
 
-  let [instruments, setInstruments] = useContext(InstrumentContext);
+export default function Dashboard() {
+
   let [page, setPage] = useState('')
 
   let userOverview = {'instruments': 3, 'deployments': 13, 'projects': 2, 'data_models': 4}
@@ -45,7 +46,7 @@ export default function Dashboard(props) {
     activePage = <Deployments searchBar={true} listAll={true}/>
   }
   else if (page == 'instruments'){
-    activePage = <Instruments instruments={instruments}/>
+    activePage = <Instruments/>
   }
   else if (page == 'projects'){
     activePage = <div>Projects</div>
@@ -57,7 +58,7 @@ export default function Dashboard(props) {
         <SideNav/>
         <div className={styles.mainPanel} style={{border: '0px solid blue', width: '100%'}}>
           <DashboardTabs page={page} updatePage={updatePage} userOverview={userOverview} className={'hideOnSmall'}/>
-          <Container className={styles.mainPageContainer} maxWidth={false} style={{maxWidth: '1800px'}}>
+          <Container className={styles.mainPageContainer} maxWidth={false} style={{maxWidth: '1200px'}}>
               {activePage}
           </Container>
         </div>

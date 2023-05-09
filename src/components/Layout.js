@@ -160,8 +160,8 @@ function UserAlerts(){
     <>
         {router.pathname=='/login'?'':<TopNav user={user}/>}
         <div className='pageContent'>
-            <UserAlerts/>
-            <UserSnackbar />
+            {/* <UserAlerts/>
+            <UserSnackbar /> */}
             {isPublic? 
             <main>{children}</main>
             :pageLoading?

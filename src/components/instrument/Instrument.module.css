@@ -70,7 +70,7 @@
     width: 100%;
     max-width: var(--side-nav-width);
     height: calc(100vh - var(--top-nav-height));
-    border-right: 1px solid var(--dark-theme-grey-4);
+    border-right: 1px solid var(--dark-theme-grey-5);
     padding: 0px 18px 15px 18px;
 
 }
@@ -356,14 +356,14 @@
 }
 
 .instrumentAvatarWrapper.small {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     margin-right: 8px;
 }
 
 .avatarOutline.small {
-    width: 31px;
-    height: 31px;
+    width: 26px;
+    height: 26px;
 }
 
 .templateBooleanWrapper {
@@ -410,6 +410,10 @@
     font-size: 0.8em;
     color: var(--dark-theme-grey-3);
     padding: 10px 10px 10px 10px;
+}
+
+.instrumentAddWrapper {
+    background-color: var(--main-bg-color);
 }
 
 @media screen and (max-width: 768px) {

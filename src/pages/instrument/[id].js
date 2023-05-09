@@ -12,6 +12,8 @@ import styles from '@/components/instrument/Instrument.module.css'
 import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
 import Link from 'next/link';
 import ProtectedRoute from '@/components/general/ProtectedRoute';
+import { useQuery } from 'react-query';
+
 
 function InstrumentHeading(props){
 
@@ -19,8 +21,6 @@ function InstrumentHeading(props){
   if(props.instrument?.status == 'deployed'){
     instrumentState =  <div>{instrumentState}</div>
 }
-console.log(props)
-
   return(
     <div className={styles.instrumentHeadingWrapper}>
       <div className={styles.instrumentAvatarGroup}>
@@ -41,22 +41,15 @@ console.log(props)
 
 
 export default function Dashboard() {
-                                                
-  const [deploymentList, setDeploymentList] = useContext(DeploymentContext)
-  const [instrumentList, setInstrumentList] = useContext(InstrumentContext)
-  // const [dataAvailable, setDataAvailable] = useContext(DataAvailableContext)
 
+  let { isLoading, error, data: instrumentList } = useQuery({ queryKey: ['/instruments'] })
+
+  instrumentList = instrumentList?.results
   const router = useRouter()
   let pageId = router.query.id
 
 
-  useEffect(()=>{
-    if(router.isReady){
-      // setDataAvailable(true)
-    };
-}, [router.isReady]);
-
-  const instrument = instrumentList.filter((instrument)=>instrument['id'] == pageId)[0]
+  const instrument = instrumentList?.filter((instrument)=>instrument['id'] == pageId)[0]
   console.log(instrument)
 
   return (
@@ -68,8 +61,8 @@ export default function Dashboard() {
           <div>
             <InstrumentHeading instrument={instrument} />
           </div>
-          <div style={{border: 'px solid blue', height: '100vh'}}>
-            <div className='activePage'><InstrumentDetails instrument={instrument} setInstrumentList={setInstrumentList}/></div>
+          <div style={{border: '0px solid blue', height: '100vh'}}>
+            <div className='activePage'><InstrumentDetails instrument={instrument} setInstrumentList={'setInstrumentList'}/></div>
             </div>
         </Container>
       </div>

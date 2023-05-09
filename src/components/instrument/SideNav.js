@@ -7,8 +7,10 @@ import Link from 'next/link'
 import { useContext, useEffect, useState } from 'react';
 import { InstrumentContext } from '../../components/Context'
 import InstrumentAvatar from './InstrumentAvatar'
+import { RotatingLines } from 'react-loader-spinner'
+import { useQuery } from 'react-query';
+import { useIsFetching } from 'react-query'
 import { useRouter } from 'next/router'
-
 
 function truncate( str, max, sep ) {
     max = max || 10;
@@ -32,7 +34,7 @@ function LinkItem(props){
         <Link href={'/instrument/' + props.instrument['id']} className={[styles.sideNavListItem, 'tabCell'].join(' ')}>
             <div className={styles.sideNavListItemTextAndAvatar}>
                 <InstrumentAvatar size={'small'} url={props.instrument.avatar}/>
-                <span className={styles.sideNavItemText}>{truncate(props.instrument.name, props.browserWidth<992?20:35)}{props.isSelected}</span>
+                <span className={styles.sideNavItemText}>{truncate(props.instrument.name, props.browserWidth<992?20:26)}{props.isSelected}</span>
              </div>
              {props.instrument.active_deployment.name?
              <span style={{width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'green'}}></span>
@@ -44,15 +46,22 @@ function LinkItem(props){
 }
 
 
-
-
 export default function SideNav(){
 
-    const [instruments, setInstruments] = useContext(InstrumentContext);
+    const isFetching = useIsFetching()
+
+    const getInstruments = async () =>{
+        const data = await fetch(process.env.NEXT_PUBLIC_BACKEND_ROOT + '/api/instruments', {method: 'GET',  headers: {'Authorization': 'Bearer ' + localStorage.getItem('access_token')}}).then(res => res.json())
+        return data.results
+    }
+
+    let { isLoading, error, data: instruments } = useQuery({ queryKey: ['/instruments'] })
+
+    instruments = instruments?.results
+
     const sortedInstruments = instruments?.sort((a, b) => a.last_modified.localeCompare(b.last_modified));
     const [browserWidth, setBrowserWidth] = useState(1800)
 
-    // if(typeof window != undefined){
         useEffect(() => {
             function handleResize() {
               console.log(window.innerWidth);
@@ -63,9 +72,8 @@ export default function SideNav(){
               window.removeEventListener('resize', handleResize);
             };
           }, []);
-        // }
 
-    sortedInstruments.sort((a, b) => {
+    sortedInstruments?.sort((a, b) => {
         if (a.active_deployment.name.length !== 0 && b.active_deployment.name.length === 0) {
           return -1; // a should be before b
         } else if (a.active_deployment.name.length === 0 && b.active_deployment.name.length !== 0) {
@@ -75,19 +83,24 @@ export default function SideNav(){
         }
       });
 
-    const listItems = sortedInstruments.map(instrument=><LinkItem key={instrument.id} instrument={instrument} browserWidth={browserWidth}/>)
+    const listItems = sortedInstruments?.map(instrument=><LinkItem key={instrument.id} instrument={instrument} browserWidth={browserWidth}/>)
     
 
 
     return(
         <div className={styles.sideNavWrapper}>
-            {listItems.length != 0?
+           
+            {listItems?.length != 0?
             <>
                 <div className={styles.sideNavTitleWrapper}>
-                    <h3>Your Instruments</h3>
+                    <div className='flexCenterFlexStart'>
+                        <h3 className='me-3'>Your Instruments</h3> 
+                        {isFetching?<RotatingLines height="15" width="15" animationDuration="1.25" strokeColor="var(--dark-theme-grey-3)" ariaLabel="loading"/>:''}
+                    </div>
                     <Link  href='/instrument/add'>
                         <button className='greyButton'>New</button>
                     </Link>
+                    
                 </div>
                 <SearchInput placeholder={'Search Instruments'}/>
                 <div className={styles.sideNavlistItemsContainer}>

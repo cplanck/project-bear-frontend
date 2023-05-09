@@ -11,6 +11,7 @@ import { UserContext } from '@/components/Context'
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import Image from 'next/image';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 export default function AvatarDropDown(props) {
@@ -30,6 +31,7 @@ export default function AvatarDropDown(props) {
       localStorage.removeItem('user')
       setUser({})
       router.push('/')
+      toast.success('You\'ve been logged out. See you next time!')
   }
 
   const handleClick = (event) => {

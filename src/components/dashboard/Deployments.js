@@ -10,6 +10,8 @@ import ModifyButtonStar from '@/components/dashboard/ModifyButtonStar'
 import structuredClone from "@ungap/structured-clone";
 import SortButton from './SortButton';
 import * as dayjs from 'dayjs'
+import { useQuery } from 'react-query';
+
 
 function CollaboratorAvatar(props){
     return(<div className={dbstyles.collaborators} style={{backgroundImage: `url(${props.user.avatar})`}}></div>)
@@ -22,8 +24,12 @@ function CollaboratorsList(props){
 
 export default function Deployments(props){
 
-    const [deploymentContext, setDeployments] = useContext(DeploymentContext);
-    let deployments = !props.listAll?deploymentContext.filter((deployment)=>deployment.instrument.id==props.instrument.id):deploymentContext
+    let { isLoading, error, data } = useQuery({ queryKey: ['/deployments'] })
+
+    const deploymentContext = data?.results
+    console.log(props)
+    let deployments = !props.listAll?deploymentContext?.filter((deployment)=>deployment.instrument.id==props.instrument.id):deploymentContext
+
     const [sortBy, setSortBy] = useState('starred')
 
     const advancedFormat = require('dayjs/plugin/advancedFormat')
@@ -57,8 +63,9 @@ export default function Deployments(props){
                         {props.deployment.collaborators?<CollaboratorsList instrument={props.deployment}/>:''}
                     </div>
                     {/* <span className='extraSmallText mt-3'><span className='boldText'> Active from </span> {dayjs(props.deployment.deployment_start_date).format('MMMM D, YYYY')} - {endDate}</span> */}
+                    <hr className='hr'></hr>
+
                 </div>
-                <hr className='hr'></hr>
             </Grid> 
         )
     }
@@ -76,13 +83,13 @@ export default function Deployments(props){
 
     let sortedDeployments = structuredClone(deployments)
     if(sortBy == 'last_modified'){
-        sortedDeployments.sort((a, b) => (a.last_modified > b.last_modified) ? -1 : 1)
+        sortedDeployments?.sort((a, b) => (a.last_modified > b.last_modified) ? -1 : 1)
     }
     else{
-        sortedDeployments.sort((a, b) => (a.starred_date > b.starred_date) ? -1 : 1)
+        sortedDeployments?.sort((a, b) => (a.starred_date > b.starred_date) ? -1 : 1)
     }
 
-    let deploymentArray = sortedDeployments.map((deployment, index)=><Deployment key={index} deployment={deployment}/>)
+    let deploymentArray = sortedDeployments?.map((deployment, index)=><Deployment key={index} deployment={deployment}/>)
 
     return(
         <div style={{border: '0px solid blue', maxWidth: '1800px'}}>
@@ -92,7 +99,7 @@ export default function Deployments(props){
                     <SortButton setSortBy={setSortBy}/>
                 </div>
             </div>
-            <Grid container spacing={0}>
+            <Grid container spacing={2}>
                 {deploymentArray}
             </Grid>
         </div>
