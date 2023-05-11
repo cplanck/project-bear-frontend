@@ -628,9 +628,9 @@ input:-webkit-autofill {
 .overviewDeploymentCard {
   height: 100%;
   max-height: 250px;
-  border: 1px solid var(--dark-theme-grey-4);
+  border: 1px solid var(--dark-theme-grey-5);
   border-radius: 8px;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 15px;
   text-decoration: none;
   display: flex;
   flex-direction: column;

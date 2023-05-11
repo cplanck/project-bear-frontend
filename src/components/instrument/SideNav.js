@@ -8,9 +8,10 @@ import { useContext, useEffect, useState } from 'react';
 import { InstrumentContext } from '../../components/Context'
 import InstrumentAvatar from './InstrumentAvatar'
 import { RotatingLines } from 'react-loader-spinner'
-import { useQuery } from 'react-query';
-import { useIsFetching } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
+import { useIsFetching } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
+import ComponentPreloader from "@/components/general/ComponentPreloader";
 
 function truncate( str, max, sep ) {
     max = max || 10;
@@ -36,11 +37,11 @@ function LinkItem(props){
                 <InstrumentAvatar size={'small'} url={props.instrument.avatar}/>
                 <span className={styles.sideNavItemText}>{truncate(props.instrument.name, props.browserWidth<992?20:26)}{props.isSelected}</span>
              </div>
-             {props.instrument.active_deployment.name?
+             {/* {props.instrument.active_deployment.name?
              <span style={{width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'green'}}></span>
              :
             ''
-             }
+             } */}
         </Link>
     )
 }
@@ -50,16 +51,11 @@ export default function SideNav(){
 
     const isFetching = useIsFetching()
 
-    const getInstruments = async () =>{
-        const data = await fetch(process.env.NEXT_PUBLIC_BACKEND_ROOT + '/api/instruments', {method: 'GET',  headers: {'Authorization': 'Bearer ' + localStorage.getItem('access_token')}}).then(res => res.json())
-        return data.results
-    }
-
     let { isLoading, error, data: instruments } = useQuery({ queryKey: ['/instruments'] })
 
     instruments = instruments?.results
 
-    const sortedInstruments = instruments?.sort((a, b) => a.last_modified.localeCompare(b.last_modified));
+    const sortedInstruments = instruments?.sort((a, b) => b.last_modified.localeCompare(a.last_modified));
     const [browserWidth, setBrowserWidth] = useState(1800)
 
         useEffect(() => {
@@ -73,24 +69,22 @@ export default function SideNav(){
             };
           }, []);
 
-    sortedInstruments?.sort((a, b) => {
-        if (a.active_deployment.name.length !== 0 && b.active_deployment.name.length === 0) {
-          return -1; // a should be before b
-        } else if (a.active_deployment.name.length === 0 && b.active_deployment.name.length !== 0) {
-          return 1; // b should be before a
-        } else {
-          return 0; // keep the same order as before
-        }
-      });
+    // sortedInstruments?.sort((a, b) => {
+    //     if (a.active_deployment?.name.length !== 0 && b.active_deployment.name.length === 0) {
+    //       return -1; // a should be before b
+    //     } else if (a.active_deployment?.name.length === 0 && b.active_deployment.name.length !== 0) {
+    //       return 1; // b should be before a
+    //     } else {
+    //       return 0; // keep the same order as before
+    //     }
+    //   });
 
     const listItems = sortedInstruments?.map(instrument=><LinkItem key={instrument.id} instrument={instrument} browserWidth={browserWidth}/>)
     
-
-
     return(
         <div className={styles.sideNavWrapper}>
-           
-            {listItems?.length != 0?
+            {isLoading?<ComponentPreloader/>:
+            listItems?.length != 0?
             <>
                 <div className={styles.sideNavTitleWrapper}>
                     <div className='flexCenterFlexStart'>
@@ -111,12 +105,6 @@ export default function SideNav(){
             <div className={dbstyles.sideNavInstructionCard}>
                 <span className='boldText'>Add and deploy your first instrument</span>
                 <p className=''>Ready to get started? Add an instrument and create a deployment to build your real-time database, control access, and add media.</p>
-                {/* <p>With BitBear you can:</p>
-                <ul>
-                    <li>Organize data, metadata, files, and media from any instruments</li>
-                    <li>Control permissions</li>
-                    <li></li>
-                </ul> */}
                 <div>
                     <Link href={'/instrument/add'}>
                         <button  className={'greenButton'}>

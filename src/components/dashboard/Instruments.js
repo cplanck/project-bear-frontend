@@ -9,18 +9,13 @@ import SortButton from './SortButton';
 import Link from 'next/link';
 import InstrumentAvatar from "../instrument/InstrumentAvatar";
 import * as dayjs from 'dayjs'
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query'
+import ComponentPreloader from "@/components/general/ComponentPreloader";
 
-export default function Instruments(){
-
-    // const getInstruments = async () =>{
-    //     const data = await fetch(process.env.NEXT_PUBLIC_BACKEND_ROOT + '/api/instruments', {method: 'GET',  headers: {'Authorization': 'Bearer ' + localStorage.getItem('access_token')}}).then(res => res.json())
-    //     return data.results
-    // }
+export default function Instruments(props){
 
     let { isLoading, error, data } = useQuery({ queryKey: ['/instruments'] })
     const instruments = data?.results
-
 
     const [sortBy, setSortBy] = useState('last_modified')
     const [isEdting, setIsEditing] = useState(false)
@@ -66,7 +61,7 @@ export default function Instruments(){
     let instrumentArray = instruments?.map((instrument, i)=><Instrument key={i} instrument={instrument}/>)
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <ComponentPreloader/>;
       }
       
       if (error) {

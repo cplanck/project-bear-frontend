@@ -10,7 +10,7 @@ import styles from '@/components/dashboard/Instruments.module.css';
 import dbstyles from '@/components/dashboard/Dashboard.module.css';
 import { Container } from '@mui/system';
 import * as dayjs from 'dayjs'
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query'
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -71,7 +71,7 @@ export default function Overview(){
                             </div>
                         </div>
                         <div style={{border: '0px solid red', height: '100%', marginTop: '5px', padding: '0 5px 0 0px'}}>
-                            {props.instrument.active_deployment.name? <span className='overviewDeploymentCardStatus'>{props.instrument.active_deployment.name?'Deployed':''}</span>:''}
+                            {/* {props.instrument.active_deployment.name? <span className='overviewDeploymentCardStatus'>{props.instrument.active_deployment.name?'Deployed':''}</span>:''} */}
                         </div>
                     </div>
                     <p className='overviewDeploymentDescription'>

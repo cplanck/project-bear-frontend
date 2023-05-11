@@ -58,7 +58,7 @@ function SearchBar(props){
                     }
                 </div>
                 <div href={'/dashboard'} className={[styles.topNavLinkGroup, 'hideOnSmall'].join(' ')} style={searchOpen&props.grow?{marginLeft: '430px'}:{marginLeft: '260px'}}>
-                    <Link href={'/dashboard/overview'} className={'removeLinkFormatting me-3'}>Dashboard</Link>
+                    {/* <Link href={'/dashboard/overview'} className={'removeLinkFormatting me-3'}>Dashboard</Link> */}
                     <Link href={'/learn'} className={'removeLinkFormatting me-3'}>Learn</Link>
                     {/* <Link href={'/about'} className={'removeLinkFormatting me-3'}>Pricing</Link>
                     <Link href={'/login'} className={'removeLinkFormatting me-3'}>Login</Link> */}

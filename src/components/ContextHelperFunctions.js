@@ -114,7 +114,7 @@ export const checkAuthentication = (context, setContext)=>{
           localStorage.removeItem('access_token')
           localStorage.removeItem('refresh_token')
           localStorage.removeItem('user')
-          handleAlerts('alert', 'info', 'You\'ve been logged out for security purposes. Please login again to continue.')
+        //   handleAlerts('alert', 'info', 'You\'ve been logged out for security purposes. Please login again to continue.')
           return false
         }
         else if(refreshPayload['exp'] > currentTime){

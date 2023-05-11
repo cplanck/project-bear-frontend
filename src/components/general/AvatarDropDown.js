@@ -29,6 +29,8 @@ export default function AvatarDropDown(props) {
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
       localStorage.removeItem('user')
+      deleteCookie('access_token')
+      deleteCookie('refresh_token')
       setUser({})
       router.push('/')
       toast.success('You\'ve been logged out. See you next time!')

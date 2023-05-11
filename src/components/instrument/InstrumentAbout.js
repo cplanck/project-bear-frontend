@@ -19,10 +19,7 @@ export default function InstrumentAbout(props){
     const dateAdded = dayjs(props.instrument?.date_added); 
     const addedToday = dateAdded.isSame(dayjs(), 'day')
     const dateAddedDate = addedToday ? 'Today at ' + dateAdded.format('h:mma') : dateAdded.format('MMMM Do, YYYY');
-    console.log(dateAddedDate)
-    console.log(addedToday)
-    console.log(dateAdded)
-
+    
     return(
         <div className={[styles.instrumentAboutWrapper, 'hideOnMedium'].join(' ')}>
             <div className={styles.aboutHeader}>
@@ -38,7 +35,7 @@ export default function InstrumentAbout(props){
              <div>
                  <hr className='hr'></hr>
                 <h4 className='removeHeaderMargin'>Instrument Notes</h4>
-                <p className='greyText2 smallText'>{props?.instrument.notes}</p>
+                <p className={[styles.notes, 'greyText2', 'smallText'].join(' ')}>{props?.instrument.notes}</p>
             </div>
              :
              <div className={styles.instrumentNotesPlaceholder}>

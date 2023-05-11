@@ -10,7 +10,7 @@ import ModifyButtonStar from '@/components/dashboard/ModifyButtonStar'
 import structuredClone from "@ungap/structured-clone";
 import SortButton from './SortButton';
 import * as dayjs from 'dayjs'
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query'
 
 
 function CollaboratorAvatar(props){
@@ -24,16 +24,21 @@ function CollaboratorsList(props){
 
 export default function Deployments(props){
 
-    let { isLoading, error, data } = useQuery({ queryKey: ['/deployments'] })
+    let { isLoading, error, data: deploymentContext } = useQuery({ queryKey: ['/deployments'] })
 
-    const deploymentContext = data?.results
-    console.log(props)
+    console.log(deploymentContext)
+    deploymentContext = deploymentContext?.results
     let deployments = !props.listAll?deploymentContext?.filter((deployment)=>deployment.instrument.id==props.instrument.id):deploymentContext
 
     const [sortBy, setSortBy] = useState('starred')
 
     const advancedFormat = require('dayjs/plugin/advancedFormat')
     dayjs.extend(advancedFormat)
+
+    const fetchCookie = () =>{
+        console.log('COOKIE FETCH RUNNING!')
+        fetch('http://localhost:8000/api/instruments/81', {method: "GET", credentials: "include"}).then(res=>res.json()).then(res=>console.log(res))
+    }
 
     function Deployment(props){
 
@@ -62,7 +67,6 @@ export default function Deployments(props){
                         {props.deployment.tags?<DeploymentTags deployment={props.deployment}/>:''}
                         {props.deployment.collaborators?<CollaboratorsList instrument={props.deployment}/>:''}
                     </div>
-                    {/* <span className='extraSmallText mt-3'><span className='boldText'> Active from </span> {dayjs(props.deployment.deployment_start_date).format('MMMM D, YYYY')} - {endDate}</span> */}
                     <hr className='hr'></hr>
 
                 </div>

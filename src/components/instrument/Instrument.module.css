@@ -414,6 +414,15 @@
 
 .instrumentAddWrapper {
     background-color: var(--main-bg-color);
+    min-height: calc(100vh - var(--top-nav-height));
+}
+
+.notes {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5
 }
 
 @media screen and (max-width: 768px) {

@@ -12,7 +12,7 @@ import styles from '@/components/instrument/Instrument.module.css'
 import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
 import Link from 'next/link';
 import ProtectedRoute from '@/components/general/ProtectedRoute';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query'
 
 
 function InstrumentHeading(props){

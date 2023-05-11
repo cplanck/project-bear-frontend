@@ -30,6 +30,7 @@ export default function Login(props){
             headers: {
               "Content-Type": "application/json", 
             },
+            credentials: "include",
             body: JSON.stringify(response.credential)
           })
           .then(function(response) {

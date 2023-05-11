@@ -10,7 +10,7 @@ import InstrumentAvatar from '@/components/instrument/InstrumentAvatar';
 import { DeploymentContext, InstrumentContext } from '@/components/Context'
 import ProtectedRoute from '@/components/general/ProtectedRoute';
 import styles from '@/components/instrument/Instrument.module.css'
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query'
 
 
 function InstrumentHeading(props){

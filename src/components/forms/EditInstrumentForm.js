@@ -17,39 +17,23 @@ import Link from 'next/link';
 import { DatePicker } from '@mui/x-date-pickers';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { RotatingLines } from 'react-loader-spinner'
-import { useMutation } from 'react-query';
-import { useQuery, queryCache } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query'
 import { Formik, Form, Field, setFieldValue, useFormikContext } from 'formik';
 import toast, { Toaster } from 'react-hot-toast';
 
-export default function EditInstrumentForm({data}){
+export default function EditInstrumentForm(props){
 
-    const [avatarUploadOpen, setAvatarUploadOpen] = useState(false)
-    const [imageBlob, setImageBlob] = useState('')
-    const [context, setContext] = useContext(AppContext)
-    const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
-    const inputRef = useRef(null);
+  const [avatarUploadOpen, setAvatarUploadOpen] = useState(false)
+  const [imageBlob, setImageBlob] = useState('')
+  const [context, setContext] = useContext(AppContext)
+  const [dataModelModalOpen, setDataModelModalOpen] = useState(false)
+  const inputRef = useRef(null);
 
-    var advancedFormat = require('dayjs/plugin/advancedFormat')
-    dayjs.extend(advancedFormat)
+  var advancedFormat = require('dayjs/plugin/advancedFormat')
+  dayjs.extend(advancedFormat)
 
-    const router = useRouter()
-
-    function handleAlerts(alertType, alertSeverity, alertMessage){
-      setContext(structuredClone(context.alert.status=false))
-      let newContext = context
-      newContext[alertType].status = true
-      newContext[alertType].type = alertSeverity
-      newContext[alertType].message = alertMessage
-      setContext(structuredClone(newContext))
-    }
-
-    function handleDateChange(newDate, id){
-      let temp = structuredClone(instrumentDetails);
-      temp[id] = String(dayjs(newDate).format())
-      console.log(temp)
-      setInstrumentDetails(temp)
-  }
+  const router = useRouter()
 
   const handleCancel = (e)=>{
     e.preventDefault()
@@ -92,7 +76,7 @@ export default function EditInstrumentForm({data}){
       mutate({...values})
     };
 
-    console.log(data)
+    console.log(props.instrument)
     return(
       <Formik
           initialValues={{
@@ -104,7 +88,7 @@ export default function EditInstrumentForm({data}){
           validationSchema={FormValidation}
           onSubmit={successfulSubmit}
           >
-            <EditForm instrument={data}/>
+            <EditForm instrument={props.instrument}/>
         </Formik>
     )
 }
@@ -114,10 +98,11 @@ function EditForm(props){
   const { errors, values, touched, handleChange, handleBlur, isSubmitting, setFieldValue, setValues, isValid } = useFormikContext();
   const router = useRouter()
   const inputRef = useRef(null);
-  const { status, error, isFetching, isLoading:loading, data: instrument } = useQuery({ queryKey: ['/instruments/' + router?.query.id], enabled: router.isReady})
+  // const { status, error, isFetching, isLoading:loading, data: instrument } = useQuery({ queryKey: ['/instruments/' + router?.query.id], enabled: router.isReady})
 
+  const instrument = props.instrument
 
-
+  console.log(instrument)
   useEffect(()=>{
     setValues({
               name: instrument?.name,
@@ -140,7 +125,7 @@ return(
     <Container maxWidth={false} style={{ maxWidth: '900px', paddingTop: '50px' }}>
           <div className='flexCenterFlexStart'>
             <h3 className='removeHeaderMargin'>Edit Instrument</h3>
-            {loading?<RotatingLines height="20" width="20" animationDuration="1.25" strokeColor="var(--dark-theme-grey-3)" ariaLabel="loading"/>:''}
+            {/* {loading?<RotatingLines height="20" width="20" animationDuration="1.25" strokeColor="var(--dark-theme-grey-3)" ariaLabel="loading"/>:''} */}
           </div>
           <Grid container spacing={3}>
               <Grid xs={12} md={6} item>
@@ -153,7 +138,7 @@ return(
                     onBlur={handleBlur}
                     value={values.name}
                     ref={inputRef}
-                    disabled={loading?true:false}
+                    // disabled={loading?true:false}
                   />
                   {errors.name && touched.name? (
                   <span className='smallText redText boldText' id='nameError'>{errors.name}</span>
@@ -168,7 +153,7 @@ return(
                     value={values.serial_number}
                     onInput={handleChange}
                     onBlur={handleBlur}
-                    disabled={loading?true:false}
+                    // disabled={loading?true:false}
                   />
                   {errors.serial_number && touched.serial_number ? (
                   <span className='smallText redText boldText' id='serialNumberError'>{errors.serial_number}</span>

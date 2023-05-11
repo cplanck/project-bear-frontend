@@ -16,7 +16,8 @@ import {
   useQueryClient,
   QueryClient,
   QueryClientProvider,
-} from 'react-query'
+} from '@tanstack/react-query'
+
 import { border } from '@mui/system';
 
 const defaultQueryFn = async ({ queryKey }) => {

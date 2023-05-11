@@ -147,6 +147,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    justify-content: flex-start;
     font-weight: 800;
     font-size: 0.95em;
     /* border: 2px solid blue; */
@@ -253,6 +254,15 @@
 
 .googleButton {
     margin: 20px 0 20px 0
+}
+
+.componentPreloader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 80vh;
+    /* border: 2px solid red; */
 }
 
 @media screen and (max-width: 768px) {

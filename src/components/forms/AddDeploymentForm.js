@@ -20,23 +20,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Radio from '@mui/material/Radio';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import { Formik, Form, Field, setFieldValue, useFormikContext } from 'formik';
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 
 export default function AddDeploymentForm(props){
 
-  const [context, setContext] = useContext(AppContext)
   const [user, setUser] = useContext(UserContext)
   const [tags, setTags] = useState({tags: []})
   const router = useRouter()
 
-  function handleAlerts(alertType, alertSeverity, alertMessage){
-    setContext(structuredClone(context.alert.status=false))
-    let newContext = context
-    newContext[alertType].status = true
-    newContext[alertType].type = alertSeverity
-    newContext[alertType].message = alertMessage
-    setContext(structuredClone(newContext))
-  }
+  let { isLoading, error, data: instruments } = useQuery({ queryKey: ['/instruments'] })
 
   const FormValidation = Yup.object().shape({
     instrument_to_deploy: 
@@ -102,7 +95,7 @@ export default function AddDeploymentForm(props){
     })
     .then(response => {
       if(!response.ok){
-        handleAlerts('alert', 'error', 'There was a problem with your submission. Please try again. Server returned with ' + response.status + ' code.')
+        // handleAlerts('alert', 'error', 'There was a problem with your submission. Please try again. Server returned with ' + response.status + ' code.')
         setSubmitting(false);
         throw new Error('HTTP error, status = ' + response.status);
       }
@@ -117,7 +110,7 @@ export default function AddDeploymentForm(props){
       newDeploymentList.push(newDeployment)
       props.setDeployments(newDeploymentList)
       router.push('/dashboard/deployments')
-      handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
+      // handleAlerts('snackbar', 'success', instrumentDetails.name + ' added!')
       setSubmitting(false);
     })
     .catch(error => {
@@ -126,19 +119,7 @@ export default function AddDeploymentForm(props){
   }
 
   const successfulSubmit = (values, { setSubmitting }) => {
-  
     postDeploymentToDB(values, tags)
-    // add active deployment
-
-
-    // const activeDeployment = {name: values.name, id: newId}
-    // const instrumentContext = props.instruments.filter(instrument=>instrument.id!=values.instrument_id)
-    // const instrument = props.instruments.filter(instrument=>instrument.id==values.instrument_id)[0]
-    // instrument.active_deployment = activeDeployment
-    // instrumentContext.push(instrument)
-    // props.setInstruments(instrumentContext)
-    // router.push('/dashboard/deployments')
-    // setSubmitting(false);
   };
 
     return(
@@ -157,7 +138,7 @@ export default function AddDeploymentForm(props){
           validationSchema={FormValidation}
           onSubmit={successfulSubmit}
           >
-            <AddForm instruments={props.instruments} setInstruments={props.setInstruments} deployments={props.deployments} setDeployments={props.setDeployments} tags={tags} setTags={setTags}/>
+            <AddForm instruments={instruments?.results} setInstruments={props.setInstruments} deployments={props.deployments} setDeployments={props.setDeployments} tags={tags} setTags={setTags}/>
         </Formik>
     )
 }
@@ -167,7 +148,7 @@ function AddForm(props){
 
       const [alertOpen, setAlertOpen] = useState(false)
       const [hasActiveDeployment, setHasActiveDeployment] = useState(false)
-      const [instruments, setInstruments] = useState([])
+      // const [instruments, setInstruments] = useState([])
       const { errors, values, touched, handleChange, handleBlur, isSubmitting, setFieldValue } = useFormikContext();
       const [tagModalOpen, setTagModalOpen] = useState(false)
       const inputRef = useRef(null);
@@ -182,16 +163,24 @@ function AddForm(props){
         setFieldValue('private', val)
       }
 
-      useEffect(()=>{
-        // On router ready, check query params and set the instrument_to_deploy and instrument_id
-        const selectedInstrumentList = props.instruments.map(instrument=><option selected={instrument.id==router.query.instrument?true:false} key={instrument.id} id={instrument.id}>{instrument.name}</option>)
-        selectedInstrumentList.unshift(<option disabled selected={router.query.instrument?false:true}>Select instrument</option>)    
-        const selectedInstrument = props.instruments.filter(instrument=>instrument.id==router.query.instrument?instrument:'')[0]
-        setInstruments(selectedInstrumentList)
-        selectedInstrument?setFieldValue('instrument_to_deploy', selectedInstrument.name):''
-        selectedInstrument?setFieldValue('instrument', {id: selectedInstrument.id, avatar: selectedInstrument.avatar, name: selectedInstrument.name}):''
-        
-      }, [router])
+      // useEffect(()=>{
+      //   // On router ready, check query params and set the instrument_to_deploy and instrument_id
+      //   // console.log(props.instruments)
+      //   console.log(props.instruments)
+      //   const selectedInstrumentList = instruments.map(instrument=><option selected={instrument.id==router.query.instrument?true:false} key={instrument.id} id={instrument.id}>{instrument.name}</option>)
+      //   selectedInstrumentList.unshift(<option disabled selected={router.query.instrument?false:true}>Select instrument</option>)    
+      //   // const selectedInstrument = props.instruments.filter(instrument=>instrument.id==router.query.instrument?instrument:'')[0]
+      //   // setInstruments(selectedInstrumentList)
+      //   // selectedInstrument?setFieldValue('instrument_to_deploy', selectedInstrument.name):''
+      //   // selectedInstrument?setFieldValue('instrument', {id: selectedInstrument.id, avatar: selectedInstrument.avatar, name: selectedInstrument.name}):''
+      // }, [props.instruments, router]) 
+
+      const instruments = props.instruments?.map(instrument=><option selected={instrument.id==router.query.instrument?true:false} key={instrument.id} id={instrument.id}>{instrument.name}</option>)
+      instruments?.unshift(<option disabled selected={router.query.instrument?false:true}>Select instrument</option>)
+      const selectedInstrument = props.instruments.filter(instrument=>instrument.id==router.query.instrument?instrument:'')[0]
+      // selectedInstrument?setFieldValue('instrument_to_deploy', selectedInstrument.name):''
+      // selectedInstrument?setFieldValue('instrument', {id: selectedInstrument.id, avatar: selectedInstrument.avatar, name: selectedInstrument.name}):''
+
 
       useEffect(()=>{
         // On status selection, check if instrument has any active deployments 
@@ -236,7 +225,7 @@ function AddForm(props){
                         </div> 
   return(
     <Form>
-      <Container maxWidth={false} style={{ maxWidth: '900px', paddingTop: '50px' }}>
+      <Container maxWidth={false} style={{ maxWidth: '768px', paddingTop: '50px' }}>
         <h2 className='removeHeaderMargin'>Add a Deployment</h2>
         <span className='greyText3 smallText'>Add a deployment to add data.</span>
           <hr className='hr my-4'/>
